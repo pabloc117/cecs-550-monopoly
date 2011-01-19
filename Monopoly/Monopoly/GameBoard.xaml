@@ -3,32 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             mc:Ignorable="d" Width="600" Height="600" Background="LightBlue">
-    <Grid>
+             xmlns:mn="clr-namespace:Monopoly" SizeChanged="board_SizeChanged"
+             mc:Ignorable="d" x:Name="board" Background="LightBlue">
+    <UserControl.Resources>
+    </UserControl.Resources>
+    <Grid Name="myBoard">
         <Grid.RowDefinitions>
-            <RowDefinition Height="100*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
-            <RowDefinition Height="75*" />
+            <RowDefinition Height="100*" /><!--1-->
+            <RowDefinition Height="65*" /> <!--2-->
+            <RowDefinition Height="65*" /> <!--3-->
+            <RowDefinition Height="65*" /> <!--4-->
+            <RowDefinition Height="65*" /> <!--5-->
+            <RowDefinition Height="65*" /> <!--6-->
+            <RowDefinition Height="65*" /> <!--7-->
+            <RowDefinition Height="65*" /> <!--8-->
+            <RowDefinition Height="65*" /> <!--9-->
+            <RowDefinition Height="65*" /> <!--10-->
             <RowDefinition Height="100*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="100*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
-            <ColumnDefinition Width="75*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
+            <ColumnDefinition Width="65*" />
             <ColumnDefinition Width="100*" />
         </Grid.ColumnDefinitions>
     </Grid>
