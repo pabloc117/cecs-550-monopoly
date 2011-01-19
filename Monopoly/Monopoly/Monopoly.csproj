@@ -55,9 +55,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Property.xaml.cs">
-      <DependentUpon>Property.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Move.cs" />
+    <Compile Include="Shuffle.cs" />
+    <Page Include="Chance.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CommunityChest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -69,6 +76,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Chance.xaml.cs">
+      <DependentUpon>Chance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommunityChest.xaml.cs">
+      <DependentUpon>CommunityChest.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameBoard.xaml.cs">
       <DependentUpon>GameBoard.xaml</DependentUpon>
