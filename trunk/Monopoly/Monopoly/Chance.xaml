@@ -1,0 +1,8 @@
+﻿<Window x:Class="Monopoly.Chance"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Chance" Height="175" Width="275">
+    <Grid>
+        <TextBlock Height="136" HorizontalAlignment="Left" Name="txtBlock" Text="TextBlock" VerticalAlignment="Top" Width="253" TextWrapping="Wrap" />
+    </Grid>
+</Window>
