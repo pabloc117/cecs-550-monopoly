@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Monopoly.Property"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" x:Name="prop">
+    <Grid>
+        <Grid Name="Right" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*" />
+                <ColumnDefinition Width="80*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="{Binding ElementName=prop, Path=PropertyColor}" />
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="Transparent">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
+                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                            <TextBlock Text="$"  FontSize="9"/>
+                            <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                        </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Name="Left" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80*" />
+                <ColumnDefinition Width="20*" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="{Binding ElementName=prop, Path=PropertyColor}" />
+            <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="Transparent">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
+                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <TextBlock Text="$"  FontSize="9"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Name="Top" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80*" />
+                <RowDefinition Height="20*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Background="{Binding ElementName=prop, Path=PropertyColor}" />
+            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Background="Transparent">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
+                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <TextBlock Text="$"  FontSize="9"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+        <Grid Name="Bottom" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="80*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Background="{Binding ElementName=prop, Path=PropertyColor}" />
+            <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Background="Transparent">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
+                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                        <TextBlock Text="$"  FontSize="9"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>
