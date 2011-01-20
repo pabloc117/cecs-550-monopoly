@@ -1,5 +1,3 @@
 #summary Documentation for GameBoard class
 
 = In Progress=
-
-Add your content here.
