@@ -55,16 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Move.cs" />
-    <Compile Include="Shuffle.cs" />
-    <Page Include="Chance.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="CommunityChest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
+    <Compile Include="Chance.cs" />
+    <Compile Include="CommunityChest.cs" />
+    <Compile Include="Deck.cs" />
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,15 +70,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Chance.xaml.cs">
-      <DependentUpon>Chance.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="CommunityChest.xaml.cs">
-      <DependentUpon>CommunityChest.xaml</DependentUpon>
-    </Compile>
     <Compile Include="GameBoard.xaml.cs">
       <DependentUpon>GameBoard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ImplementCards.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -121,7 +109,9 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\property_listing.xml" />
+    <Resource Include="Resources\property_listing.xml">
+      <SubType>Designer</SubType>
+    </Resource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
