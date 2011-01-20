@@ -1,3 +1,0 @@
-#summary Documentation for the ThemeParser Class
-
-= In Progress =
