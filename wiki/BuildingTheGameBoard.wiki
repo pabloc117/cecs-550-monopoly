@@ -1,0 +1,7 @@
+#summary Processes that happen when the board is initialized.
+
+= Importing Property Information =
+
+All property information is stored in the file "PropertyListing.xml".
+
+When the GameBoard is initialized, it will parse the PropertyListing file using the ThemeParser and build a dictionary of properties.  Using that dictionary, it will fill in the appropriate spaces.
