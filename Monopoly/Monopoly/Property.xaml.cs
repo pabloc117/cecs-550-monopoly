@@ -40,12 +40,13 @@ namespace Monopoly
         }
         #endregion
 
-        public enum Location
+        public enum Side
         {
             TOP = 0,
             RIGHT = 1,
             BOTTOM = 2,
-            LEFT = 3
+            LEFT = 3,
+            UNKNOWN = -1
         }
 
         public Property(int loc)
@@ -53,16 +54,16 @@ namespace Monopoly
             InitializeComponent();
             switch (loc)
             {
-                case (int)Location.TOP:
+                case (int)Side.TOP:
                     Top.Visibility = Visibility.Visible;
                     break;
-                case (int)Location.RIGHT:
+                case (int)Side.RIGHT:
                     Right.Visibility = Visibility.Visible;
                     break;
-                case (int)Location.LEFT:
+                case (int)Side.LEFT:
                     Left.Visibility = Visibility.Visible;
                     break;
-                case (int)Location.BOTTOM:
+                case (int)Side.BOTTOM:
                     Bottom.Visibility = Visibility.Visible;
                     break;
                 default :

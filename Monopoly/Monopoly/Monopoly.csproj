@@ -58,6 +58,7 @@
     <Compile Include="Chance.cs" />
     <Compile Include="CommunityChest.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="ThemeParser.cs" />
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -109,9 +110,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\property_listing.xml">
+    <None Include="Resources\property_listing.xml">
       <SubType>Designer</SubType>
-    </Resource>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

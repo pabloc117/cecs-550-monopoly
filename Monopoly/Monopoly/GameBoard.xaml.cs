@@ -19,46 +19,50 @@ namespace Monopoly
     /// </summary>
     public partial class GameBoard : UserControl
     {
-        private enum Sides
+        private Dictionary<int, PropertyListing> _listings;
+        public enum Side
         {
             LEFT = 0,
             RIGHT = 11,
             TOP = 0,
-            BOTTOM = 11
+            BOTTOM = 11,
+            UNKNOWN = -1
         }
         public GameBoard()
         {
             InitializeComponent();
             for (int i = 1; i < 10; i++)
             {
-                Property rp = new Property((int)Property.Location.RIGHT);
-                rp.PropertyColor = Brushes.Purple;
-                rp.PropertyName = "[THISISALONG TESTNAME]";
-                rp.PropertyCost = 99;
-                Grid.SetColumn(rp, (int)Sides.RIGHT);
-                Grid.SetRow(rp, i);
-                Property tp = new Property((int)Property.Location.TOP);
-                tp.PropertyColor = Brushes.Purple;
-                tp.PropertyName = "[THISISALONG TESTNAME]";
-                tp.PropertyCost = 99;
-                Grid.SetColumn(tp, i);
-                Grid.SetRow(tp, (int)Sides.TOP); 
-                Property lp = new Property((int)Property.Location.LEFT);
-                lp.PropertyColor = Brushes.Purple;
-                lp.PropertyName = "[THISISALONG TESTNAME]";
-                lp.PropertyCost = 99;
-                Grid.SetColumn(lp, (int)Sides.LEFT);
-                Grid.SetRow(lp, i); 
-                Property bp = new Property((int)Property.Location.BOTTOM);
-                bp.PropertyColor = Brushes.Purple;
-                bp.PropertyName = "[THISISALONG TESTNAME]";
-                bp.PropertyCost = 99;
-                Grid.SetColumn(bp, i);
-                Grid.SetRow(bp, (int)Sides.BOTTOM);
-                myBoard.Children.Add(tp);
-                myBoard.Children.Add(rp);
-                myBoard.Children.Add(lp);
-                myBoard.Children.Add(bp);
+
+                _listings = ThemeParser.GetPropertyListings();
+
+                foreach(PropertyListing p in _listings.Values)
+                {
+                    Property pr = new Property((int)p.Side);
+                    pr.PropertyColor = p.ColorGroup;
+                    pr.PropertyCost = p.Cost;
+                    pr.PropertyName = p.Name;
+                    switch (p.Side)
+                    {
+                        case Property.Side.TOP:
+                            Grid.SetColumn(pr, p.Location % 10);
+                            Grid.SetRow(pr, (int)Side.TOP);
+                            break;
+                        case Property.Side.RIGHT:
+                            Grid.SetColumn(pr, (int)Side.RIGHT);
+                            Grid.SetRow(pr, p.Location % 10);
+                            break;
+                        case Property.Side.BOTTOM:
+                            Grid.SetColumn(pr, p.Location % 10);
+                            Grid.SetRow(pr, (int)Side.BOTTOM);
+                            break;
+                        case Property.Side.LEFT:
+                            Grid.SetColumn(pr, (int)Side.LEFT);
+                            Grid.SetRow(pr, p.Location % 10);
+                            break;
+                    }
+                    myBoard.Children.Add(pr);
+                }
             }
         }
 

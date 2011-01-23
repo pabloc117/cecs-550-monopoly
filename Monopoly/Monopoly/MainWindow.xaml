@@ -1,9 +1,10 @@
 ﻿<Window x:Class="Monopoly.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mn="clr-namespace:Monopoly" KeyUp="Window_KeyUp"
-        Title="MainWindow" MinHeight="600" MinWidth="800" Height="600" Width="800" >
-    <Grid>
-        <mn:GameBoard HorizontalAlignment="Left" VerticalAlignment="Stretch" />
+        xmlns:mn="clr-namespace:Monopoly" KeyUp="Window_KeyUp" x:Name="me"
+        Title="MainWindow" MinHeight="600" MinWidth="800" Height="600" Width="800">
+    <Grid Name="myGrid">
+        <mn:GameBoard HorizontalAlignment="Left" Height="{Binding ElementName=myGrid, Path=Height}" 
+                      Width="{Binding ElementName=myGrid, Path=Height}" />
     </Grid>
 </Window>
