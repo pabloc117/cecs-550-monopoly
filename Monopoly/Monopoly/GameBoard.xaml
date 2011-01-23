@@ -12,37 +12,37 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100*" />
                 <!--1-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--2-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--3-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--4-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--5-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--6-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--7-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--8-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--9-->
-                <RowDefinition Height="65*" />
+                <RowDefinition Height="60*" />
                 <!--10-->
                 <RowDefinition Height="100*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="100*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
-                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
+                <ColumnDefinition Width="60*" />
                 <ColumnDefinition Width="100*" />
             </Grid.ColumnDefinitions>
         </Grid>

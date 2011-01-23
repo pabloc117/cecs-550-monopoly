@@ -58,6 +58,9 @@
     <Compile Include="Chance.cs" />
     <Compile Include="CommunityChest.cs" />
     <Compile Include="Deck.cs" />
+    <Compile Include="Property.xaml.cs">
+      <DependentUpon>Property.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ThemeParser.cs" />
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
