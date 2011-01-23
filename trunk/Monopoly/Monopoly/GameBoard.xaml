@@ -7,32 +7,47 @@
              mc:Ignorable="d" x:Name="board" Background="LightBlue">
     <UserControl.Resources>
     </UserControl.Resources>
-    <Grid Name="myBoard">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100*" /><!--1-->
-            <RowDefinition Height="65*" /> <!--2-->
-            <RowDefinition Height="65*" /> <!--3-->
-            <RowDefinition Height="65*" /> <!--4-->
-            <RowDefinition Height="65*" /> <!--5-->
-            <RowDefinition Height="65*" /> <!--6-->
-            <RowDefinition Height="65*" /> <!--7-->
-            <RowDefinition Height="65*" /> <!--8-->
-            <RowDefinition Height="65*" /> <!--9-->
-            <RowDefinition Height="65*" /> <!--10-->
-            <RowDefinition Height="100*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="100*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="65*" />
-            <ColumnDefinition Width="100*" />
-        </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid Name="myBoard" Width="{Binding ElementName=board, Path=Width}" Height="{Binding ElementName=board, Path=Height}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="100*" />
+                <!--1-->
+                <RowDefinition Height="65*" />
+                <!--2-->
+                <RowDefinition Height="65*" />
+                <!--3-->
+                <RowDefinition Height="65*" />
+                <!--4-->
+                <RowDefinition Height="65*" />
+                <!--5-->
+                <RowDefinition Height="65*" />
+                <!--6-->
+                <RowDefinition Height="65*" />
+                <!--7-->
+                <RowDefinition Height="65*" />
+                <!--8-->
+                <RowDefinition Height="65*" />
+                <!--9-->
+                <RowDefinition Height="65*" />
+                <!--10-->
+                <RowDefinition Height="100*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="65*" />
+                <ColumnDefinition Width="100*" />
+            </Grid.ColumnDefinitions>
+        </Grid>
+    <Canvas Name="myCanvas" Height="{Binding ElementName=board, Path=Height}" Width="{Binding ElementName=board, Path=Width}"
+            ClipToBounds="True">
+    </Canvas>
     </Grid>
 </UserControl>

@@ -35,11 +35,8 @@ namespace Monopoly
                 if (this.WindowState != System.Windows.WindowState.Normal)
                     Restore();
                 else
-                    Maximize();
-                
+                    Maximize();   
             }
-            else if (e.Key == Key.Escape)
-                Restore();
         }
         
         private void Maximize()
