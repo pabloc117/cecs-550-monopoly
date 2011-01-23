@@ -12,8 +12,10 @@ namespace Monopoly
         {
             switch (card)
             {
+                case 1:
+                    break;
             }
-            return content
+            return content;
         }
     }
 }

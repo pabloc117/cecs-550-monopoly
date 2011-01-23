@@ -14,10 +14,10 @@
             <Border Grid.Column="1" BorderBrush="Black" BorderThickness="1" Background="Transparent">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
-                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                               TextWrapping="Wrap" FontSize="11" TextAlignment="Center"/>
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                            <TextBlock Text="$"  FontSize="9"/>
-                            <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                            <TextBlock Text="$"  FontSize="11"/>
+                            <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="11" />
                         </StackPanel>
                 </Grid>
             </Border>
@@ -31,10 +31,10 @@
             <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1" Background="Transparent">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
-                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                               TextWrapping="Wrap" FontSize="11" TextAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                        <TextBlock Text="$"  FontSize="9"/>
-                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                        <TextBlock Text="$"  FontSize="11"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="11" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -48,10 +48,10 @@
             <Border Grid.Row="0" BorderBrush="Black" BorderThickness="1" Background="Transparent">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
-                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                               TextWrapping="Wrap" FontSize="11" TextAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                        <TextBlock Text="$"  FontSize="9"/>
-                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                        <TextBlock Text="$"  FontSize="11"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="11" />
                     </StackPanel>
                 </Grid>
             </Border>
@@ -65,10 +65,10 @@
             <Border Grid.Row="1" BorderBrush="Black" BorderThickness="1" Background="Transparent">
                 <Grid>
                     <TextBlock HorizontalAlignment="Center" VerticalAlignment="Top" Text="{Binding ElementName=prop, Path=PropertyName}" 
-                               TextWrapping="Wrap" FontSize="9" TextAlignment="Center"/>
+                               TextWrapping="Wrap" FontSize="11" TextAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                        <TextBlock Text="$"  FontSize="9"/>
-                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="9" />
+                        <TextBlock Text="$"  FontSize="11"/>
+                        <TextBlock Text="{Binding ElementName=prop, Path=PropertyCost}" FontSize="11" />
                     </StackPanel>
                 </Grid>
             </Border>
