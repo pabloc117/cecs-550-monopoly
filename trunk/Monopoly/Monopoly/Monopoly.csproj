@@ -55,8 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Chance.cs" />
-    <Compile Include="CommunityChest.cs" />
+    <Compile Include="CardsContent.cs" />
     <Compile Include="Deck.cs" />
     <Compile Include="Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>

@@ -7,5 +7,20 @@ namespace Monopoly
 {
     class ImplementCards
     {
+        public void CardType(int card)
+        {
+        }
+        public void MovePlayer()
+        {
+        }
+        public void CollectMoney()
+        {
+        }
+        public void PayBank()
+        {
+        }
+        public void PayPlayer()
+        {
+        }
     }
 }
