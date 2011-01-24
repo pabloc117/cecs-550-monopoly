@@ -5,15 +5,16 @@ using System.Text;
 
 namespace Monopoly
 {    
+    //This class takes care of how we handle the decks of Chance and Community Chest cards.
+    //It implement the intialization of the cards, shuffling, and drawing and sort the cards.
     class Deck
     {
-        Chance chanceDeck = new Chance();
-        CommunityChest communityDeck = new CommunityChest();
+        CardsContent getContent = new CardsContent();
 
         List<int> chance = new List<int>(new int[16]);
         List<int> communityChest = new List<int>(new int[16]);
 
-        public void Init_Chance()
+        public void InitChance()
         {
             for (int i = 0; i < chance.Count; i++)
             {
@@ -21,23 +22,13 @@ namespace Monopoly
             }
             Shuffle(chance);
         }
-        public void Init_CommunityChest()
+        public void InitCommunityChest()
         {
             for (int i = 0; i < communityChest.Count; i++)
             {
                 communityChest.Add(i + 1);
             }
             Shuffle(communityChest);
-        }
-        public string drawCard(int type)
-        {
-            string content = "";
-            if (type == 1)
-            {
-                
-            }
-
-            return content;
         }
         private void Shuffle(List<int> cards)
         {
@@ -46,9 +37,13 @@ namespace Monopoly
             Random r = new Random();
             List<int> tempCards = new List<int>();
             
+            //loop while the deck of card is still less than 16
             for (int i = 0; i < cards.Count; i++)
             {
-                temp = r.Next(1, 17);
+                //generate a random number of 1 <= n < 17
+                temp = r.Next(1, 17);               
+                //if there is something in the deck, we need to check to make sure
+                //the random generated number isn't the same as the one in the deck
                 if (tempCards.Count > 0)
                 {
                     for (int j = i - 1; j >= 0; j--)
@@ -58,16 +53,19 @@ namespace Monopoly
                             count++;
                         }
                     }
+                    //number already exist in deck
                     if (count > 0)
                     {
                         i--;
                         count = 0;
                     }
+                    //number is not in deck yet, so add to deck
                     else
                     {
                         tempCards.Add(temp);
                     }
                 }
+                //empty deck, add the generated number to deck
                 else
                     tempCards.Add(temp);
             }
@@ -75,6 +73,29 @@ namespace Monopoly
             {
                 cards[i] = tempCards[i];
             }
+        }
+        public string drawCard(int type)
+        {
+            string content = "";
+            int card = 0;
+            
+            //Gets a copy of the card
+            //then add that to the bottom, and then remove it from top
+            if (type == 1)
+            {
+                card = chance[0];
+                chance.Add(chance[0]);
+                chance.RemoveAt(0);
+                content = getContent.ChanceCards(card);
+            }
+            else
+            {
+                card = communityChest[0];
+                communityChest.Add(communityChest[0]);
+                communityChest.RemoveAt(0);
+                content = getContent.CommunityCards(card);
+            }            
+            return content;
         }
     }
 }
