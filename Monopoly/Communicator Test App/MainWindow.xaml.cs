@@ -24,6 +24,9 @@ namespace Communicator_Test_App
         {
             InitializeComponent();
             Communicator c = Communicator.Instance;
+            //System.Text.UTF8Encoding encoding=new System.Text.UTF8Encoding();
+            //byte[] d = encoding.GetBytes("hey there");
+            //byte[] b = c.CreatePacket(d);
             c.ConnectionStatusChanged += new EventHandler<ConnectionStatusChangedEventArgs>(c_ConnectionStatusChanged);
         }
 
@@ -31,7 +34,7 @@ namespace Communicator_Test_App
         {
             if (e.Connected)
             {
-                UpdateStatus("Connection Size = Connected!");
+                UpdateStatus("Connection Size = Connected!" + e.RemoteEndPoint.ToString());
             }
             else
             {
@@ -51,7 +54,7 @@ namespace Communicator_Test_App
         private void Server_Click(object sender, RoutedEventArgs e)
         {
             Communicator.Instance.UserRole = Communicator.ROLE.SERVER;
-            Communicator.Instance.StartServer();
+            Communicator.Instance.StartServer(8001);
             ServerIp.Text = Communicator.Instance.GetMyIpAddr().ToString();
         }
 
@@ -59,7 +62,7 @@ namespace Communicator_Test_App
         {
             Communicator.Instance.UserRole = Communicator.ROLE.CLIENT;
             Console.WriteLine("DesiredIP = " + desiredIp.Text);
-            Communicator.Instance.StartClient(desiredIp.Text);
+            Communicator.Instance.StartClient(desiredIp.Text, 8001);
         }
     }
 }

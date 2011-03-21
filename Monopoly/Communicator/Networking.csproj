@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Packet.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Communicator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
