@@ -4,6 +4,7 @@
  * Events may be added, but not removed or modified.
  */
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
@@ -14,12 +15,13 @@ namespace Networking
     {
         private static Communicator instance = null;
         private static readonly object padlock = new object();
+        private readonly Guid _ComputerID = Guid.NewGuid(); //Guid to represent our computer.  Used to differentiate between endpoints.
         private ROLE _UserRole = ROLE.UNKNOWN;
-        private Socket s;
-        private TcpListener myList; //used for server communication
-        private TcpClient tcpclnt;  //used for client communication
+        private TcpListener myList;                         //used for server communication
+        private TcpClient tcpclnt;                          //used for client communication
         private bool _IsConnected = false;
-        private Guid _ComputerID = new Guid(); //Guid to represent our computer.  Used to differentiate between endpoints.
+        private int _NumberClients;
+        private Dictionary<Guid, Socket> _ConnectionDict = new Dictionary<Guid, Socket>(); //Use this to store all of the connections we have.
 
         public enum ROLE
         {
@@ -29,7 +31,7 @@ namespace Networking
         }
 
         private Communicator()
-        { 
+        {
         }
 
         /// <summary>
@@ -72,11 +74,11 @@ namespace Networking
             {
                 if (value != ROLE.UNKNOWN && _UserRole == ROLE.UNKNOWN)
                 {
-                    if (value == ROLE.SERVER)
-                        myList = new TcpListener(GetMyIpAddr(), 8001);
-                    else
-                        tcpclnt = new TcpClient();
                     _UserRole = value;
+                }
+                else
+                {
+                    //TODO KDog - Should we throw an exception if the programmer tries to change the Role after it has been changed from UKNOWN?
                 }
             }
         }
@@ -85,20 +87,23 @@ namespace Networking
         /// Starts a connection with the desired endpoint.
         /// </summary>
         /// <param name="ipAddr">The desired endpoint for connection. ex: "192.168.0.101"</param>
-        public void StartClient(string ipAddr)
+        /// <param name="portNumber">The desired port number to be used for connection.</param>
+        public void StartClient(string ipAddr, int portNumber)
         {
+            tcpclnt = new TcpClient();
             try
             {
-                tcpclnt.Connect(ipAddr, 8001);
+                CheckPort(portNumber);
+                tcpclnt.Connect(ipAddr, portNumber);
             }
-            catch (SocketException)
-            {   //TODO KDog - Create custom exception.
+            catch (SocketException e)
+            {   //TODO KDog - Create custom exception?
                 throw new SocketException();
                 //MessageBox.Show("That was not a valid server IP.");
             }
-            s = tcpclnt.Client;
-            onConnect();
-            OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected));
+            Socket s = tcpclnt.Client;
+            onConnect(s);
+            OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
         }
 
         /// <summary>
@@ -119,6 +124,16 @@ namespace Networking
         }
 
         /// <summary>
+        /// Check portNumber to make sure it is an allowed port value. Min is 1, Max is 65535.
+        /// </summary>
+        /// <param name="portNumber">Port number being checked for usability.</param>
+        private void CheckPort(int portNumber)
+        {
+            if (System.Net.IPEndPoint.MinPort >= portNumber || System.Net.IPEndPoint.MaxPort < portNumber)
+                throw new ArgumentOutOfRangeException("portNumber", "The portNumber was either too large or too small. Must be between 1 and 65535 inclusively.");
+        }
+
+        /// <summary>
         /// Sends data across the socket.
         /// </summary>
         /// <param name="data">Data to be sent.</param>
@@ -126,17 +141,45 @@ namespace Networking
         {
             try
             {
-                s.Send(data);
+                Packet tempPacket = new Packet(Packet.PACKET_FLAG.USER_READ, this._ComputerID, data);
+                this._Send(tempPacket);
             }
             catch (ObjectDisposedException)
-            { }
+            {
+                //TODO KDog - Maybe we throw an exception alerting a connection was dropped? Or is this handled with the connection status changed event?
+            }
+        }
+
+        /// <summary>
+        /// Sends data across the socket.
+        /// </summary>
+        /// <param name="data">Data to be sent.</param>
+        private void _Send(Packet packetToSend)
+        {
+            try
+            {
+                foreach (KeyValuePair<Guid, Socket> kvp in _ConnectionDict)
+                {
+                    if (kvp.Key.CompareTo(packetToSend.SenderGuid) != 0)
+                    {
+                        kvp.Value.Send(packetToSend.ToBytes());
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                //TODO KDog - Maybe we throw an exception alerting a connection was dropped? Or is this handled with the connection status changed event?
+            }
         }
 
         /// <summary>
         /// Starts the Server.
         /// </summary>
-        public void StartServer()
+        /// <param name="portNumber">The desired port number to be used for connection.</param>
+        public void StartServer(int portNumber)
         {
+            CheckPort(portNumber);
+            myList = new TcpListener(GetMyIpAddr(), portNumber);
             ThreadStart ts = new ThreadStart(StartServerWork);
             Thread ServerThread = new Thread(ts);
             ServerThread.IsBackground = true;
@@ -145,25 +188,30 @@ namespace Networking
 
         private void StartServerWork()
         {
-            myList.Start();
-            while (!myList.Pending()) { };
-            s = myList.AcceptSocket();
-            if (s.Connected)
-                onConnect();
-            OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected));
+            //for (int i = 0; i < _NumberClients; i++)
+            //{
+                myList.Start();
+                while (!myList.Pending()) { };
+                Socket s = myList.AcceptSocket();
+                if (s.Connected)
+                    onConnect(s);
+                OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
+            //}
         }
 
-        private void onConnect()
+        private void onConnect(Socket socket)
         {
             System.Console.WriteLine("Connected");
-            ThreadStart ts = new ThreadStart(Receive);
+            ParameterizedThreadStart ts = new ParameterizedThreadStart(Receive);
             Thread ReceiveThread = new Thread(ts);
             ReceiveThread.IsBackground = true;
-            ReceiveThread.Start();
+            ReceiveThread.Start(socket as object);
+            SendHandshake(socket);
         }
 
-        private void Receive()
+        private void Receive(object socket)
         {
+            Socket s = socket as Socket;
             while (true)
             {
                 try
@@ -171,20 +219,63 @@ namespace Networking
                     while (s.Available == 0 && s.Connected) { };
                     byte[] data = new byte[s.Available];
                     s.Receive(data);
-                    OnDataRecieved(new DataReceivedEventArgs(data));
+                    //TODO KDog - We need to convert the received data to a Packet, then process from there.
+                    Thread processDataThread = new Thread(new ParameterizedThreadStart(ProcessData));
+                    processDataThread.IsBackground = true;
+                    processDataThread.Start(new object[] { socket, data });
                 }
                 catch (Exception)
                 {
-                    OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected));
+                    OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
                     break;
                 }
             }
         }
 
+        private void SendHandshake(Socket socket)
+        {
+            Packet handshake = new Packet(Packet.PACKET_FLAG.SYSTEM_READ, this._ComputerID, new byte[] { 0 });
+            socket.Send(handshake.ToBytes());
+        }
+
+        private void ProcessData(object parameters)
+        {
+            object[] param = parameters as object[];
+            Socket dataSocket = param[0] as Socket;
+            Packet receivedPacket = new Packet(param[1] as byte[]);
+            if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.USER_READ)
+            {
+                OnDataRecieved(new DataReceivedEventArgs(receivedPacket.Message));
+                if (_UserRole == ROLE.SERVER)
+                {
+                    this._Send(receivedPacket);
+                }
+            }
+            else if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.SYSTEM_READ)
+            {
+                ParseSystemPacket(dataSocket, receivedPacket);
+            }
+        }
+
+        private void ParseSystemPacket(Socket dataSocket, Packet receivedPacket)
+        {
+            switch (receivedPacket.Message[0])
+            {
+                case 0:     //Add the passed Guid and Socket to the Dict.
+                    _ConnectionDict.Add(receivedPacket.SenderGuid, dataSocket);
+                    break;
+                default:
+                    throw new NotImplementedException("Parsed packet value is not yet implemented");
+            }
+        }
+
         public void Close()
         {
-            s.Disconnect(false);
-            s.Close();
+            foreach (Socket s in _ConnectionDict.Values)
+            {
+                s.Disconnect(false);
+                s.Close();
+            }
         }
 
         /// <summary>
@@ -195,6 +286,7 @@ namespace Networking
         {
             DataRecieved(this, e);
         }
+
         /// <summary>
         /// Event triggered when there is a change in Connection Status.
         /// </summary>
@@ -205,23 +297,4 @@ namespace Networking
             ConnectionStatusChanged(this, e);
         }
     }
-    public class ConnectionStatusChangedEventArgs : EventArgs
-    {
-        public readonly bool Connected;
-        public ConnectionStatusChangedEventArgs(bool Connected)
-        {
-            this.Connected = Connected;
-        }
-    }
-
-    public class DataReceivedEventArgs : EventArgs
-    {
-        public readonly byte[] DataReceived;
-        public DataReceivedEventArgs(byte[] DataReceived)
-        {
-            this.DataReceived = DataReceived;
-        }
-    }
-
-
 }
