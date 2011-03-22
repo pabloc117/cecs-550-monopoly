@@ -20,7 +20,7 @@ namespace Networking
         private TcpListener myList;                         //used for server communication
         private TcpClient tcpclnt;                          //used for client communication
         private bool _IsConnected = false;
-        private int _NumberClients;
+        private int _NumberClients = 2;
         private Dictionary<Guid, Socket> _ConnectionDict = new Dictionary<Guid, Socket>(); //Use this to store all of the connections we have.
 
         public enum ROLE
@@ -188,15 +188,15 @@ namespace Networking
 
         private void StartServerWork()
         {
-            //for (int i = 0; i < _NumberClients; i++)
-            //{
+            for (int i = 0; i < _NumberClients; i++)
+            {
                 myList.Start();
                 while (!myList.Pending()) { };
                 Socket s = myList.AcceptSocket();
                 if (s.Connected)
                     onConnect(s);
                 OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
-            //}
+            }
         }
 
         private void onConnect(Socket socket)
@@ -275,6 +275,7 @@ namespace Networking
             {
                 s.Disconnect(false);
                 s.Close();
+                s.Dispose();
             }
         }
 
