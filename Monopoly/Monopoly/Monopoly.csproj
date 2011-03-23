@@ -56,11 +56,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="CardsContent.cs" />
+    <Compile Include="ChatComponent.xaml.cs">
+      <DependentUpon>ChatComponent.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Deck.cs" />
+    <Compile Include="MenuFader.xaml.cs">
+      <DependentUpon>MenuFader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MessageHandler.cs" />
     <Compile Include="Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
     <Compile Include="ThemeParser.cs" />
+    <Page Include="ChatComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +92,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MenuFader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Property.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -110,12 +125,23 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <None Include="Resources\property_listing.xml">
+    <ProjectReference Include="..\Communicator\Networking.csproj">
+      <Project>{899D7987-E95B-401B-970F-3B8DB9A7AA71}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\theme.xml">
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Loading.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Splash.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
