@@ -60,8 +60,8 @@ namespace Networking
             this._SenderGuid = new Guid(RemoteGuidArray);
             byte[] MessageLength = new byte[4];
             Buffer.BlockCopy(HeaderArray, 1 + GUID_LENGTH, MessageLength, 0, 4);
-
-            this._Message = new byte[BitConverter.ToInt32(MessageLength, 0)];
+            _MessageLength = BitConverter.ToInt32(MessageLength, 0);
+            this._Message = new byte[_MessageLength];
         }
 
         public byte[] ToBytes()
