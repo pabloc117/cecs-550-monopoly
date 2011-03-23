@@ -3,10 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:mn="clr-namespace:Monopoly" SizeChanged="board_SizeChanged"
-             mc:Ignorable="d" x:Name="board" Background="LightBlue">
-    <UserControl.Resources>
-    </UserControl.Resources>
+             xmlns:mn="clr-namespace:Monopoly" mc:Ignorable="d" x:Name="board" >
     <Grid>
         <Grid Name="myBoard" Width="{Binding ElementName=board, Path=Width}" Height="{Binding ElementName=board, Path=Height}">
             <Grid.RowDefinitions>
