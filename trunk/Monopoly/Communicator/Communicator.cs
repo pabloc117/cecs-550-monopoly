@@ -216,13 +216,26 @@ namespace Networking
             {
                 try
                 {
-                    while (s.Available == 0 && s.Connected) { };
-                    byte[] data = new byte[s.Available];
-                    s.Receive(data);
-                    //TODO KDog - We need to convert the received data to a Packet, then process from there.
-                    Thread processDataThread = new Thread(new ParameterizedThreadStart(ProcessData));
-                    processDataThread.IsBackground = true;
-                    processDataThread.Start(new object[] { socket, data });
+                    while (s.Available < Packet.HEADER_LENGTH && s.Connected) { };
+                    byte[] headerData = new byte[Packet.HEADER_LENGTH];
+                    s.Receive(headerData);
+                    Packet receivedPacket = new Packet(headerData);
+                    byte[] messageData = new byte[receivedPacket.MessageLength];
+                    while (s.Available < receivedPacket.MessageLength) { };
+                    s.Receive(messageData);
+                    receivedPacket.Message = messageData;
+                    if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.USER_READ)
+                    {
+                        OnDataRecieved(new DataReceivedEventArgs(receivedPacket.Message));
+                        if (_UserRole == ROLE.SERVER)
+                        {
+                            this._Send(receivedPacket);
+                        }
+                    }
+                    else if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.SYSTEM_READ)
+                    {
+                        ParseSystemPacket(s, receivedPacket);
+                    }
                 }
                 catch (Exception)
                 {
@@ -236,25 +249,6 @@ namespace Networking
         {
             Packet handshake = new Packet(Packet.PACKET_FLAG.SYSTEM_READ, this._ComputerID, new byte[] { 0 });
             socket.Send(handshake.ToBytes());
-        }
-
-        private void ProcessData(object parameters)
-        {
-            object[] param = parameters as object[];
-            Socket dataSocket = param[0] as Socket;
-            Packet receivedPacket = new Packet(param[1] as byte[]);
-            if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.USER_READ)
-            {
-                OnDataRecieved(new DataReceivedEventArgs(receivedPacket.Message));
-                if (_UserRole == ROLE.SERVER)
-                {
-                    this._Send(receivedPacket);
-                }
-            }
-            else if (receivedPacket.DestinationFlag == Packet.PACKET_FLAG.SYSTEM_READ)
-            {
-                ParseSystemPacket(dataSocket, receivedPacket);
-            }
         }
 
         private void ParseSystemPacket(Socket dataSocket, Packet receivedPacket)
