@@ -15,8 +15,10 @@ namespace Networking
 
         private PACKET_FLAG _DestinationFlag;
         private static int GUID_LENGTH = 16;
+        public static int HEADER_LENGTH = GUID_LENGTH + 6;
         private Guid _SenderGuid;
         private byte[] _Message;
+        private int _MessageLength;
 
         public PACKET_FLAG DestinationFlag
         {
@@ -31,6 +33,16 @@ namespace Networking
         public byte[] Message
         {
             get { return _Message; }
+            set
+            {
+                if (value.Length == _Message.Length)
+                    _Message = value;
+            }
+        }
+
+        public int MessageLength
+        {
+            get { return _MessageLength; }
         }
 
         public Packet(PACKET_FLAG DestinationFlag, Guid SenderGuid, byte[] Message)
@@ -40,22 +52,25 @@ namespace Networking
             this._Message = Message;
         }
 
-        public Packet(byte[] ByteArray)
+        public Packet(byte[] HeaderArray)
         {
-            this._DestinationFlag = ByteArray[0] == 0 ? PACKET_FLAG.SYSTEM_READ : PACKET_FLAG.USER_READ;
+            this._DestinationFlag = HeaderArray[0] == 0 ? PACKET_FLAG.SYSTEM_READ : PACKET_FLAG.USER_READ;
             byte[] RemoteGuidArray = new byte[GUID_LENGTH];
-            Buffer.BlockCopy(ByteArray, 1, RemoteGuidArray, 0, GUID_LENGTH);
+            Buffer.BlockCopy(HeaderArray, 1, RemoteGuidArray, 0, GUID_LENGTH);
             this._SenderGuid = new Guid(RemoteGuidArray);
-            this._Message = new byte[ByteArray.Length - GUID_LENGTH - 1];
-            Buffer.BlockCopy(ByteArray, 1 + GUID_LENGTH, _Message, 0, _Message.Length);
+            byte[] MessageLength = new byte[4];
+            Buffer.BlockCopy(HeaderArray, 1 + GUID_LENGTH, MessageLength, 0, 4);
+
+            this._Message = new byte[BitConverter.ToInt32(MessageLength, 0)];
         }
 
         public byte[] ToBytes()
         {
-            byte[] bytePacket = new byte[_SenderGuid.ToByteArray().Length + _Message.Length + 1];
+            byte[] bytePacket = new byte[HEADER_LENGTH + _Message.Length];
             Buffer.BlockCopy(new byte[]{(byte) _DestinationFlag}, 0, bytePacket, 0, 1);
             Buffer.BlockCopy(_SenderGuid.ToByteArray(), 0, bytePacket, 1, _SenderGuid.ToByteArray().Length);
-            Buffer.BlockCopy(_Message, 0, bytePacket, _SenderGuid.ToByteArray().Length + 1, _Message.Length);
+            Buffer.BlockCopy(BitConverter.GetBytes(_Message.Length), 0, bytePacket, _SenderGuid.ToByteArray().Length + 1, 4);
+            Buffer.BlockCopy(_Message, 0, bytePacket, _SenderGuid.ToByteArray().Length + 1 + 4, _Message.Length);
             return bytePacket;
         }
     }
