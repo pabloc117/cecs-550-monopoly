@@ -83,12 +83,12 @@ namespace Monopoly
                         Grid.SetRow(pr, p.Location % 10);
                         break;
                     case Property.Side.BOTTOM:
-                        Grid.SetColumn(pr, p.Location % 10);
+                        Grid.SetColumn(pr, 10 - p.Location % 10);
                         Grid.SetRow(pr, (int)Side.BOTTOM);
                         break;
                     case Property.Side.LEFT:
                         Grid.SetColumn(pr, (int)Side.LEFT);
-                        Grid.SetRow(pr, p.Location % 10);
+                        Grid.SetRow(pr, 10 - p.Location % 10);
                         break;
                 }
                 myBoard.Children.Add(pr);

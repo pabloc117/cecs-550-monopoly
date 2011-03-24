@@ -13,45 +13,45 @@
     <Group8 Color="0;0;0" />
   </ColorScheme>
   <Properties>
-    <!--RIGHT SIDE-->
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="1" Location="1" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="2" BoardSide="1" IsSpecial="1" IsCorner="0" />
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="1" Location="3" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="4" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="5" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="2" Location="6" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="7" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="2" Location="8" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="2" Location="9" BoardSide="1" IsSpecial="0" IsCorner="0"/>
     <!--TOP SIDE-->
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="3" Location="11" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="12" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="3" Location="13" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="14" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="15" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="4" Location="16" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="4" Location="17" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="18" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="4" Location="19" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <!--LEFT SIDE-->
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="5" Location="21" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="22" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="5" Location="23" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="5" Location="24" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="25" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="6" Location="26" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="27" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="6" Location="28" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="6" Location="29" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="1" Cost="100" GroupColor="2" Location="1" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="2" Cost="100" GroupColor="0" Location="2" BoardSide="0" IsSpecial="1" IsCorner="0" />
+    <Property Name="3" Cost="100" GroupColor="2" Location="3" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="4" Cost="100" GroupColor="0" Location="4" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="5" Cost="100" GroupColor="0" Location="5" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="6" Cost="100" GroupColor="3" Location="6" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="7" Cost="100" GroupColor="0" Location="7" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="8" Cost="100" GroupColor="3" Location="8" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="9" Cost="100" GroupColor="3" Location="9" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <!--RIGHT SIDE-->
+    <Property Name="11" Cost="100" GroupColor="4" Location="11" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="12" Cost="100" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="13" Cost="100" GroupColor="4" Location="13" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="14" Cost="100" GroupColor="0" Location="14" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="15" Cost="100" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="16" Cost="100" GroupColor="5" Location="16" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="17" Cost="100" GroupColor="5" Location="17" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="18" Cost="100" GroupColor="0" Location="18" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="19" Cost="100" GroupColor="5" Location="19" BoardSide="1" IsSpecial="0" IsCorner="0"/>
     <!--BOTTOM SIDE-->
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="7" Location="31" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="7" Location="32" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="33" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="7" Location="34" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="35" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="36" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="8" Location="37" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="0" Location="38" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Unknown Avenue" Cost="100" GroupColor="8" Location="39" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="21" Cost="100" GroupColor="6" Location="21" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="22" Cost="100" GroupColor="0" Location="22" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="23" Cost="100" GroupColor="6" Location="23" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="24" Cost="100" GroupColor="6" Location="24" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="25" Cost="100" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="26" Cost="100" GroupColor="7" Location="26" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="27" Cost="100" GroupColor="0" Location="27" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="28" Cost="100" GroupColor="7" Location="28" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="29" Cost="100" GroupColor="7" Location="29" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <!--LEFT SIDE-->
+    <Property Name="31" Cost="100" GroupColor="8" Location="31" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="32" Cost="100" GroupColor="8" Location="32" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="33" Cost="100" GroupColor="0" Location="33" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="34" Cost="100" GroupColor="8" Location="34" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="35" Cost="100" GroupColor="0" Location="35" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="36" Cost="100" GroupColor="0" Location="36" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="37" Cost="100" GroupColor="9" Location="37" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="38" Cost="100" GroupColor="0" Location="38" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="39" Cost="100" GroupColor="9" Location="39" BoardSide="3" IsSpecial="0" IsCorner="0"/>
   </Properties>
 </Theme>
