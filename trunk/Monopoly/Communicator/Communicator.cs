@@ -216,7 +216,7 @@ namespace Networking
             {
                 try
                 {
-                    while (s.Available < Packet.HEADER_LENGTH && s.Connected) { };
+                    while (s.Available < (Packet.HEADER_LENGTH-1) && s.Connected) { };
                     byte[] headerData = new byte[Packet.HEADER_LENGTH];
                     s.Receive(headerData);
                     Packet receivedPacket = new Packet(headerData);

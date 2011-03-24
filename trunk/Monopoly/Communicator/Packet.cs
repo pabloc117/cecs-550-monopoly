@@ -15,7 +15,7 @@ namespace Networking
 
         private PACKET_FLAG _DestinationFlag;
         private static int GUID_LENGTH = 16;
-        public static int HEADER_LENGTH = GUID_LENGTH + 6;
+        public static int HEADER_LENGTH = GUID_LENGTH + 5;
         private Guid _SenderGuid;
         private byte[] _Message;
         private int _MessageLength;
