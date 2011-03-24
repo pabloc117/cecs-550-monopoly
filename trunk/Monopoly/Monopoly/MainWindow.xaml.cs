@@ -120,7 +120,7 @@ namespace Monopoly
         {
             //TODO implement
             comm.UserRole = Communicator.ROLE.CLIENT;
-            comm.StartClient("136.165.204.203",23);
+            comm.StartClient(comm.GetMyIpAddr().ToString(),23);
         }
 
         void myMenu_HostGameClicked(object sender, HostGameClickEventArgs e)
