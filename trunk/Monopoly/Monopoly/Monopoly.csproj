@@ -55,7 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CardsContent.cs" />
     <Compile Include="ChatComponent.xaml.cs">
       <DependentUpon>ChatComponent.xaml</DependentUpon>
     </Compile>
