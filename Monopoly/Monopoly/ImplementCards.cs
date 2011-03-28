@@ -7,8 +7,9 @@ namespace Monopoly
 {
     class ImplementCards
     {
-        public void CardType(int card)
+        public void getCardInfo(string type, int id)
         {
+
         }
         public void MovePlayer()
         {

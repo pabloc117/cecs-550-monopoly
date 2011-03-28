@@ -2,56 +2,126 @@
 <Theme>
   <ColorScheme>
     <Background Color="255;100;100" />
-    <Board Color="100;255;100" />
-    <Group1 Color="255;255;255" />
-    <Group2 Color="255;255;0" />
-    <Group3 Color="255;0;255" />
-    <Group4 Color="255;0;0" />
-    <Group5 Color="0;255;255" />
-    <Group6 Color="0;255;0" />
-    <Group7 Color="0;0;255" />
-    <Group8 Color="0;0;0" />
+    <Board Color="110;215;150" />
+    <Group1 Color="66;0;99" />      <!--purple-->
+    <Group2 Color="100;170;255" />  <!--light blue-->
+    <Group3 Color="200;0;200" />    <!--magenta-->
+    <Group4 Color="255;130;0" />    <!--orange-->
+    <Group5 Color="255;0;0" />      <!--red-->
+    <Group6 Color="255;255;0" />    <!--yellow-->
+    <Group7 Color="35;140;35" />    <!--green-->
+    <Group8 Color="0;0;205" />      <!--blue-->
   </ColorScheme>
   <Properties>
     <!--TOP SIDE-->
-    <Property Name="1" Cost="100" GroupColor="2" Location="1" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="2" Cost="100" GroupColor="0" Location="2" BoardSide="0" IsSpecial="1" IsCorner="0" />
-    <Property Name="3" Cost="100" GroupColor="2" Location="3" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="4" Cost="100" GroupColor="0" Location="4" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="5" Cost="100" GroupColor="0" Location="5" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="6" Cost="100" GroupColor="3" Location="6" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="7" Cost="100" GroupColor="0" Location="7" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="8" Cost="100" GroupColor="3" Location="8" BoardSide="0" IsSpecial="0" IsCorner="0"/>
-    <Property Name="9" Cost="100" GroupColor="3" Location="9" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Mediterranean AVenue" Cost="60" GroupColor="2" Location="1" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Community Chest" Cost="0" GroupColor="0" Location="2" BoardSide="0" IsSpecial="1" IsCorner="0" />
+    <Property Name="Baltic Avenue" Cost="60" GroupColor="2" Location="3" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Income Tax" Cost="0" GroupColor="0" Location="4" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Reading Railroad" Cost="200" GroupColor="0" Location="5" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Oriental Avenue" Cost="100" GroupColor="3" Location="6" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Chance" Cost="0" GroupColor="0" Location="7" BoardSide="0" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Vermont Avenue" Cost="100" GroupColor="3" Location="8" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Connecticut Avenue" Cost="120" GroupColor="3" Location="9" BoardSide="0" IsSpecial="0" IsCorner="0"/>
     <!--RIGHT SIDE-->
-    <Property Name="11" Cost="100" GroupColor="4" Location="11" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="12" Cost="100" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="13" Cost="100" GroupColor="4" Location="13" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="14" Cost="100" GroupColor="0" Location="14" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="15" Cost="100" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="16" Cost="100" GroupColor="5" Location="16" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="17" Cost="100" GroupColor="5" Location="17" BoardSide="1" IsSpecial="0" IsCorner="0"/>
-    <Property Name="18" Cost="100" GroupColor="0" Location="18" BoardSide="1" IsSpecial="1" IsCorner="0"/>
-    <Property Name="19" Cost="100" GroupColor="5" Location="19" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="St. Charles Place" Cost="140" GroupColor="4" Location="11" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Electric Company" Cost="150" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="States Avenue" Cost="140" GroupColor="4" Location="13" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Virginia Avenue" Cost="160" GroupColor="4" Location="14" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Pennsylvania Railroad" Cost="200" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="St. James" Cost="180" GroupColor="5" Location="16" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Community Chest" Cost="0" GroupColor="0" Location="17" BoardSide="1" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Tennessee Avenue" Cost="180" GroupColor="5" Location="18" BoardSide="1" IsSpecial="0" IsCorner="0"/>
+    <Property Name="New York Avenue" Cost="200" GroupColor="5" Location="19" BoardSide="1" IsSpecial="0" IsCorner="0"/>
     <!--BOTTOM SIDE-->
-    <Property Name="21" Cost="100" GroupColor="6" Location="21" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="22" Cost="100" GroupColor="0" Location="22" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="23" Cost="100" GroupColor="6" Location="23" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="24" Cost="100" GroupColor="6" Location="24" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="25" Cost="100" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="26" Cost="100" GroupColor="7" Location="26" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="27" Cost="100" GroupColor="0" Location="27" BoardSide="2" IsSpecial="1" IsCorner="0"/>
-    <Property Name="28" Cost="100" GroupColor="7" Location="28" BoardSide="2" IsSpecial="0" IsCorner="0"/>
-    <Property Name="29" Cost="100" GroupColor="7" Location="29" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Ketucky Avenue" Cost="220" GroupColor="6" Location="21" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Chance" Cost="0" GroupColor="0" Location="22" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Indiana Avenue" Cost="220" GroupColor="6" Location="23" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Illinois Avenue" Cost="240" GroupColor="6" Location="24" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="B and O Railroad" Cost="200" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Atlantic Avenue" Cost="260" GroupColor="7" Location="26" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Vermont Avenue" Cost="260" GroupColor="7" Location="27" BoardSide="2" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Water Works" Cost="150" GroupColor="0" Location="28" BoardSide="2" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Marvin Gardens" Cost="280" GroupColor="7" Location="29" BoardSide="2" IsSpecial="0" IsCorner="0"/>
     <!--LEFT SIDE-->
-    <Property Name="31" Cost="100" GroupColor="8" Location="31" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="32" Cost="100" GroupColor="8" Location="32" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="33" Cost="100" GroupColor="0" Location="33" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="34" Cost="100" GroupColor="8" Location="34" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="35" Cost="100" GroupColor="0" Location="35" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="36" Cost="100" GroupColor="0" Location="36" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="37" Cost="100" GroupColor="9" Location="37" BoardSide="3" IsSpecial="0" IsCorner="0"/>
-    <Property Name="38" Cost="100" GroupColor="0" Location="38" BoardSide="3" IsSpecial="1" IsCorner="0"/>
-    <Property Name="39" Cost="100" GroupColor="9" Location="39" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Pacific Avenue" Cost="300" GroupColor="8" Location="31" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="North Carolina" Cost="300" GroupColor="8" Location="32" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Community Chest" Cost="0" GroupColor="0" Location="33" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Pennsylvania Avenue" Cost="320" GroupColor="8" Location="34" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Short Line" Cost="200" GroupColor="0" Location="35" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Chance" Cost="0" GroupColor="0" Location="36" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Park Place" Cost="350" GroupColor="9" Location="37" BoardSide="3" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Luxury Tax" Cost="0" GroupColor="0" Location="38" BoardSide="3" IsSpecial="1" IsCorner="0"/>
+    <Property Name="Boardwalk" Cost="400" GroupColor="9" Location="39" BoardSide="3" IsSpecial="0" IsCorner="0"/>
   </Properties>
+  <GCards>
+    <!-- Chance Cards
+    <Cards Type ="Chance" Jump ="location, boardside - get from property_listing.xml" Move ="int" Collect ="int" Pay ="int" PayTo ="select: bank, player, repair" num ="card id" Text ="Text content of cards" />
+  -->
+    <Card Type="Chance" Jump="" Move="0" Collect="200" Pay="0" PayTo="NULL" num="1" CollectFrom="NULL" Text="Advance to Go. Collect $200" />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="2" CollectFrom="NULL" Text="Advance to Illinois Ave." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="3" CollectFrom="NULL" Text="Advance token to nearest Utility. If unowned, you may buy it from the Bank. If owned, throw dice and pay owner a total ten times the amount thrown." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="4" CollectFrom="NULL" Text="Advance token to the nearest Railroad and pay owner twice the rental to which he/she is otherwise entitled. If Railroad is unowned, you may buy it from the Bank." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="5" CollectFrom="NULL" Text="Advance to St. Charles Place. If you pass Go, collect $200." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="6" CollectFrom="NULL" Text="Advance to Boardwalk." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="7" CollectFrom="NULL" Text="Take a trip to Reading Railroad. If you pass Go collect $200." />
+    <Card Type="Chance" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="8" CollectFrom="NULL" Text="Go directly to Jail – do not pass Go, do not collect $200." />
+    <Card Type="Chance" Jump="0" Move="-3" Collect="0" Pay="0" PayTo="NULL" num="9" CollectFrom="NULL" Text="Go back 3 spaces." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="0" Pay="50" PayTo="player" num="10" CollectFrom="NULL" Text="You have been elected chairman of the board. Pay each player $50." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="0" Pay="15" PayTo="bank" num="11" CollectFrom="NULL" Text="Speeding Fine. Pay $15." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="50" Pay="0" PayTo="NULL" num="12" CollectFrom="bank" Text="Bank pays you dividend of $50." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="150" Pay="0" PayTo="NULL" num="13" CollectFrom="bank" Text="Your building and loan matures. Collect $150." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="100" Pay="0" PayTo="NULL" num="14" CollectFrom="bank" Text="You have won a game competition. Collect $100." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="0" Pay="0" PayTo="repair" num="15" CollectFrom="NULL" Text="Make general repairs on all your property.For each house pay $25.For each hotel $100.Bank pays you dividend of $50." />
+    <Card Type="Chance" Jump="0" Move="0" Collect="0" Pay="0" PayTo="NULL" num="16" CollectFrom="NULL" Text="Get out of Jail free." />
+    <!-- Community Cards
+      <Cards Type ="Community" Jump ="location, boardside - get from property_listing.xml" Move ="int" Collect ="int" Pay ="int" CollectFrom ="select: bank, player" num ="card id" Text ="Text content of cards" />
+  -->
+    <Card Type="Community" Jump="" Move="0" Collect="200" Pay="0" PayTo="NULL" num="1" CollectFrom="bank" Text="Advance to Go. Collect $200." />
+    <Card Type="Community" Jump="" Move="0" Collect="0" Pay="0" PayTo="NULL" num="2" CollectFrom="NULL" Text="Go to jail." />
+    <Card Type="Community" Jump="0" Move="0" Collect="50" Pay="0" PayTo="NULL" num="3" CollectFrom="player" Text="It is your birthday. Collect $50 from each player." />
+    <Card Type="Community" Jump="0" Move="0" Collect="0" Pay="50" PayTo="bank" num="4" CollectFrom="NULL" Text="Doctor's fees. Pay $50." />
+    <Card Type="Community" Jump="0" Move="0" Collect="0" Pay="100" PayTo="bank" num="5" CollectFrom="NULL" Text="Pay Hospital Fees. Pay $100." />
+    <Card Type="Community" Jump="0" Move="0" Collect="0" Pay="50" PayTo="bank" num="6" CollectFrom="NULL" Text="Pay School Fees of $50." />
+    <Card Type="Community" Jump="0" Move="0" Collect="100" Pay="0" PayTo="NULL" num="7" CollectFrom="bank" Text="Holiday Fund matures. Collect $100." />
+    <Card Type="Community" Jump="0" Move="0" Collect="100" Pay="0" PayTo="NULL" num="8" CollectFrom="bank" Text="Bank error in your favor. Collect $100." />
+    <Card Type="Community" Jump="0" Move="0" Collect="200" Pay="0" PayTo="NULL" num="9" CollectFrom="bank" Text="Income Tax refund. Collect $200." />
+    <Card Type="Community" Jump="0" Move="0" Collect="100" Pay="0" PayTo="NULL" num="10" CollectFrom="bank" Text="Life Insurance Mature. Collect $100." />
+    <Card Type="Community" Jump="0" Move="0" Collect="25" Pay="0" PayTo="NULL" num="11" CollectFrom="bank" Text="Receive $25 Consltancy Fee." />
+    <Card Type="Community" Jump="0" Move="0" Collect="50" Pay="0" PayTo="NULL" num="12" CollectFrom="bank" Text="You have won the second price in a beauty contest. Collect $50." />
+    <Card Type="Community" Jump="0" Move="0" Collect="100" Pay="0" PayTo="NULL" num="13" CollectFrom="bank" Text="You inherit $100." />
+    <Card Type="Community" Jump="0" Move="0" Collect="50" Pay="0" PayTo="NULL" num="14" CollectFrom="bank" Text="From sale of stock you get $50." />
+    <Card Type="Community" Jump="0" Move="0" Collect="0" Pay="0" PayTo="repair" num="15" CollectFrom="NULL" Text="You are assessed for street repair. Pay $40 per house, $115 per hotel." />
+    <Card Type="Community" Jump="0" Move="0" Collect="0" Pay="0" PayTo="NULL" num="16" CollectFrom="bank" Text="Get out of jail free." />
+  </GCards>
+  <PCards>
+    <Card Rent="2" House1="10" House2="30" House3="90" House4="160" Hotel="250" Mortgage="30" GroupColor="" ID="" Title="Mediterranean Avenue" />
+    <Card Rent="4" House1="20" House2="60" House3="180" House4="320" Hotel="450" Mortgage="30" GroupColor="" ID="" Title="Baltic Avenue" />
+    <Card Rent="6" House1="30" House2="90" House3="270" House4="400" Hotel="550" Mortgage="50" GroupColor="" ID="" Title="Oriental Avenue" />
+    <Card Rent="6" House1="30" House2="90" House3="270" House4="400" Hotel="550" Mortgage="50" GroupColor="" ID="" Title="Vermont Avenue" />
+    <Card Rent="8" House1="40" House2="100" House3="300" House4="450" Hotel="600" Mortgage="60" GroupColor="" ID="" Title="Connecticut Avenue" />
+    <Card Rent="10" House1="50" House2="150" House3="450" House4="625" Hotel="750" Mortgage="70" GroupColor="" ID="" Title="St. Charles Place" />
+    <Card Rent="10" House1="50" House2="150" House3="450" House4="625" Hotel="750" Mortgage="70" GroupColor="" ID="" Title="States Avenue" />
+    <Card Rent="12" House1="60" House2="180" House3="500" House4="700" Hotel="900" Mortgage="80" GroupColor="" ID="" Title="Virginia Avenue" />
+    <Card Rent="14" House1="70" House2="200" House3="550" House4="750" Hotel="950" Mortgage="90" GroupColor="" ID="" Title="St. James Place" />
+    <Card Rent="14" House1="70" House2="200" House3="550" House4="750" Hotel="950" Mortgage="90" GroupColor="" ID="" Title="Tennessee Avenue" />
+    <Card Rent="16" House1="80" House2="220" House3="600" House4="800" Hotel="1000" Mortgage="100" GroupColor="" ID="" Title="New York Avenue" />
+    <Card Rent="18" House1="90" House2="250" House3="700" House4="875" Hotel="1050" Mortgage="110" GroupColor="" ID="" Title="Kentucky Avenue" />
+    <Card Rent="18" House1="90" House2="250" House3="700" House4="875" Hotel="1050" Mortgage="110" GroupColor="" ID="" Title="Indiana Avenue" />
+    <Card Rent="20" House1="100" House2="300" House3="750" House4="925" Hotel="1100" Mortgage="120" GroupColor="" ID="" Title="Illinois Avenue" />
+    <Card Rent="22" House1="110" House2="330" House3="800" House4="975" Hotel="1150" Mortgage="130" GroupColor="" ID="" Title="Atlantic Avenue" />
+    <Card Rent="22" House1="110" House2="330" House3="800" House4="975" Hotel="1150" Mortgage="130" GroupColor="" ID="" Title="Ventnor Avenue" />
+    <Card Rent="24" House1="120" House2="360" House3="850" House4="1025" Hotel="1200" Mortgage="140" GroupColor="" ID="" Title="Marvin Gardens" />
+    <Card Rent="26" House1="130" House2="390" House3="900" House4="1100" Hotel="1275" Mortgage="150" GroupColor="" ID="" Title="Pacific Avenue" />
+    <Card Rent="26" House1="130" House2="390" House3="900" House4="1100" Hotel="1275" Mortgage="150" GroupColor="" ID="" Title="North Carolina Avenue" />
+    <Card Rent="28" House1="150" House2="450" House3="1000" House4="1200" Hotel="1400" Mortgage="160" GroupColor="" ID="" Title="Pennsylvania Avenue" />
+    <Card Rent="35" House1="175" House2="500" House3="1100" House4="1300" Hotel="1500" Mortgage="175" GroupColor="" ID="" Title="Park Place" />
+    <Card Rent="50" House1="200" House2="600" House3="1400" House4="1700" Hotel="2000" Mortgage="200" GroupColor="" ID="" Title="Booardwalk" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100" GroupColor="" ID="" Title="Reading RR" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100" GroupColor="" ID="" Title="Pennsylvania RR" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100" GroupColor="" ID="" Title="B and O RR" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100" GroupColor="" ID="" Title="Short Line RR" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75" GroupColor="" ID="" Title="Electric Company" />
+    <Card Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75" GroupColor="" ID="" Title="Water Works" />
+  </PCards>
 </Theme>

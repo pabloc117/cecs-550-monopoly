@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 
 namespace Monopoly
-{    
+{
     //This class takes care of how we handle the decks of Chance and Community Chest cards.
     //It implement the intialization of the cards, shuffling, and drawing and sort the cards.
     class Deck
     {
         CardsContent getContent = new CardsContent();
+        ImplementCards imp_Cards = new ImplementCards();
 
         List<int> chance = new List<int>(new int[16]);
         List<int> communityChest = new List<int>(new int[16]);
@@ -36,12 +37,12 @@ namespace Monopoly
             int count = 0;
             Random r = new Random();
             List<int> tempCards = new List<int>();
-            
+
             //loop while the deck of card is still less than 16
             for (int i = 0; i < cards.Count; i++)
             {
                 //generate a random number of 1 <= n < 17
-                temp = r.Next(1, 17);               
+                temp = r.Next(1, 17);
                 //if there is something in the deck, we need to check to make sure
                 //the random generated number isn't the same as the one in the deck
                 if (tempCards.Count > 0)
@@ -74,11 +75,11 @@ namespace Monopoly
                 cards[i] = tempCards[i];
             }
         }
-        public string drawCard(int type)
+        public void drawCard(int type)
         {
-            string content = "";
-            int card = 0;
-            
+            int card = 0; //card 0 = Community Chest, 1 = Chance
+            string stype = "";
+
             //Gets a copy of the card
             //then add that to the bottom, and then remove it from top
             if (type == 1)
@@ -86,16 +87,16 @@ namespace Monopoly
                 card = chance[0];
                 chance.Add(chance[0]);
                 chance.RemoveAt(0);
-                content = getContent.ChanceCards(card);
+                stype = "Chance";
             }
             else
             {
                 card = communityChest[0];
                 communityChest.Add(communityChest[0]);
                 communityChest.RemoveAt(0);
-                content = getContent.CommunityCards(card);
-            }            
-            return content;
+                stype = "Community";
+            }
+            imp_Cards.getCardInfo(stype, card);
         }
     }
 }
