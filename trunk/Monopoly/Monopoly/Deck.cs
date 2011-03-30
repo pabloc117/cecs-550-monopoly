@@ -9,7 +9,6 @@ namespace Monopoly
     //It implement the intialization of the cards, shuffling, and drawing and sort the cards.
     class Deck
     {
-        CardsContent getContent = new CardsContent();
         ImplementCards imp_Cards = new ImplementCards();
 
         List<int> chance = new List<int>(new int[16]);
