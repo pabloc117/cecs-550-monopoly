@@ -13,8 +13,14 @@
     <Group8 Color="0;0;205" />      <!--blue-->
   </ColorScheme>
   <Properties>
+    <!--CORNERS-->
+    <Property Name="Go" Cost="0" GroupColor="0" Location="0" BoardSide="0" IsSpecial="1" IsCorner="1" ImageLocation="Resources\go.png"/>
+    <Property Name="Jail" Cost="0" GroupColor="0" Location="10" BoardSide="1" IsSpecial="1" IsCorner="1" ImageLocation="Resources\jail.png"/>
+    <Property Name="Free Parking" Cost="0" GroupColor="0" Location="20" BoardSide="2" IsSpecial="1" IsCorner="1" ImageLocation="Resources\parking.png"/>
+    <Property Name="Go to Jail" Cost="0" GroupColor="0" Location="30" BoardSide="3" IsSpecial="1" IsCorner="1" ImageLocation="Resources\go_jail.png"/>
+    
     <!--TOP SIDE-->
-    <Property Name="Mediterranean AVenue" Cost="60" GroupColor="2" Location="1" BoardSide="0" IsSpecial="0" IsCorner="0"/>
+    <Property Name="Mediterranean Avenue" Cost="60" GroupColor="2" Location="1" BoardSide="0" IsSpecial="0" IsCorner="0"/>
     <Property Name="Community Chest" Cost="0" GroupColor="0" Location="2" BoardSide="0" IsSpecial="1" IsCorner="0" />
     <Property Name="Baltic Avenue" Cost="60" GroupColor="2" Location="3" BoardSide="0" IsSpecial="0" IsCorner="0"/>
     <Property Name="Income Tax" Cost="0" GroupColor="0" Location="4" BoardSide="0" IsSpecial="1" IsCorner="0"/>

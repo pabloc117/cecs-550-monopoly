@@ -68,10 +68,8 @@ namespace Monopoly
         {
             if (Dispatcher.CheckAccess())
             {
-                Property pr = new Property((int)p.Side);
-                pr.PropertyColor = p.ColorGroup;
-                pr.PropertyCost = p.Cost;
-                pr.PropertyName = p.Name;
+                bool special = p.ImageLocation == null;
+                Property pr = new Property((int)p.Side, p);
                 switch (p.Side)
                 {
                     case Property.Side.TOP:
