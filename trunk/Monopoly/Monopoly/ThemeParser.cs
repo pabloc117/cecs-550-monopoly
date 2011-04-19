@@ -5,6 +5,8 @@ using System.Text;
 using System.Windows.Media;
 using System.IO;
 using System.Xml;
+using System.Windows.Media.Imaging;
+using System.Windows.Controls;
 
 namespace Monopoly
 {
@@ -28,6 +30,7 @@ namespace Monopoly
 		public static string ATTR_BOARD_SIDE   = "BoardSide";
         public static string ATTR_IS_SPECIAL = "IsSpecial";
         public static string ATTR_IS_CORNER = "IsCorner";
+        public static string ATTR_IMAGE_LOCATION = "ImageLocation";
 		private static string listingPath = Directory.GetCurrentDirectory() + "\\Resources\\theme.xml";
 
         private static SolidColorBrush[] colorPalette = GetColors();
@@ -143,8 +146,9 @@ namespace Monopoly
                                 dict.Add(loc, new PropertyListing(name, cost, loc, bs, gc));
                             else
                             {
-                                bool isCorner = Int32.Parse(reader.GetAttribute(ATTR_IS_SPECIAL)) == 1;
-                                dict.Add(loc, new PropertyListing(name, cost, loc, bs, null, isCorner));
+                                bool isCorner = Int32.Parse(reader.GetAttribute(ATTR_IS_CORNER)) == 1;
+                                string imgLoc = reader.GetAttribute(ATTR_IMAGE_LOCATION);
+                                dict.Add(loc, new PropertyListing(name, cost, loc, bs, imgLoc, isCorner));
                             }
 							Console.WriteLine(loc + ": " + dict[loc].Name);
 						}
@@ -172,6 +176,9 @@ namespace Monopoly
 		int _loc;
 		Brush _color;
 		Property.Side _side;
+        string _imgLoc = null;
+        bool _isCorner = false;
+        bool _isSpecial = false;
 
         public PropertyListing(String name, int cost, int loc, int side, SolidColorBrush color)
 		{
@@ -179,15 +186,33 @@ namespace Monopoly
 			_cost = cost;
 			_loc = loc;
 			_color = color;
-			_side = ParseSide(side);
+            _side = ParseSide(side);
 		}
 
-        public PropertyListing(String name, int cost, int loc, int side, ImageSource img, bool isCorner)
+        public PropertyListing(String name, int cost, int loc, int side, string imgLoc, bool isCorner)
         {
             _name = name;
             _cost = cost;
             _loc = loc;
+            _imgLoc = imgLoc;
+            _isCorner = isCorner;
             _side = ParseSide(side);
+            _isSpecial = true;
+        }
+
+        public string ImageLocation
+        {
+            get { return _imgLoc; }
+        }
+
+        public bool IsCorner
+        {
+            get { return _isCorner; }
+        }
+
+        public bool IsSpecial
+        {
+            get { return _isSpecial; }
         }
 
 		public string Name
