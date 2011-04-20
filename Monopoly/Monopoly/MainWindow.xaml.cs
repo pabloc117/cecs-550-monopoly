@@ -107,8 +107,17 @@ namespace Monopoly
                 myGrid.Children.Add(myChat);
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
+                myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
             }
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
+        }
+
+        void Dice_RollEnded(object sender, RollEndedEventArgs e)
+        {
+            int d1 = e.DiceOneValue;
+            int d2 = e.DiceTwoValue;
+            //TODO This is where you handle the dice values.
+            myChat.NewMessage("System", "You rolled a " + d1 + " and a " + d2 + ".");
         }
 
         void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)

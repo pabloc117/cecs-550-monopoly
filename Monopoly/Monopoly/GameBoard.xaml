@@ -43,6 +43,8 @@
                 <ColumnDefinition Width="100*" />
             </Grid.ColumnDefinitions>
             <Image Source="Resources/logo.png" Grid.Row="4" Grid.Column="3" Grid.ColumnSpan="5" Grid.RowSpan="3" />
+            <mn:DiceRack x:Name="Dice" Grid.Column="6" Grid.Row="8" Grid.RowSpan="2" Grid.ColumnSpan="4" HorizontalAlignment="Right" 
+                         VerticalAlignment="Bottom" Margin="5,25,5,5" />
         </Grid>
     <Canvas Name="myCanvas" Height="{Binding ElementName=board, Path=Height}" Width="{Binding ElementName=board, Path=Width}"
             ClipToBounds="True">
