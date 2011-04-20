@@ -59,6 +59,12 @@
       <DependentUpon>ChatComponent.xaml</DependentUpon>
     </Compile>
     <Compile Include="Deck.cs" />
+    <Compile Include="Dice.xaml.cs">
+      <DependentUpon>Dice.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DiceRack.xaml.cs">
+      <DependentUpon>DiceRack.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MenuFader.xaml.cs">
       <DependentUpon>MenuFader.xaml</DependentUpon>
     </Compile>
@@ -67,7 +73,18 @@
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
     <Compile Include="ThemeParser.cs" />
+    <Compile Include="UserPeice.xaml.cs">
+      <DependentUpon>UserPeice.xaml</DependentUpon>
+    </Compile>
     <Page Include="ChatComponent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dice.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DiceRack.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -96,6 +113,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Property.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserPeice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -143,6 +164,13 @@
     <Resource Include="Resources\Splash.png" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\dice1.png" />
+    <Resource Include="Resources\dice2.png" />
+    <Resource Include="Resources\dice3.png" />
+    <Resource Include="Resources\dice4.png" />
+    <Resource Include="Resources\dice5.png" />
+    <Resource Include="Resources\dice6.png" />
+    <Resource Include="Resources\dice_icon.png" />
     <Content Include="Resources\go.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
