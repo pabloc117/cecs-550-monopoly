@@ -69,9 +69,11 @@
       <DependentUpon>MenuFader.xaml</DependentUpon>
     </Compile>
     <Compile Include="MessageHandler.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PropertyListing.cs" />
     <Compile Include="ThemeParser.cs" />
     <Compile Include="UserPeice.xaml.cs">
       <DependentUpon>UserPeice.xaml</DependentUpon>
