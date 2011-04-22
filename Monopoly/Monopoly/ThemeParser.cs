@@ -94,11 +94,6 @@ namespace Monopoly
                     {
                         colors[(int)Colors.Group8] = new SolidColorBrush(ParseRGB((string)reader.GetAttribute("Color")));
                     }
-
-                }
-                else
-                {
-                    Console.WriteLine(listingPath + " does not exist.");
                 }
             }
 
