@@ -65,6 +65,7 @@
     <Compile Include="DiceRack.xaml.cs">
       <DependentUpon>DiceRack.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Engine.cs" />
     <Compile Include="IPRequest.xaml.cs">
       <DependentUpon>IPRequest.xaml</DependentUpon>
     </Compile>

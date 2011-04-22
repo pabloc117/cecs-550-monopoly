@@ -33,6 +33,8 @@ namespace Monopoly
         private UserPiece[] pieces;
         private Dictionary<int, Player> Players = new Dictionary<int,Player>();
 
+        private Engine engine;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -45,6 +47,10 @@ namespace Monopoly
             mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+        }
+
+        void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
+        {
         }
 
         void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
@@ -119,6 +125,8 @@ namespace Monopoly
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
+                engine = new Engine();
+                engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
                 
             }
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
@@ -128,6 +136,7 @@ namespace Monopoly
         {
             CompilePlayersPacket();
             InitializePieces(Players.Count);
+            engine.StartGame(Players.Count);
         }
 
         void Dice_RollEnded(object sender, RollEndedEventArgs e)
@@ -330,10 +339,15 @@ namespace Monopoly
             comm.Send((new Message(Message.Type.IdInit, msg)).ToBytes());
         }
 
+        private void ToggleTurnItems(bool isEnabled)
+        {
+            myBoard.Dice.ToggleRollsEnabled(isEnabled);
+        }
+
         void Chat_NewOutgoingMessage(object sender, NewOutgoingMessageEventArgs e)
         {
             string localName = "RemoteUser";
-            string str = String.Concat(localName, "<@>", e.Message);
+            string str = String.Concat(localName, Message.DELIMETER, e.Message);
             byte[] msg = Encoding.UTF8.GetBytes(str);
             comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
         }
