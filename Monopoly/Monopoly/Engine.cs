@@ -8,7 +8,7 @@ namespace Monopoly
 {
     class Engine
     {
-        private int numPlayers = 0;
+        private int maxPlayerIndex = 0;
         private int currentPlayerIndex = 0;
         private bool waiting = false;
         public int CurrentPlayerIndex
@@ -23,7 +23,7 @@ namespace Monopoly
             workThread.Name = "EngineWorkThread";
             workThread.IsBackground = true;
 
-            this.numPlayers = numPlayers;
+            this.maxPlayerIndex = numPlayers - 1;
         }
 
         private void Work()
@@ -31,7 +31,7 @@ namespace Monopoly
             while (true)
             {
                 waiting = true;
-                if (currentPlayerIndex == numPlayers)
+                if (currentPlayerIndex == maxPlayerIndex)
                     currentPlayerIndex = 0;
                 else currentPlayerIndex++;
                 OnPlayerTurn(new PlayerTurnEventArgs(currentPlayerIndex));
