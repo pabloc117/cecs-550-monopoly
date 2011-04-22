@@ -47,7 +47,7 @@ namespace Monopoly
                     {
                         case Message.Type.Chat:
                             string data = Encoding.UTF8.GetString(msg.Data);
-                            string[] attr = data.Split(new String[]{"<@>"}, StringSplitOptions.None);
+                            string[] attr = data.Split(new String[]{Message.DELIMETER}, StringSplitOptions.None);
                             OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
                             break;
                         case Message.Type.Move:
@@ -123,6 +123,8 @@ namespace Monopoly
             Move = 2,
             IdInit = 3
         }
+
+        public static string DELIMETER = "<@>";
 
         public static Type GetType(int type)
         {
