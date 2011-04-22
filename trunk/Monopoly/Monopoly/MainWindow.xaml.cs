@@ -121,7 +121,6 @@ namespace Monopoly
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "You rolled a " + d1 + " and a " + d2 + ".");
-            Move(pieces[0], d1 + d2);
         }
 
         public void InitialPlacement(ref UserPiece u)
@@ -160,8 +159,25 @@ namespace Monopoly
                 System.Console.WriteLine("Error in parsing UserPiece for MoveWork.");
                 return;
             }
-            int i = up.CurrentLocation;
-            while(up.CurrentLocation < i + value)
+            int i = up.CurrentLocation + value;
+            if (i > 39)
+            {
+                int j = up.CurrentLocation;
+                i = i - 40;
+                value = value - i;
+                while (up.CurrentLocation <= j + value)
+                {
+                    if (up.CurrentLocation == 39)
+                    {
+                        Jump(up, up.CurrentLocation, 0);
+                        Thread.Sleep(250);
+                        break;
+                    }
+                    else Jump(up, up.CurrentLocation, up.CurrentLocation + 1);
+                    Thread.Sleep(250);
+                }
+            }
+            while(up.CurrentLocation < i)
             {
                 Jump(up, up.CurrentLocation, up.CurrentLocation + 1);
                 Thread.Sleep(250);
@@ -216,11 +232,44 @@ namespace Monopoly
             if (Dispatcher.CheckAccess())
             {
                 Loading.Visibility = Visibility.Hidden;
-
-                pieces = new UserPiece[1];
-                InitialPlacement(ref pieces[0]);
+                InitializePieces();
             }
             else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
+        }
+
+        private void InitializePieces()
+        {
+            //get accurate player count
+            pieces = new UserPiece[4];
+            for (int i = 0; i < pieces.Count<UserPiece>(); i++)
+            {
+                InitialPlacement(ref pieces[i]);
+                switch (i)
+                {
+                    case 0:
+                        Grid.SetColumn(pieces[i], 0);
+                        Grid.SetRow(pieces[i],0);
+                        pieces[i].ellipse.Fill = Brushes.Red;
+                        break;
+                    case 1:
+                        Grid.SetColumn(pieces[i],3);
+                        Grid.SetRow(pieces[i],0);
+                        pieces[i].ellipse.Fill = Brushes.Green;
+                        break;
+                    case 2:
+                        Grid.SetColumn(pieces[i],0);
+                        Grid.SetRow(pieces[i],3);
+                        pieces[i].ellipse.Fill = Brushes.Blue;
+                        break;
+                    case 3:
+                        Grid.SetColumn(pieces[i],3);
+                        Grid.SetRow(pieces[i],3);
+                        pieces[i].ellipse.Fill = Brushes.Orange;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
