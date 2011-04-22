@@ -53,7 +53,7 @@ namespace Monopoly
             foreach (string s in players)
             {
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
-                Players.Add(s[0], new Player(Int32.Parse(playerString[0]), playerString[1]));
+                Players.Add(Int32.Parse(playerString[0]), new Player(Int32.Parse(playerString[0]), playerString[1]));
             }
             InitializePieces(Players.Count);
         }
