@@ -56,6 +56,9 @@ namespace Monopoly
                             break;
                         case Message.Type.Unknown:
                             break;
+                        case Message.Type.IdInit:
+                            OnPlayerInitMessage(new PlayerInitPacketEventArgs(Encoding.UTF8.GetString(msg.Data)));
+                            break;
                         default:
                             break;
                     }
@@ -82,6 +85,20 @@ namespace Monopoly
         {
             NewIncomingMessage(this, e);
         }
+
+        public event EventHandler<PlayerInitPacketEventArgs> PlayerInitMessage;
+        private void OnPlayerInitMessage(PlayerInitPacketEventArgs e)
+        {
+            PlayerInitMessage(this, e);
+        }
+    }
+    public class PlayerInitPacketEventArgs : EventArgs
+    {
+        public readonly string PlayerPacket;
+        public PlayerInitPacketEventArgs(string PlayerPacket)
+        {
+            this.PlayerPacket = PlayerPacket;
+        }
     }
     public class NewIncomingMessageEventArgs : EventArgs
     {
@@ -103,7 +120,8 @@ namespace Monopoly
             Unknown = -1,
             Chat = 0,
             Trade = 1,
-            Move = 2
+            Move = 2,
+            IdInit = 3
         }
 
         public static Type GetType(int type)
@@ -116,6 +134,8 @@ namespace Monopoly
                     return Type.Move;
                 case (int)Type.Trade:
                     return Type.Trade;
+                case (int)Type.IdInit:
+                    return Type.IdInit;
                 default:
                     return Type.Unknown;
             }
