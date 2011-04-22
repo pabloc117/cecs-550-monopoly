@@ -30,6 +30,7 @@ namespace Monopoly
         private GameBoard myBoard;
         private ChatComponent myChat;
         private MenuFader myMenu;
+        private UserPiece[] pieces;
 
         public MainWindow()
         {
@@ -43,6 +44,7 @@ namespace Monopoly
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
+
 
         void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
         {
@@ -108,6 +110,7 @@ namespace Monopoly
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
+                
             }
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
         }
@@ -118,6 +121,73 @@ namespace Monopoly
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "You rolled a " + d1 + " and a " + d2 + ".");
+            Move(pieces[0], d1 + d2);
+        }
+
+        public void InitialPlacement(ref UserPiece u)
+        {
+            foreach (var tp in myBoard.myBoard.Children)
+            {
+                if (tp as Property != null && ((Property)tp).PropertyListing.Location == 0)
+                {
+                    ((Property)tp).Spots.Children.Add(u = new UserPiece());
+                    u.CurrentLocation = 0;
+                }
+            }
+        }
+
+        public void Move(UserPiece up, int value)
+        {
+            ParameterizedThreadStart start = new ParameterizedThreadStart(MoveWork);
+            Thread moveThread = new Thread(start);
+            moveThread.IsBackground = true;
+            moveThread.Name = "MoveThread";
+            moveThread.Start(new object[] { up, value } as object);
+        }
+
+        private void MoveWork(object param)
+        {
+            object[] parameters = param as object[];
+            if (parameters == null)
+            {
+                System.Console.WriteLine("Error in parsing parameters for MoveWork.");
+                return;
+            }
+            UserPiece up = parameters[0] as UserPiece;
+            int value = (int)parameters[1];
+            if (up == null)
+            {
+                System.Console.WriteLine("Error in parsing UserPiece for MoveWork.");
+                return;
+            }
+            int i = up.CurrentLocation;
+            while(up.CurrentLocation < i + value)
+            {
+                Jump(up, up.CurrentLocation, up.CurrentLocation + 1);
+                Thread.Sleep(250);
+            }
+        }
+
+        public void Jump(UserPiece up, int current, int destination)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                Property cur = null;
+                Property des = null;
+                foreach (var tp in myBoard.myBoard.Children)
+                {
+                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == current)
+                        cur = ((Property)tp);
+                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == destination)
+                        des = ((Property)tp);
+                }
+                if (cur == null || des == null)
+                    return;
+                up.CurrentLocation = destination;
+                cur.Spots.Children.Remove(up);
+                des.Spots.Children.Add(up);
+            }
+            else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
         }
 
         void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
@@ -146,6 +216,9 @@ namespace Monopoly
             if (Dispatcher.CheckAccess())
             {
                 Loading.Visibility = Visibility.Hidden;
+
+                pieces = new UserPiece[1];
+                InitialPlacement(ref pieces[0]);
             }
             else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
         }

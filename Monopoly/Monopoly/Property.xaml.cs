@@ -42,6 +42,11 @@ namespace Monopoly
         }*/
         #endregion
 
+        public static string CONTENT_NAME = "Content";
+        public static string SPOTS_NAME = "Spots";
+
+        public Grid Spots;
+
         public enum Side
         {
             TOP = 0,
@@ -51,6 +56,10 @@ namespace Monopoly
             UNKNOWN = -1
         }
 
+        public PropertyListing PropertyListing
+        {
+            get{ return property; }
+        }
         private PropertyListing property;
 
         public Property(int loc, PropertyListing property)
@@ -102,6 +111,34 @@ namespace Monopoly
             b.Background = Brushes.Transparent;
 
             Grid content = new Grid();
+            content.Name = CONTENT_NAME;
+            Spots = new Grid();
+            Spots.Name = SPOTS_NAME;
+            RowDefinition rd = new RowDefinition();
+            rd.Height = new GridLength(25, GridUnitType.Star);
+            Spots.RowDefinitions.Add(rd);
+            rd = new RowDefinition();
+            rd.Height = new GridLength(25, GridUnitType.Star);
+            Spots.RowDefinitions.Add(rd);
+            rd = new RowDefinition();
+            rd.Height = new GridLength(25, GridUnitType.Star);
+            Spots.RowDefinitions.Add(rd);
+            rd = new RowDefinition();
+            rd.Height = new GridLength(25, GridUnitType.Star);
+            Spots.RowDefinitions.Add(rd);
+            ColumnDefinition cd = new ColumnDefinition();
+            cd.Width = new GridLength(25, GridUnitType.Star);
+            Spots.ColumnDefinitions.Add(cd);
+            cd = new ColumnDefinition();
+            cd.Width = new GridLength(25, GridUnitType.Star);
+            Spots.ColumnDefinitions.Add(cd);
+            cd = new ColumnDefinition();
+            cd.Width = new GridLength(25, GridUnitType.Star);
+            Spots.ColumnDefinitions.Add(cd);
+            cd = new ColumnDefinition();
+            cd.Width = new GridLength(25, GridUnitType.Star);
+            Spots.ColumnDefinitions.Add(cd);
+
 
             TextBlock tb = new TextBlock();
             tb.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
@@ -136,7 +173,7 @@ namespace Monopoly
 
             if (property.IsCorner)
             {
-                RowDefinition rd = new RowDefinition();
+                rd = new RowDefinition();
                 rd.Height = new GridLength(20, GridUnitType.Star);
                 content.RowDefinitions.Add(rd);
                 rd = new RowDefinition();
@@ -153,7 +190,9 @@ namespace Monopoly
                 vb.Child = i;
                 content.Children.Add(vb);
             }
-
+            Grid.SetColumnSpan(Spots, 100);
+            Grid.SetRowSpan(Spots, 100);
+            content.Children.Add(Spots);
             b.Child = content;
 
             return b;
