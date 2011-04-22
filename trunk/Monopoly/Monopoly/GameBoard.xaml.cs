@@ -54,12 +54,9 @@ namespace Monopoly
         private void BuildBoard()
         {
             _listings = ThemeParser.GetPropertyListing();
-            for (int i = 1; i < 10; i++)
+            foreach (PropertyListing p in _listings.Values)
             {
-                foreach (PropertyListing p in _listings.Values)
-                {
-                    MakeProperty(p);
-                }
+                MakeProperty(p);
             }
             OnGameBuilt(new GameBoardBuiltEventArgs());
         }
