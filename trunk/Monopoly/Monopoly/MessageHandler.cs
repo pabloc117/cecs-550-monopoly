@@ -59,6 +59,10 @@ namespace Monopoly
                         case Message.Type.IdInit:
                             OnPlayerInitMessage(new PlayerInitPacketEventArgs(Encoding.UTF8.GetString(msg.Data)));
                             break;
+                        case Message.Type.Turn:
+                            //TODO Add this
+
+                            break;
                         default:
                             break;
                     }
@@ -91,6 +95,22 @@ namespace Monopoly
         {
             PlayerInitMessage(this, e);
         }
+        
+        public event EventHandler<PlayerTurnEventArgs> PlayerTurnMessage;
+        private void OnPlayerTurnMessage(PlayerTurnEventArgs e)
+        {
+            PlayerTurnMessage(this, e);
+        }
+    }
+    public class PlayerTurnEventArgs : EventArgs
+    {
+        public readonly int EndTurnId;
+        public readonly int StartTurnId;
+        public PlayerTurnEventArgs(int EndTurnId, int StartTurnId)
+        {
+            this.EndTurnId = EndTurnId;
+            this.StartTurnId = StartTurnId;
+        }
     }
     public class PlayerInitPacketEventArgs : EventArgs
     {
@@ -121,7 +141,8 @@ namespace Monopoly
             Chat = 0,
             Trade = 1,
             Move = 2,
-            IdInit = 3
+            IdInit = 3,
+            Turn = 4
         }
 
         public static string DELIMETER = "<@>";
@@ -138,6 +159,8 @@ namespace Monopoly
                     return Type.Trade;
                 case (int)Type.IdInit:
                     return Type.IdInit;
+                case (int)Type.Turn:
+                    return Type.Turn;
                 default:
                     return Type.Unknown;
             }
