@@ -61,7 +61,7 @@ namespace Monopoly
                             break;
                         case Message.Type.Turn:
                             //TODO Add this
-
+                            string turnMsg = Encoding.UTF8.GetString(msg.Data);
                             break;
                         default:
                             break;
