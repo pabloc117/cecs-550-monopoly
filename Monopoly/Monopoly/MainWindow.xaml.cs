@@ -44,6 +44,7 @@ namespace Monopoly
             comm.DataRecieved += new EventHandler<DataReceivedEventArgs>(comm_DataRecieved);
             mHandler.NewIncomingMessage += new EventHandler<NewIncomingMessageEventArgs>(mHandler_NewIncomingMessage);
             mHandler.PlayerInitMessage += new EventHandler<PlayerInitPacketEventArgs>(mHandler_PlayerInitMessage);
+            mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
             mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
@@ -51,6 +52,11 @@ namespace Monopoly
 
         void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
+        }
+
+        void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
+        {
+            //TODO Fill this out
         }
 
         void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
