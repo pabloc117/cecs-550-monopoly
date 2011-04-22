@@ -228,10 +228,7 @@ namespace Monopoly
 
         void myMenu_JoinGameClicked(object sender, JoinGameClickEventArgs e)
         {
-            //TODO implement
             comm.UserRole = Communicator.ROLE.CLIENT;
-            //comm.GetMyIpAddr().ToString()
-            //comm.StartClient("192.168.56.1",23);
             IPRequest ip = new IPRequest();
             ip.Owner = this;
             ip.IPAccept += new EventHandler<ConnectClickedEventArgs>(ip_IPAccept);
@@ -250,10 +247,10 @@ namespace Monopoly
             comm.UserRole = Communicator.ROLE.SERVER;
             comm.StartServer(23);
             IPAddress ip = comm.GetMyIpAddr();
-            //MessageBox.Show(ip.ToString());
             while (comm.localEndPoint == null) { }
             Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
             myMenu.DisableConnectionButtons();
+            MessageBox.Show(ip.ToString());
         }
 
         void myBoard_GameBuilt(object sender, GameBoardBuiltEventArgs e)
@@ -267,37 +264,40 @@ namespace Monopoly
 
         private void InitializePieces(int num)
         {
-            //get accurate player count
-            pieces = new UserPiece[num];
-            for (int i = 0; i < pieces.Count<UserPiece>(); i++)
+            if (this.Dispatcher.CheckAccess())
             {
-                InitialPlacement(ref pieces[i]);
-                switch (i)
+                pieces = new UserPiece[num];
+                for (int i = 0; i < pieces.Count<UserPiece>(); i++)
                 {
-                    case 0:
-                        Grid.SetColumn(pieces[i], 0);
-                        Grid.SetRow(pieces[i],0);
-                        pieces[i].ellipse.Fill = Brushes.Red;
-                        break;
-                    case 1:
-                        Grid.SetColumn(pieces[i],3);
-                        Grid.SetRow(pieces[i],0);
-                        pieces[i].ellipse.Fill = Brushes.Green;
-                        break;
-                    case 2:
-                        Grid.SetColumn(pieces[i],0);
-                        Grid.SetRow(pieces[i],3);
-                        pieces[i].ellipse.Fill = Brushes.Blue;
-                        break;
-                    case 3:
-                        Grid.SetColumn(pieces[i],3);
-                        Grid.SetRow(pieces[i],3);
-                        pieces[i].ellipse.Fill = Brushes.Orange;
-                        break;
-                    default:
-                        break;
+                    InitialPlacement(ref pieces[i]);
+                    switch (i)
+                    {
+                        case 0:
+                            Grid.SetColumn(pieces[i], 0);
+                            Grid.SetRow(pieces[i], 0);
+                            pieces[i].ellipse.Fill = Brushes.Red;
+                            break;
+                        case 1:
+                            Grid.SetColumn(pieces[i], 3);
+                            Grid.SetRow(pieces[i], 0);
+                            pieces[i].ellipse.Fill = Brushes.Green;
+                            break;
+                        case 2:
+                            Grid.SetColumn(pieces[i], 0);
+                            Grid.SetRow(pieces[i], 3);
+                            pieces[i].ellipse.Fill = Brushes.Blue;
+                            break;
+                        case 3:
+                            Grid.SetColumn(pieces[i], 3);
+                            Grid.SetRow(pieces[i], 3);
+                            pieces[i].ellipse.Fill = Brushes.Orange;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
+            else this.Dispatcher.BeginInvoke(new Action<int>(InitializePieces), new object[] { num });
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
