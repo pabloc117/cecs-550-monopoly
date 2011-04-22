@@ -15,11 +15,12 @@ using System.Windows.Shapes;
 namespace Monopoly
 {
     /// <summary>
-    /// Interaction logic for UserPeice.xaml
+    /// Interaction logic for UserPiece.xaml
     /// </summary>
-    public partial class UserPeice : UserControl
+    public partial class UserPiece : UserControl
     {
-        public UserPeice()
+        public int CurrentLocation = 0;
+        public UserPiece()
         {
             InitializeComponent();
         }
