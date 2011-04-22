@@ -65,6 +65,9 @@
     <Compile Include="DiceRack.xaml.cs">
       <DependentUpon>DiceRack.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IPRequest.xaml.cs">
+      <DependentUpon>IPRequest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MenuFader.xaml.cs">
       <DependentUpon>MenuFader.xaml</DependentUpon>
     </Compile>
@@ -93,6 +96,10 @@
     <Page Include="GameBoard.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="IPRequest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

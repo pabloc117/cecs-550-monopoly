@@ -55,6 +55,7 @@ namespace Monopoly
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
                 Players.Add(s[0], new Player(Int32.Parse(playerString[0]), playerString[1]));
             }
+            InitializePieces(Players.Count);
         }
 
         void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
@@ -77,13 +78,9 @@ namespace Monopoly
         {
             DateTime loadTime = DateTime.Now;
             while (DateTime.Now.Subtract(loadTime).TotalSeconds < 2.5) { }
-            ChooseRole();
-        }
 
-        private void ChooseRole()
-        {
             HideSplash();
-            while(Splash.Visibility != Visibility.Collapsed){}
+            while (Splash.Visibility != Visibility.Collapsed) { }
             Setup();
         }
 
@@ -116,6 +113,7 @@ namespace Monopoly
                 myMenu.HostGameClicked += new EventHandler<HostGameClickEventArgs>(myMenu_HostGameClicked);
                 myMenu.JoinGameClicked += new EventHandler<JoinGameClickEventArgs>(myMenu_JoinGameClicked);
                 myMenu.CloseGameClicked += new EventHandler<CloseGameClickEventArgs>(myMenu_CloseGameClicked);
+                myMenu.StartGameClicked += new EventHandler<StartGameClickEventArgs>(myMenu_StartGameClicked);
                 myGrid.Children.Add(myBoard);
                 myGrid.Children.Add(myChat);
                 myCanvas.Children.Add(myMenu);
@@ -126,12 +124,18 @@ namespace Monopoly
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
         }
 
+        void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
+        {
+            CompilePlayersPacket();
+            InitializePieces(Players.Count);
+        }
+
         void Dice_RollEnded(object sender, RollEndedEventArgs e)
         {
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
-            myChat.NewMessage("System", "You rolled a " + d1 + " and a " + d2 + ".");
+            myChat.NewMessage("System", "You rolled " + (d1 +  d2) + ".");
         }
 
         public void InitialPlacement(ref UserPiece u)
@@ -226,18 +230,30 @@ namespace Monopoly
         {
             //TODO implement
             comm.UserRole = Communicator.ROLE.CLIENT;
-            comm.StartClient(comm.GetMyIpAddr().ToString(),23);
+            //comm.GetMyIpAddr().ToString()
+            //comm.StartClient("192.168.56.1",23);
+            IPRequest ip = new IPRequest();
+            ip.Owner = this;
+            ip.IPAccept += new EventHandler<ConnectClickedEventArgs>(ip_IPAccept);
+            ip.ShowDialog();
+        }
+
+        void ip_IPAccept(object sender, ConnectClickedEventArgs e)
+        {
+            comm.StartClient(e.IP, 23);
+            myMenu.DisableConnectionButtons();
+            myMenu.DisableStartGameButton();
         }
 
         void myMenu_HostGameClicked(object sender, HostGameClickEventArgs e)
         {
-            //TODO implement
             comm.UserRole = Communicator.ROLE.SERVER;
             comm.StartServer(23);
             IPAddress ip = comm.GetMyIpAddr();
             //MessageBox.Show(ip.ToString());
             while (comm.localEndPoint == null) { }
             Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
+            myMenu.DisableConnectionButtons();
         }
 
         void myBoard_GameBuilt(object sender, GameBoardBuiltEventArgs e)
@@ -245,15 +261,14 @@ namespace Monopoly
             if (Dispatcher.CheckAccess())
             {
                 Loading.Visibility = Visibility.Hidden;
-                InitializePieces();
             }
             else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
         }
 
-        private void InitializePieces()
+        private void InitializePieces(int num)
         {
             //get accurate player count
-            pieces = new UserPiece[4];
+            pieces = new UserPiece[num];
             for (int i = 0; i < pieces.Count<UserPiece>(); i++)
             {
                 InitialPlacement(ref pieces[i]);
@@ -342,7 +357,8 @@ namespace Monopoly
                 _loc = new Point(this.Left, this.Top);
                 this.WindowState = System.Windows.WindowState.Maximized;
                 this.WindowStyle = System.Windows.WindowStyle.None;
-                this.myMenu.Close();
+                if(myMenu != null)
+                    this.myMenu.Close();
             }
             else this.Dispatcher.BeginInvoke(new Action(Maximize));
         }

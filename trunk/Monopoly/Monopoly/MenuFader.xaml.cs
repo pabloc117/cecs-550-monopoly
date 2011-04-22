@@ -57,8 +57,19 @@ namespace Monopoly
             Storyboard.SetTargetProperty(da, new PropertyPath(Canvas.BottomProperty));
             sb.Children.Add(da);
             sb.Begin();
-            //Canvas.SetBottom(this, parent.Height - 5);
         }
+
+        public void DisableConnectionButtons()
+        {
+            Host.IsEnabled = false;
+            Join.IsEnabled = false;
+        }
+
+        public void DisableStartGameButton()
+        {
+            Start.IsEnabled = false;
+        }
+
         public event EventHandler<CloseGameClickEventArgs> CloseGameClicked;
         private void OnCloseGameClicked(CloseGameClickEventArgs e)
         {
@@ -74,6 +85,11 @@ namespace Monopoly
         {
             HostGameClicked(this, e);
         }
+        public event EventHandler<StartGameClickEventArgs> StartGameClicked;
+        private void OnStartGameClicked(StartGameClickEventArgs e)
+        {
+            StartGameClicked(this, e);
+        }
 
         private void Host_Click(object sender, RoutedEventArgs e)
         {
@@ -88,6 +104,11 @@ namespace Monopoly
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             OnCloseGameClicked(new CloseGameClickEventArgs());
+        }
+
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            OnStartGameClicked(new StartGameClickEventArgs());
         }
     }
 
@@ -106,6 +127,11 @@ namespace Monopoly
     public class JoinGameClickEventArgs : EventArgs
     {
         public JoinGameClickEventArgs()
+        { }
+    }
+    public class StartGameClickEventArgs : EventArgs
+    {
+        public StartGameClickEventArgs()
         { }
     }
 }

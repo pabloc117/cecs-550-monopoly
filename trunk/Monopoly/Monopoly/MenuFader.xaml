@@ -7,9 +7,10 @@
     <Border Background="Gray" CornerRadius="0,0,10,10">
         <Grid Name="myGrid" Height="35">
             <DockPanel VerticalAlignment="Bottom" Margin="0,0,0,5" HorizontalAlignment="Stretch">
-                <Button Content="Host Game" Click="Host_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75" />
-                <Button Content="Join Game" Click="Join_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75"/>
-                <Button Content="Close" Click="Close_Click" Margin="5,0,5,0" DockPanel.Dock="Right" Width="75" />
+                <Button Name="Host" Content="Host Game" Click="Host_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75" />
+                <Button Name="Join" Content="Join Game" Click="Join_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75"/>
+                <Button Name="Start"  Content="StartGame" Click="Start_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75" />
+                <Button Content="Close" Click="Close_Click" Margin="5,0,5,0" DockPanel.Dock="Left" Width="75" />
             </DockPanel>
         </Grid>
     </Border>
