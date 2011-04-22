@@ -31,6 +31,7 @@ namespace Monopoly
         private ChatComponent myChat;
         private MenuFader myMenu;
         private UserPiece[] pieces;
+        private Dictionary<int, Player> Players = new Dictionary<int,Player>();
 
         public MainWindow()
         {
@@ -40,11 +41,21 @@ namespace Monopoly
             comm.ConnectionStatusChanged += new EventHandler<ConnectionStatusChangedEventArgs>(comm_ConnectionStatusChanged);
             comm.DataRecieved += new EventHandler<DataReceivedEventArgs>(comm_DataRecieved);
             mHandler.NewIncomingMessage += new EventHandler<NewIncomingMessageEventArgs>(mHandler_NewIncomingMessage);
+            mHandler.PlayerInitMessage += new EventHandler<PlayerInitPacketEventArgs>(mHandler_PlayerInitMessage);
             mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
 
+        void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
+        {
+            string[] players = e.PlayerPacket.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string s in players)
+            {
+                string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
+                Players.Add(s[0], new Player(Int32.Parse(playerString[0]), playerString[1]));
+            }
+        }
 
         void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
         {
@@ -224,7 +235,9 @@ namespace Monopoly
             comm.UserRole = Communicator.ROLE.SERVER;
             comm.StartServer(23);
             IPAddress ip = comm.GetMyIpAddr();
-            MessageBox.Show(ip.ToString());
+            //MessageBox.Show(ip.ToString());
+            while (comm.localEndPoint == null) { }
+            Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
         }
 
         void myBoard_GameBuilt(object sender, GameBoardBuiltEventArgs e)
@@ -285,6 +298,21 @@ namespace Monopoly
         void comm_ConnectionStatusChanged(object sender, ConnectionStatusChangedEventArgs e)
         {
             Console.Write("Connected = " + e.Connected);
+            if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
+            {
+                Players.Add(Players.Count, new Player(Players.Count, e.RemoteEndPoint.ToString()));
+            }
+        }
+
+        private void CompilePlayersPacket()
+        {
+            StringBuilder packet = new StringBuilder();
+            foreach (Player p in Players.Values)
+            {
+                packet.Append(p.PlayerId + "=" + p.PlayerEndPoint.ToString() + ";");
+            }
+            byte[] msg = Encoding.UTF8.GetBytes(packet.ToString());
+            comm.Send((new Message(Message.Type.IdInit, msg)).ToBytes());
         }
 
         void Chat_NewOutgoingMessage(object sender, NewOutgoingMessageEventArgs e)

@@ -22,6 +22,7 @@ namespace Networking
         private bool _IsConnected = false;
         private int _NumberClients = 2;
         private Dictionary<Guid, Socket> _ConnectionDict = new Dictionary<Guid, Socket>(); //Use this to store all of the connections we have.
+        public EndPoint localEndPoint;
 
         public enum ROLE
         {
@@ -191,6 +192,7 @@ namespace Networking
             for (int i = 0; i < _NumberClients; i++)
             {
                 myList.Start();
+                localEndPoint = myList.LocalEndpoint;
                 while (!myList.Pending()) { };
                 Socket s = myList.AcceptSocket();
                 if (s.Connected)
@@ -247,6 +249,7 @@ namespace Networking
 
         private void SendHandshake(Socket socket)
         {
+            localEndPoint = socket.LocalEndPoint;
             Packet handshake = new Packet(Packet.PACKET_FLAG.SYSTEM_READ, this._ComputerID, new byte[] { 0 });
             socket.Send(handshake.ToBytes());
         }
