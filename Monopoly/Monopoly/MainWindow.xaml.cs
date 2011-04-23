@@ -59,19 +59,18 @@ namespace Monopoly
         void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
             //TODO Should we get our local player when we initialize our board so we dont have to do this loop each and everytime?
-            foreach (Player p in Players.Values)
+            Player p = GetLocalUser();
+            if (p == null)
+                throw new NullReferenceException("Player was null.");
+            if (p.PlayerId == e.EndTurnId)
             {
-                if (p.PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
-                { //This means the selected player 'p' is the local user.
-                    if (p.PlayerId == e.EndTurnId)
-                    {
-                        //Disable everything
-                    }
-                    else if (p.PlayerId == e.StartTurnId)
-                    {
-                        //Enable everything and start your turn
-                    }
-                }
+                //Disable everything
+                ToggleTurnItems(false);
+            }
+            else if (p.PlayerId == e.StartTurnId)
+            {
+                //Enable everything and start your turn
+                ToggleTurnItems(true);
             }
         }
 
@@ -159,6 +158,7 @@ namespace Monopoly
             CompilePlayersPacket();
             InitializePieces(Players.Count);
             engine.StartGame(Players.Count);
+            comm.EndWaitConnect();
         }
 
         void Dice_RollEnded(object sender, RollEndedEventArgs e)
@@ -250,6 +250,23 @@ namespace Monopoly
                 des.Spots.Children.Add(up);
             }
             else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
+        }
+
+        /// <summary>
+        /// Finds the Player object representing the local user
+        /// in the Players dictionary.
+        /// </summary>
+        /// <returns>The local player class</returns>
+        private Player GetLocalUser()
+        {
+            foreach (Player p in Players.Values)
+            {
+                if (p.PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
+                { //This means the selected player 'p' is the local user.
+                    return p;
+                }
+            }
+            return null;
         }
 
         void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
