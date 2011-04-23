@@ -58,7 +58,21 @@ namespace Monopoly
 
         void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
-            //TODO Fill this out
+            //TODO Should we get our local player when we initialize our board so we dont have to do this loop each and everytime?
+            foreach (Player p in Players.Values)
+            {
+                if (p.PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
+                { //This means the selected player 'p' is the local user.
+                    if (p.PlayerId == e.EndTurnId)
+                    {
+                        //Disable everything
+                    }
+                    else if (p.PlayerId == e.StartTurnId)
+                    {
+                        //Enable everything and start your turn
+                    }
+                }
+            }
         }
 
         void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)

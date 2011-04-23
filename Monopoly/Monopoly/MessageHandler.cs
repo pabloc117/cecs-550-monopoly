@@ -62,6 +62,8 @@ namespace Monopoly
                         case Message.Type.Turn:
                             //TODO Add this
                             string turnMsg = Encoding.UTF8.GetString(msg.Data);
+                            string[] pTurn = turnMsg.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                            OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
                             break;
                         default:
                             break;

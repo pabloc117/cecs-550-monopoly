@@ -173,6 +173,7 @@ namespace Networking
             }
         }
 
+        private Thread ServerThread;
         /// <summary>
         /// Starts the Server.
         /// </summary>
@@ -182,9 +183,24 @@ namespace Networking
             CheckPort(portNumber);
             myList = new TcpListener(GetMyIpAddr(), portNumber);
             ThreadStart ts = new ThreadStart(StartServerWork);
-            Thread ServerThread = new Thread(ts);
+            ServerThread = new Thread(ts);
             ServerThread.IsBackground = true;
             ServerThread.Start();
+        }
+
+        /// <summary>
+        /// Stops waiting for new connections.
+        /// </summary>
+        public void EndWaitConnect()
+        {
+            if (ServerThread != null && ServerThread.IsAlive)
+            {
+                try
+                {
+                    ServerThread.Abort();
+                }
+                catch (Exception) { }
+            }
         }
 
         private void StartServerWork()
