@@ -28,15 +28,17 @@ namespace Monopoly
 
         private void Work()
         {
+            OnPlayerTurn(new PlayerTurnEventArgs(-1, currentPlayerIndex));
             while (true)
             {
                 waiting = true;
+                while (waiting)
+                { }
+                int previousPlayerIndex = currentPlayerIndex;
                 if (currentPlayerIndex == maxPlayerIndex)
                     currentPlayerIndex = 0;
                 else currentPlayerIndex++;
-                OnPlayerTurn(new PlayerTurnEventArgs(currentPlayerIndex));
-                while (waiting)
-                { }
+                OnPlayerTurn(new PlayerTurnEventArgs(previousPlayerIndex, currentPlayerIndex));
             }
         }
 
@@ -49,15 +51,6 @@ namespace Monopoly
         private void OnPlayerTurn(PlayerTurnEventArgs e)
         {
             PlayerTurn(this, e);
-        }
-    }
-
-    public class PlayerTurnEventArgs : EventArgs
-    {
-        public int ID = 0;
-        public PlayerTurnEventArgs(int ID)
-        {
-            this.ID = ID;
         }
     }
 }
