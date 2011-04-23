@@ -52,6 +52,8 @@ namespace Monopoly
 
         void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
+            string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
+            mHandler.QueueMessage(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
         }
 
         void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
