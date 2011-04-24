@@ -47,10 +47,12 @@ namespace Monopoly
             mHandler.PlayerInitMessage += new EventHandler<PlayerInitPacketEventArgs>(mHandler_PlayerInitMessage);
             mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
             mHandler.RollMessage += new EventHandler<RollMessageEventArgs>(mHandler_RollMessage);
+            mHandler.EndTurnMessage += new EventHandler<EndTurnMessageEventArgs>(mHandler_EndTurnMessage);
             mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
+
 
         ///////////////
         //Event Hooks//
@@ -129,6 +131,11 @@ namespace Monopoly
             myBoard.Dice.RollDice(e.Seed);
         }
 
+        void mHandler_EndTurnMessage(object sender, EndTurnMessageEventArgs e)
+        {
+            engine.TurnEnded();
+        }
+
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
         {
             CompilePlayersPacket();
@@ -176,9 +183,15 @@ namespace Monopoly
             //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "You rolled " + (d1 + d2) + ".");
             if (comm.UserRole == Communicator.ROLE.SERVER)
+            {
                 Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
+                engine.TurnEnded();
+            }
             else
+            {
                 Move(pieces[currentTurnPlayerID], (d1 + d2));
+                comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
+            }
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)

@@ -67,6 +67,9 @@ namespace Monopoly
                             string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
                             OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
                             break;
+                        case Message.Type.EndTurn:
+                            OnEndTurnMessage(new EndTurnMessageEventArgs());
+                            break;
                         default:
                             break;
                     }
@@ -80,8 +83,12 @@ namespace Monopoly
         public void QueueMessage(byte[] msg)
         {
             int type = msg[0];
-            byte[] data = new byte[msg.Length - 1];
-            Array.Copy(msg, 1, data, 0, data.Length);
+            byte[] data = null;
+            if (msg.Length > 1)
+            {
+                data = new byte[msg.Length - 1];
+                Array.Copy(msg, 1, data, 0, data.Length);
+            }
             messages.Add(new Message(Message.GetType(type), data));
         }
 
@@ -109,6 +116,12 @@ namespace Monopoly
         private void OnPlayerTurnMessage(PlayerTurnEventArgs e)
         {
             PlayerTurnMessage(this, e);
+        }
+
+        public event EventHandler<EndTurnMessageEventArgs> EndTurnMessage;
+        private void OnEndTurnMessage(EndTurnMessageEventArgs e)
+        {
+            EndTurnMessage(this, e);
         }
     }
     public class PlayerTurnEventArgs : EventArgs
@@ -150,6 +163,12 @@ namespace Monopoly
         }
     }
 
+    public class EndTurnMessageEventArgs : EventArgs
+    {
+        public EndTurnMessageEventArgs()
+        { }
+    }
+
     public class Message
     {
 
@@ -161,7 +180,8 @@ namespace Monopoly
             Trade = 1,
             Roll = 2,
             IdInit = 3,
-            Turn = 4
+            Turn = 4,
+            EndTurn = 5
         }
 
         public static string DELIMETER = "<@>";
@@ -180,6 +200,8 @@ namespace Monopoly
                     return Type.IdInit;
                 case (int)Type.Turn:
                     return Type.Turn;
+                case (int)Type.EndTurn:
+                    return Type.EndTurn;
                 default:
                     return Type.Unknown;
             }
