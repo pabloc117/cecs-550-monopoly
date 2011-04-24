@@ -84,7 +84,7 @@ namespace Monopoly
         private void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
             string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
-            mHandler.QueueMessage(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
+            comm.Send(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
             if (localPlayer.PlayerId == e.EndTurnId)
