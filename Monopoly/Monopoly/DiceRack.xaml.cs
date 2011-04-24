@@ -49,7 +49,10 @@ namespace Monopoly
 
         public void ToggleRollsEnabled(bool isEnabled)
         {
-            roll_button.IsEnabled = isEnabled;
+            if (this.Dispatcher.CheckAccess())
+            {
+                roll_button.IsEnabled = isEnabled;
+            }
         }
 
         public void RollDice(int seed)
