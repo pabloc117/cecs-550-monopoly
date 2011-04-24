@@ -33,7 +33,6 @@ namespace Monopoly
         private UserPiece[] pieces;
         private Dictionary<int, Player> Players = new Dictionary<int,Player>();
         private Player localPlayer;
-
         private Engine engine;
 
         public MainWindow()
@@ -51,13 +50,40 @@ namespace Monopoly
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
 
-        void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
+        ///////////////
+        //Event Hooks//
+        ///////////////
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            ThreadStart s = new ThreadStart(SplashDelay);
+            Thread splash = new Thread(s);
+            splash.IsBackground = true;
+            splash.Start();
+        }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            mHandler.Stop();
+        }
+
+        private void MainWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.F1)
+            {
+                if (this.WindowState != System.Windows.WindowState.Normal)
+                    Restore();
+                else
+                    Maximize();
+            }
+        }
+        
+        private void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
             string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
             mHandler.QueueMessage(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
         }
 
-        void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
+        private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
@@ -73,7 +99,7 @@ namespace Monopoly
             }
         }
 
-        void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
+        private void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
         {
             string[] players = e.PlayerPacket.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in players)
@@ -81,13 +107,13 @@ namespace Monopoly
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
                 int playerID = Int32.Parse(playerString[0]);
                 Players.Add(playerID, new Player(Int32.Parse(playerString[0]), playerString[1]));
-                if (Players[playerID].PlayerEndPoint.CompareTo(comm.GetMyIpAddr()) == 0)
+                if (Players[playerID].PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
                     localPlayer = Players[playerID];
             }
             InitializePieces(Players.Count);
         }
 
-        void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
+        private void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
         {
             if (myChat != null)
             {
@@ -95,12 +121,131 @@ namespace Monopoly
             }
         }
 
-        void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
         {
-            ThreadStart s = new ThreadStart(SplashDelay);
-            Thread splash = new Thread(s);
-            splash.IsBackground = true;
-            splash.Start();
+            CompilePlayersPacket();
+            InitializePieces(Players.Count);
+            engine.StartGame(Players.Count);
+            comm.EndWaitConnect();
+        }
+
+        private void myMenu_HostGameClicked(object sender, HostGameClickEventArgs e)
+        {
+            comm.UserRole = Communicator.ROLE.SERVER;
+            comm.StartServer(23);
+            IPAddress ip = comm.GetMyIpAddr();
+            while (comm.localEndPoint == null) { }
+            Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
+            localPlayer = Players[0];
+            myMenu.DisableConnectionButtons();
+            MessageBox.Show(ip.ToString());
+        }
+
+        private void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void myMenu_JoinGameClicked(object sender, JoinGameClickEventArgs e)
+        {
+            comm.UserRole = Communicator.ROLE.CLIENT;
+            IPRequest ip = new IPRequest();
+            ip.Owner = this;
+            ip.IPAccept += new EventHandler<ConnectClickedEventArgs>(ip_IPAccept);
+            ip.ShowDialog();
+        }
+
+        private void Dice_RollEnded(object sender, RollEndedEventArgs e)
+        {
+            int d1 = e.DiceOneValue;
+            int d2 = e.DiceTwoValue;
+            //TODO This is where you handle the dice values.
+            myChat.NewMessage("System", "You rolled " + (d1 + d2) + ".");
+        }
+
+        private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
+        {
+            comm.StartClient(e.IP, 23);
+            myMenu.DisableConnectionButtons();
+            myMenu.DisableStartGameButton();
+        }
+
+        private void myBoard_GameBuilt(object sender, GameBoardBuiltEventArgs e)
+        {
+            if (Dispatcher.CheckAccess())
+            {
+                Loading.Visibility = Visibility.Hidden;
+            }
+            else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
+        }
+
+        private void comm_DataRecieved(object sender, DataReceivedEventArgs e)
+        {
+            mHandler.QueueMessage(e.DataReceived);
+        }
+
+        private void comm_ConnectionStatusChanged(object sender, ConnectionStatusChangedEventArgs e)
+        {
+            Console.Write("Connected = " + e.Connected);
+            if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
+            {
+                Players.Add(Players.Count, new Player(Players.Count, e.RemoteEndPoint.ToString()));
+            }
+        }
+
+        private void Chat_NewOutgoingMessage(object sender, NewOutgoingMessageEventArgs e)
+        {
+            string localName = "RemoteUser";
+            string str = String.Concat(localName, Message.DELIMETER, e.Message);
+            byte[] msg = Encoding.UTF8.GetBytes(str);
+            comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
+        }
+
+
+        ///////////
+        //Methods//
+        ///////////
+        public void InitialPlacement(ref UserPiece u)
+        {
+            foreach (var tp in myBoard.myBoard.Children)
+            {
+                if (tp as Property != null && ((Property)tp).PropertyListing.Location == 0)
+                {
+                    ((Property)tp).Spots.Children.Add(u = new UserPiece());
+                    u.CurrentLocation = 0;
+                }
+            }
+        }
+
+        public void Move(UserPiece up, int value)
+        {
+            ParameterizedThreadStart start = new ParameterizedThreadStart(MoveWork);
+            Thread moveThread = new Thread(start);
+            moveThread.IsBackground = true;
+            moveThread.Name = "MoveThread";
+            moveThread.Start(new object[] { up, value } as object);
+        }
+
+        public void Jump(UserPiece up, int current, int destination)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                Property cur = null;
+                Property des = null;
+                foreach (var tp in myBoard.myBoard.Children)
+                {
+                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == current)
+                        cur = ((Property)tp);
+                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == destination)
+                        des = ((Property)tp);
+                }
+                if (cur == null || des == null)
+                    return;
+                up.CurrentLocation = destination;
+                cur.Spots.Children.Remove(up);
+                des.Spots.Children.Add(up);
+            }
+            else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
         }
 
         private void SplashDelay()
@@ -155,43 +300,6 @@ namespace Monopoly
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
         }
 
-        void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
-        {
-            CompilePlayersPacket();
-            InitializePieces(Players.Count);
-            engine.StartGame(Players.Count);
-            comm.EndWaitConnect();
-        }
-
-        void Dice_RollEnded(object sender, RollEndedEventArgs e)
-        {
-            int d1 = e.DiceOneValue;
-            int d2 = e.DiceTwoValue;
-            //TODO This is where you handle the dice values.
-            myChat.NewMessage("System", "You rolled " + (d1 +  d2) + ".");
-        }
-
-        public void InitialPlacement(ref UserPiece u)
-        {
-            foreach (var tp in myBoard.myBoard.Children)
-            {
-                if (tp as Property != null && ((Property)tp).PropertyListing.Location == 0)
-                {
-                    ((Property)tp).Spots.Children.Add(u = new UserPiece());
-                    u.CurrentLocation = 0;
-                }
-            }
-        }
-
-        public void Move(UserPiece up, int value)
-        {
-            ParameterizedThreadStart start = new ParameterizedThreadStart(MoveWork);
-            Thread moveThread = new Thread(start);
-            moveThread.IsBackground = true;
-            moveThread.Name = "MoveThread";
-            moveThread.Start(new object[] { up, value } as object);
-        }
-
         private void MoveWork(object param)
         {
             object[] parameters = param as object[];
@@ -232,69 +340,6 @@ namespace Monopoly
             }
         }
 
-        public void Jump(UserPiece up, int current, int destination)
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                Property cur = null;
-                Property des = null;
-                foreach (var tp in myBoard.myBoard.Children)
-                {
-                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == current)
-                        cur = ((Property)tp);
-                    if (tp as Property != null && ((Property)tp).PropertyListing.Location == destination)
-                        des = ((Property)tp);
-                }
-                if (cur == null || des == null)
-                    return;
-                up.CurrentLocation = destination;
-                cur.Spots.Children.Remove(up);
-                des.Spots.Children.Add(up);
-            }
-            else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
-        }
-
-        void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
-        {
-            this.Close();
-        }
-
-        void myMenu_JoinGameClicked(object sender, JoinGameClickEventArgs e)
-        {
-            comm.UserRole = Communicator.ROLE.CLIENT;
-            IPRequest ip = new IPRequest();
-            ip.Owner = this;
-            ip.IPAccept += new EventHandler<ConnectClickedEventArgs>(ip_IPAccept);
-            ip.ShowDialog();
-        }
-
-        void ip_IPAccept(object sender, ConnectClickedEventArgs e)
-        {
-            comm.StartClient(e.IP, 23);
-            myMenu.DisableConnectionButtons();
-            myMenu.DisableStartGameButton();
-        }
-
-        void myMenu_HostGameClicked(object sender, HostGameClickEventArgs e)
-        {
-            comm.UserRole = Communicator.ROLE.SERVER;
-            comm.StartServer(23);
-            IPAddress ip = comm.GetMyIpAddr();
-            while (comm.localEndPoint == null) { }
-            Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
-            myMenu.DisableConnectionButtons();
-            MessageBox.Show(ip.ToString());
-        }
-
-        void myBoard_GameBuilt(object sender, GameBoardBuiltEventArgs e)
-        {
-            if (Dispatcher.CheckAccess())
-            {
-                Loading.Visibility = Visibility.Hidden;
-            }
-            else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
-        }
-
         private void InitializePieces(int num)
         {
             if (this.Dispatcher.CheckAccess())
@@ -333,25 +378,6 @@ namespace Monopoly
             else this.Dispatcher.BeginInvoke(new Action<int>(InitializePieces), new object[] { num });
         }
 
-        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            mHandler.Stop();
-        }
-
-        void comm_DataRecieved(object sender, DataReceivedEventArgs e)
-        {
-            mHandler.QueueMessage(e.DataReceived);
-        }
-
-        void comm_ConnectionStatusChanged(object sender, ConnectionStatusChangedEventArgs e)
-        {
-            Console.Write("Connected = " + e.Connected);
-            if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
-            {
-                Players.Add(Players.Count, new Player(Players.Count, e.RemoteEndPoint.ToString()));
-            }
-        }
-
         private void CompilePlayersPacket()
         {
             StringBuilder packet = new StringBuilder();
@@ -368,25 +394,6 @@ namespace Monopoly
             myBoard.Dice.ToggleRollsEnabled(isEnabled);
         }
 
-        void Chat_NewOutgoingMessage(object sender, NewOutgoingMessageEventArgs e)
-        {
-            string localName = "RemoteUser";
-            string str = String.Concat(localName, Message.DELIMETER, e.Message);
-            byte[] msg = Encoding.UTF8.GetBytes(str);
-            comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
-        }
-
-        private void Window_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.F1)
-            {
-                if (this.WindowState != System.Windows.WindowState.Normal)
-                    Restore();
-                else
-                    Maximize();   
-            }
-        }
-        
         private void Maximize()
         {
             if (this.Dispatcher.CheckAccess())
