@@ -53,6 +53,7 @@ namespace Monopoly
             {
                 roll_button.IsEnabled = isEnabled;
             }
+            else this.Dispatcher.BeginInvoke(new Action<bool>(ToggleRollsEnabled), new object[] { isEnabled });
         }
 
         public void RollDice(int seed)
