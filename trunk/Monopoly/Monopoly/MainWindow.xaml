@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Monopoly.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:mn="clr-namespace:Monopoly" KeyUp="Window_KeyUp" x:Name="me" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        xmlns:mn="clr-namespace:Monopoly" KeyUp="MainWindow_KeyUp" x:Name="me" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         Title="MainWindow" MinHeight="615" MinWidth="900" Height="615" Width="900">
     <Grid Name="myMainGrid">
         <Grid Name="myGrid" Margin="5,20,5,5">
