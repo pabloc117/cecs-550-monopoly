@@ -69,11 +69,28 @@ namespace Monopoly
             RollEnded(this, e);
         }
 
+        public event EventHandler<RollStartedEventArgs> RollStarted;
+        protected void OnRollStarted(RollStartedEventArgs e)
+        {
+            RollStarted(this, e);
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            RollDice((int)DateTime.Now.Ticks);
+            int seed = (int)DateTime.Now.Ticks;
+            OnRollStarted(new RollStartedEventArgs(seed));
+            RollDice(seed);
         }
     }
+    public class RollStartedEventArgs : EventArgs
+    {
+        public int Seed = 0;
+        public RollStartedEventArgs(int seed)
+        {
+            Seed = seed;
+        }
+    }
+
     public class RollEndedEventArgs : EventArgs
     {
         public int DiceOneValue = 0;
