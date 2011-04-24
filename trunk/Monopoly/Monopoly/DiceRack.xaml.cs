@@ -41,7 +41,6 @@ namespace Monopoly
                 if (oneDone && twoDone && rolling)
                 {
                     rolling = false;
-                    roll_button.IsEnabled = true;
                     OnRollEnded(new RollEndedEventArgs(d1.Value, d2.Value));
                 }
             }
