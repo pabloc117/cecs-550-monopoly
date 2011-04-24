@@ -44,7 +44,7 @@ namespace Monopoly
                 {
                     Message msg = messages.First();
                     string[] attr;
-                    string data = Encoding.UTF8.GetString(msg.Data);
+                    string data = msg.Data == null ? "" : Encoding.UTF8.GetString(msg.Data);
                     switch (msg.MessageType)
                     {
                         case Message.Type.Chat:
