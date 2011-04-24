@@ -43,26 +43,28 @@ namespace Monopoly
                 if (messages.Count > 0)
                 {
                     Message msg = messages.First();
+                    string[] attr;
+                    string data = Encoding.UTF8.GetString(msg.Data);
                     switch (msg.MessageType)
                     {
                         case Message.Type.Chat:
-                            string data = Encoding.UTF8.GetString(msg.Data);
-                            string[] attr = data.Split(new String[]{Message.DELIMETER}, StringSplitOptions.None);
+                            attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
                             OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
                             break;
-                        case Message.Type.Move:
+                        case Message.Type.Roll:
+                            attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                            OnRollMessage(new RollMessageEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
                             break;
                         case Message.Type.Trade:
                             break;
                         case Message.Type.Unknown:
                             break;
                         case Message.Type.IdInit:
-                            OnPlayerInitMessage(new PlayerInitPacketEventArgs(Encoding.UTF8.GetString(msg.Data)));
+                            OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
                             break;
                         case Message.Type.Turn:
                             //TODO Add this
-                            string turnMsg = Encoding.UTF8.GetString(msg.Data);
-                            string[] pTurn = turnMsg.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                            string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
                             OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
                             break;
                         default:
@@ -96,6 +98,11 @@ namespace Monopoly
         private void OnPlayerInitMessage(PlayerInitPacketEventArgs e)
         {
             PlayerInitMessage(this, e);
+        }
+        public event EventHandler<RollMessageEventArgs> RollMessage;
+        private void OnRollMessage(RollMessageEventArgs e)
+        {
+            RollMessage(this, e);
         }
         
         public event EventHandler<PlayerTurnEventArgs> PlayerTurnMessage;
@@ -132,6 +139,16 @@ namespace Monopoly
             this.Message = message;
         }
     }
+    public class RollMessageEventArgs : EventArgs
+    {
+        public int Seed = 0;
+        public int PlayerID = 0;
+        public RollMessageEventArgs(int playerID, int seed)
+        {
+            this.PlayerID = playerID;
+            this.Seed = seed;
+        }
+    }
 
     public class Message
     {
@@ -142,7 +159,7 @@ namespace Monopoly
             Unknown = -1,
             Chat = 0,
             Trade = 1,
-            Move = 2,
+            Roll = 2,
             IdInit = 3,
             Turn = 4
         }
@@ -155,8 +172,8 @@ namespace Monopoly
             {
                 case (int)Type.Chat:
                     return Type.Chat;
-                case (int)Type.Move:
-                    return Type.Move;
+                case (int)Type.Roll:
+                    return Type.Roll;
                 case (int)Type.Trade:
                     return Type.Trade;
                 case (int)Type.IdInit:

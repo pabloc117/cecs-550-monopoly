@@ -34,6 +34,7 @@ namespace Monopoly
         private Dictionary<int, Player> Players = new Dictionary<int,Player>();
         private Player localPlayer;
         private Engine engine;
+        private int currentTurnPlayerID = 0;
 
         public MainWindow()
         {
@@ -81,6 +82,12 @@ namespace Monopoly
         {
             string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
             mHandler.QueueMessage(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
+            if (localPlayer == null)
+                throw new NullReferenceException("Player was null.");
+            if (localPlayer.PlayerId == e.EndTurnId)
+                ToggleTurnItems(false);
+            else if (localPlayer.PlayerId == e.StartTurnId)
+                ToggleTurnItems(true);
         }
 
         private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
@@ -88,15 +95,9 @@ namespace Monopoly
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
             if (localPlayer.PlayerId == e.EndTurnId)
-            {
-                //Disable everything
                 ToggleTurnItems(false);
-            }
             else if (localPlayer.PlayerId == e.StartTurnId)
-            {
-                //Enable everything and start your turn
                 ToggleTurnItems(true);
-            }
         }
 
         private void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
@@ -119,6 +120,12 @@ namespace Monopoly
             {
                 myChat.NewMessage(e.Sender, e.Message);
             }
+        }
+
+        private void mHandler_OnRollMessage(object sender, RollMessageEventArgs e)
+        {
+            currentTurnPlayerID = e.PlayerID;
+            myBoard.Dice.RollDice(e.Seed);
         }
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
@@ -155,12 +162,22 @@ namespace Monopoly
             ip.ShowDialog();
         }
 
+        private void Dice_RollStarted(object sender, RollStartedEventArgs e)
+        {
+            string msg = localPlayer.PlayerId + Message.DELIMETER + e.Seed;
+            comm.Send(new Message(Message.Type.Roll, Encoding.UTF8.GetBytes(msg)).ToBytes());
+        }
+
         private void Dice_RollEnded(object sender, RollEndedEventArgs e)
         {
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "You rolled " + (d1 + d2) + ".");
+            if (comm.UserRole == Communicator.ROLE.SERVER)
+                Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
+            else
+                Move(pieces[currentTurnPlayerID], (d1 + d2));
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
@@ -293,8 +310,10 @@ namespace Monopoly
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
+                myBoard.Dice.RollStarted += new EventHandler<RollStartedEventArgs>(Dice_RollStarted);
                 engine = new Engine();
                 engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
+                ToggleTurnItems(false);
                 
             }
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
