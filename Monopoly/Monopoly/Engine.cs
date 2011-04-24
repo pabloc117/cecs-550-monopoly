@@ -22,8 +22,9 @@ namespace Monopoly
             Thread workThread = new Thread(workStart);
             workThread.Name = "EngineWorkThread";
             workThread.IsBackground = true;
-
             this.maxPlayerIndex = numPlayers - 1;
+
+            workThread.Start();
         }
 
         private void Work()
