@@ -46,6 +46,7 @@ namespace Monopoly
             mHandler.NewIncomingMessage += new EventHandler<NewIncomingMessageEventArgs>(mHandler_NewIncomingMessage);
             mHandler.PlayerInitMessage += new EventHandler<PlayerInitPacketEventArgs>(mHandler_PlayerInitMessage);
             mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
+            mHandler.RollMessage += new EventHandler<RollMessageEventArgs>(mHandler_RollMessage);
             mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
@@ -122,7 +123,7 @@ namespace Monopoly
             }
         }
 
-        private void mHandler_OnRollMessage(object sender, RollMessageEventArgs e)
+        private void mHandler_RollMessage(object sender, RollMessageEventArgs e)
         {
             currentTurnPlayerID = e.PlayerID;
             myBoard.Dice.RollDice(e.Seed);
