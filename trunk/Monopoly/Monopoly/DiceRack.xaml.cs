@@ -58,13 +58,17 @@ namespace Monopoly
 
         public void RollDice(int seed)
         {
-            oneDone = false;
-            twoDone = false;
-            rolling = true;
-            roll_button.IsEnabled = false;
-            Random rand = new Random(seed);
-            d1.Roll(rand.Next(0, 6));
-            d2.Roll(rand.Next(0, 6));
+            if (this.Dispatcher.CheckAccess())
+            {
+                oneDone = false;
+                twoDone = false;
+                rolling = true;
+                roll_button.IsEnabled = false;
+                Random rand = new Random(seed);
+                d1.Roll(rand.Next(0, 6));
+                d2.Roll(rand.Next(0, 6));
+            }
+            else this.Dispatcher.BeginInvoke(new Action<int>(RollDice), new object[] { seed });
         }
         
         public event EventHandler<RollEndedEventArgs> RollEnded;
