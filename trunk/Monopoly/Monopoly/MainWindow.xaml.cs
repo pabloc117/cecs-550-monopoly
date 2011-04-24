@@ -32,6 +32,7 @@ namespace Monopoly
         private MenuFader myMenu;
         private UserPiece[] pieces;
         private Dictionary<int, Player> Players = new Dictionary<int,Player>();
+        private Player localPlayer;
 
         private Engine engine;
 
@@ -58,16 +59,14 @@ namespace Monopoly
 
         void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
-            //TODO Should we get our local player when we initialize our board so we dont have to do this loop each and everytime?
-            Player p = GetLocalUser();
-            if (p == null)
+            if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
-            if (p.PlayerId == e.EndTurnId)
+            if (localPlayer.PlayerId == e.EndTurnId)
             {
                 //Disable everything
                 ToggleTurnItems(false);
             }
-            else if (p.PlayerId == e.StartTurnId)
+            else if (localPlayer.PlayerId == e.StartTurnId)
             {
                 //Enable everything and start your turn
                 ToggleTurnItems(true);
@@ -80,7 +79,10 @@ namespace Monopoly
             foreach (string s in players)
             {
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
-                Players.Add(Int32.Parse(playerString[0]), new Player(Int32.Parse(playerString[0]), playerString[1]));
+                int playerID = Int32.Parse(playerString[0]);
+                Players.Add(playerID, new Player(Int32.Parse(playerString[0]), playerString[1]));
+                if (Players[playerID].PlayerEndPoint.CompareTo(comm.GetMyIpAddr()) == 0)
+                    localPlayer = Players[playerID];
             }
             InitializePieces(Players.Count);
         }
@@ -250,23 +252,6 @@ namespace Monopoly
                 des.Spots.Children.Add(up);
             }
             else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
-        }
-
-        /// <summary>
-        /// Finds the Player object representing the local user
-        /// in the Players dictionary.
-        /// </summary>
-        /// <returns>The local player class</returns>
-        private Player GetLocalUser()
-        {
-            foreach (Player p in Players.Values)
-            {
-                if (p.PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
-                { //This means the selected player 'p' is the local user.
-                    return p;
-                }
-            }
-            return null;
         }
 
         void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
