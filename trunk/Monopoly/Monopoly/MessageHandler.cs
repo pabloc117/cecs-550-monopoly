@@ -15,68 +15,40 @@ namespace Monopoly
         {
         }
 
-        public void Start()
+        private void HandleMessage(object omsg)
         {
-            if (messageThread == null)
+            Message msg = omsg as Message;
+            if (msg == null)
+                return;
+            string[] attr;
+            string data = msg.Data == null ? "" : Encoding.UTF8.GetString(msg.Data);
+            switch (msg.MessageType)
             {
-                ThreadStart start = new ThreadStart(HandleMessages);
-                messageThread = new Thread(start);
-                messageThread.IsBackground = true;
-                messageThread.Name = "Message Thread";
-                messageThread.Start();
-            }
-        }
-
-        public void Stop()
-        {
-            if (messageThread != null)
-            {
-                messageThread.Interrupt();
-                messageThread = null;
-            }
-        }
-
-        private void HandleMessages()
-        { 
-            while(true)
-            {
-                if (messages.Count > 0)
-                {
-                    Message msg = messages.First();
-                    string[] attr;
-                    string data = msg.Data == null ? "" : Encoding.UTF8.GetString(msg.Data);
-                    switch (msg.MessageType)
-                    {
-                        case Message.Type.Chat:
-                            attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
-                            OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
-                            break;
-                        case Message.Type.Roll:
-                            attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
-                            OnRollMessage(new RollMessageEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
-                            break;
-                        case Message.Type.Trade:
-                            break;
-                        case Message.Type.Unknown:
-                            break;
-                        case Message.Type.IdInit:
-                            OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
-                            break;
-                        case Message.Type.Turn:
-                            //TODO Add this
-                            string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
-                            OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
-                            break;
-                        case Message.Type.EndTurn:
-                            OnEndTurnMessage(new EndTurnMessageEventArgs());
-                            break;
-                        default:
-                            break;
-                    }
-                    messages.Remove(msg);
-                }
-                else
-                { }
+                case Message.Type.Chat:
+                    attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                    OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
+                    break;
+                case Message.Type.Roll:
+                    attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                    OnRollMessage(new RollMessageEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
+                    break;
+                case Message.Type.Trade:
+                    break;
+                case Message.Type.Unknown:
+                    break;
+                case Message.Type.IdInit:
+                    OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
+                    break;
+                case Message.Type.Turn:
+                    //TODO Add this
+                    string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                    OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
+                    break;
+                case Message.Type.EndTurn:
+                    OnEndTurnMessage(new EndTurnMessageEventArgs());
+                    break;
+                default:
+                    break;
             }
         }
 
@@ -89,7 +61,11 @@ namespace Monopoly
                 data = new byte[msg.Length - 1];
                 Array.Copy(msg, 1, data, 0, data.Length);
             }
-            messages.Add(new Message(Message.GetType(type), data));
+            ParameterizedThreadStart start = new ParameterizedThreadStart(HandleMessage);
+            Thread messageThread = new Thread(start);
+            messageThread.IsBackground = true;
+            messageThread.Name = "Message Thread";
+            messageThread.Start(new Message(Message.GetType(type), data));
         }
 
         /// <summary>
