@@ -18,6 +18,7 @@ namespace Monopoly
 
         public void StartGame(int numPlayers)
         {
+            maxPlayerIndex = numPlayers - 1;
             OnPlayerTurn(new PlayerTurnEventArgs(-1, currentPlayerIndex));
         }
 
