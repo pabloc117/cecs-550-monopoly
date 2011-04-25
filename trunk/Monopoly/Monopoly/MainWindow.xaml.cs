@@ -112,7 +112,7 @@ namespace Monopoly
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
                 string endpointID = playerString[1];
                 Players.Add(playerString[1], new Player(Int32.Parse(playerString[0]), playerString[1]));
-                if (Players[endpointID].PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
+                if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
                     localPlayer = Players[endpointID];
             }
             InitializePieces(Players.Count);
@@ -149,9 +149,8 @@ namespace Monopoly
             comm.UserRole = Communicator.ROLE.SERVER;
             comm.StartServer(23);
             IPAddress ip = comm.GetMyIpAddr();
-            while (comm.localEndPoint == null) { }
-            Players.Add(comm.localEndPoint.ToString(), new Player(0, comm.localEndPoint.ToString()));
-            localPlayer = Players[comm.localEndPoint.ToString()];
+            Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
+            localPlayer = Players[comm._ComputerID.ToString("N")];
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
@@ -224,8 +223,8 @@ namespace Monopoly
             Console.Write("Connected = " + e.Connected);
             if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
             {
-                Players.Add(e.RemoteEndPoint.ToString(), new Player(Players.Count, e.RemoteEndPoint.ToString()));
-                myChat.NewMessage("System", "Player " + Players[e.RemoteEndPoint.ToString()].PlayerId + (e.Connected ? " has connected." : " has disconnected"));
+                Players.Add(e.RemoteGUID.ToString(), new Player(Players.Count, e.RemoteGUID.ToString()));
+                myChat.NewMessage("System", "Player " + Players[e.RemoteGUID.ToString()].PlayerId + (e.Connected ? " has connected." : " has disconnected"));
             }
             else
             {
@@ -430,7 +429,7 @@ namespace Monopoly
             StringBuilder packet = new StringBuilder();
             foreach (Player p in Players.Values)
             {
-                packet.Append(p.PlayerId + "=" + p.PlayerEndPoint.ToString() + ";");
+                packet.Append(p.PlayerId + "=" + p.PlayerGUID.ToString() + ";");
             }
             byte[] msg = Encoding.UTF8.GetBytes(packet.ToString());
             comm.Send((new Message(Message.Type.IdInit, msg)).ToBytes());

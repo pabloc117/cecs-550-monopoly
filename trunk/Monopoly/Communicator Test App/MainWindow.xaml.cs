@@ -34,7 +34,7 @@ namespace Communicator_Test_App
         {
             if (e.Connected)
             {
-                UpdateStatus("Connection Size = Connected!" + e.RemoteEndPoint.ToString());
+                UpdateStatus("Connection Size = Connected!" + e.RemoteGUID.ToString());
             }
             else
             {

@@ -6,11 +6,11 @@ namespace Networking
     public class ConnectionStatusChangedEventArgs : EventArgs
     {
         public readonly bool Connected;
-        public readonly EndPoint RemoteEndPoint;
-        public ConnectionStatusChangedEventArgs(bool Connected, EndPoint RemoteEndPoint)
+        public readonly Guid RemoteGUID;
+        public ConnectionStatusChangedEventArgs(bool Connected, Guid RemoteGUID)
         {
             this.Connected = Connected;
-            this.RemoteEndPoint = RemoteEndPoint;
+            this.RemoteGUID = RemoteGUID;
         }
     }
 

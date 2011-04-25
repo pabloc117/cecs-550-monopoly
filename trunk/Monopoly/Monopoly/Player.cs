@@ -8,13 +8,13 @@ namespace Monopoly
         public int PlayerId;
         public int Money;
         public Dictionary<int, PropertyListing> Properties;
-        public String PlayerEndPoint;
+        public String PlayerGUID;
         List<int> money = new List<int>();
 
-        public Player(int PlayerId, string PlayerEndPoint)
+        public Player(int PlayerId, string PlayerGUID)
         {
             this.PlayerId = PlayerId;
-            this.PlayerEndPoint = PlayerEndPoint;
+            this.PlayerGUID = PlayerGUID;
             this.Money = 1500;
         }
         public Player()
