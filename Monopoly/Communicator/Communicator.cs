@@ -15,14 +15,13 @@ namespace Networking
     {
         private static Communicator instance = null;
         private static readonly object padlock = new object();
-        private readonly Guid _ComputerID = Guid.NewGuid(); //Guid to represent our computer.  Used to differentiate between endpoints.
+        public readonly Guid _ComputerID = Guid.NewGuid(); //Guid to represent our computer.  Used to differentiate between endpoints.
         private ROLE _UserRole = ROLE.UNKNOWN;
         private TcpListener myList;                         //used for server communication
         private TcpClient tcpclnt;                          //used for client communication
         private bool _IsConnected = false;
         private int _NumberClients = 2;
         private Dictionary<Guid, Socket> _ConnectionDict = new Dictionary<Guid, Socket>(); //Use this to store all of the connections we have.
-        public EndPoint localEndPoint;
 
         public enum ROLE
         {
@@ -104,7 +103,6 @@ namespace Networking
             }
             Socket s = tcpclnt.Client;
             onConnect(s);
-            OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
         }
 
         /// <summary>
@@ -181,7 +179,8 @@ namespace Networking
         public void StartServer(int portNumber)
         {
             CheckPort(portNumber);
-            myList = new TcpListener(GetMyIpAddr(), portNumber);
+            myList = new TcpListener(portNumber); //GetMyIpAddr(), portNumber);
+            
             ThreadStart ts = new ThreadStart(StartServerWork);
             ServerThread = new Thread(ts);
             ServerThread.IsBackground = true;
@@ -208,12 +207,10 @@ namespace Networking
             for (int i = 0; i < _NumberClients; i++)
             {
                 myList.Start();
-                localEndPoint = myList.LocalEndpoint;
                 while (!myList.Pending()) { };
                 Socket s = myList.AcceptSocket();
                 if (s.Connected)
                     onConnect(s);
-                OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
             }
         }
 
@@ -257,7 +254,7 @@ namespace Networking
                 }
                 catch (Exception)
                 {
-                    OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
+                    //OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(s.Connected, s.RemoteEndPoint));
                     break;
                 }
             }
@@ -265,7 +262,6 @@ namespace Networking
 
         private void SendHandshake(Socket socket)
         {
-            localEndPoint = socket.LocalEndPoint;
             Packet handshake = new Packet(Packet.PACKET_FLAG.SYSTEM_READ, this._ComputerID, new byte[] { 0 });
             socket.Send(handshake.ToBytes());
         }
@@ -276,6 +272,7 @@ namespace Networking
             {
                 case 0:     //Add the passed Guid and Socket to the Dict.
                     _ConnectionDict.Add(receivedPacket.SenderGuid, dataSocket);
+                    OnConnectionStatusChanged(new ConnectionStatusChangedEventArgs(true, receivedPacket.SenderGuid));
                     break;
                 default:
                     throw new NotImplementedException("Parsed packet value is not yet implemented");
