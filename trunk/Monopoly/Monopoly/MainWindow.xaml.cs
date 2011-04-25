@@ -31,7 +31,7 @@ namespace Monopoly
         private ChatComponent myChat;
         private MenuFader myMenu;
         private UserPiece[] pieces;
-        private Dictionary<int, Player> Players = new Dictionary<int,Player>();
+        private Dictionary<string, Player> Players = new Dictionary<string,Player>();
         private Player localPlayer;
         private Engine engine;
         private int currentTurnPlayerID = 0;
@@ -110,10 +110,10 @@ namespace Monopoly
             foreach (string s in players)
             {
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
-                int playerID = Int32.Parse(playerString[0]);
-                Players.Add(playerID, new Player(Int32.Parse(playerString[0]), playerString[1]));
-                if (Players[playerID].PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
-                    localPlayer = Players[playerID];
+                string endpointID = playerString[1];
+                Players.Add(playerString[1], new Player(Int32.Parse(playerString[0]), playerString[1]));
+                if (Players[endpointID].PlayerEndPoint.CompareTo(comm.localEndPoint.ToString()) == 0)
+                    localPlayer = Players[endpointID];
             }
             InitializePieces(Players.Count);
         }
@@ -150,8 +150,8 @@ namespace Monopoly
             comm.StartServer(23);
             IPAddress ip = comm.GetMyIpAddr();
             while (comm.localEndPoint == null) { }
-            Players.Add(0, new Player(0, comm.localEndPoint.ToString()));
-            localPlayer = Players[0];
+            Players.Add(comm.localEndPoint.ToString(), new Player(0, comm.localEndPoint.ToString()));
+            localPlayer = Players[comm.localEndPoint.ToString()];
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
@@ -181,7 +181,8 @@ namespace Monopoly
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
-            myChat.NewMessage("System", "You rolled " + (d1 + d2) + ".");
+            myChat.NewMessage("System", "Player " + (comm.UserRole == Communicator.ROLE.SERVER ? (engine.CurrentPlayerIndex + 1) : (currentTurnPlayerID + 1)) 
+                + " Rolled a " + (d1 + d2) + ".");
             if (comm.UserRole == Communicator.ROLE.SERVER)
                 Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
             else
@@ -223,7 +224,12 @@ namespace Monopoly
             Console.Write("Connected = " + e.Connected);
             if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
             {
-                Players.Add(Players.Count, new Player(Players.Count, e.RemoteEndPoint.ToString()));
+                Players.Add(e.RemoteEndPoint.ToString(), new Player(Players.Count, e.RemoteEndPoint.ToString()));
+                myChat.NewMessage("System", "Player " + Players[e.RemoteEndPoint.ToString()].PlayerId + (e.Connected ? " has connected." : " has disconnected"));
+            }
+            else
+            {
+                myChat.NewMessage("System", "You have " + (e.Connected ? " connected." : " been disconnected"));
             }
         }
 
