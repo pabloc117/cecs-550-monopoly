@@ -15,7 +15,7 @@
             <RowDefinition Height="35*" />
             <RowDefinition Height="65*" />
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Content="End Turn" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="3" Click="Button_Click_1"/>
+        <Button Grid.Row="0" Content="End Turn" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="3" Click="Button_Click_1" Name="EndTurnButton"/>
         <Button Grid.Column="2" Grid.Row="1" Width="{Binding ElementName=roll_button, Path=Height}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3" 
                 Name="roll_button" Click="Button_Click">
             <Image Source="Resources/dice_icon.png" />

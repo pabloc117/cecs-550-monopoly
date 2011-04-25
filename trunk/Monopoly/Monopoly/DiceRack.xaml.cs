@@ -56,6 +56,15 @@ namespace Monopoly
             else this.Dispatcher.BeginInvoke(new Action<bool>(ToggleRollsEnabled), new object[] { isEnabled });
         }
 
+        public void ToggleEndTurnEnabled(bool isEnabled)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                EndTurnButton.IsEnabled = isEnabled;
+            }
+            else this.Dispatcher.BeginInvoke(new Action<bool>(ToggleEndTurnEnabled), new object[] { isEnabled });
+        }
+
         public void RollDice(int seed)
         {
             if (this.Dispatcher.CheckAccess())
