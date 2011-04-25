@@ -12,6 +12,7 @@ namespace Monopoly
 {
 	public static class ThemeParser
 	{
+        # region Board variables
 		public static string ELEM_BACKGROUND = "Background";
 		public static string ELEM_BOARD = "Board";
 		public static string ELEM_GROUP1 = "Group1";
@@ -32,7 +33,35 @@ namespace Monopoly
         public static string ATTR_IS_CORNER = "IsCorner";
         public static string ATTR_IMAGE_LOCATION = "ImageLocation";
 		private static string listingPath = Directory.GetCurrentDirectory() + "\\Resources\\theme.xml";
+        #endregion
 
+        #region GameCards variables
+        public static string ELEM_CARD = "Card";
+        public static string ATTR_TYPE = "Type";
+        public static string ATTR_JUMP = "Jump";
+        public static string ATTR_MOVE = "Move";
+        public static string ATTR_COLLECT = "Collect";
+        public static string ATTR_PAY = "Pay";
+        public static string ATTR_PAYTO = "PayTo";
+        public static string ATTR_NUM = "num";
+        public static string ATTR_COLLECTFROM = "CollectFrom";
+        public static string ATTR_TEXT = "Text";
+        #endregion
+
+        #region PropertyCards variables
+        public static string ATTR_RENT = "Rent";
+        public static string ATTR_HOUSE1 = "House1";
+        public static string ATTR_HOUSE2 = "House2";
+        public static string ATTR_HOUSE3 = "House3";
+        public static string ATTR_HOUSE4 = "House4";
+        public static string ATTR_HOTEL = "Hotel";
+        public static string ATTR_MORTGAGE = "Mortgate";
+        public static string ATTR_GROUPCOLOR = "GroupColor";
+        public static string ATTR_ID = "ID";
+        public static string ATTR_TITLE = "Title";
+        #endregion
+
+        #region Board settings
         private static SolidColorBrush[] colorPalette = GetColors();
 
 		private static Color ParseRGB(string colors)
@@ -162,5 +191,48 @@ namespace Monopoly
         {
             return colorPalette[(int)color];
         }
-	}
+        #endregion
+
+        #region Game Card settings
+        public static Dictionary<int, GameCard> Getcard()
+        {
+            Dictionary<int, GameCard> gdictionary = new Dictionary<int, GameCard>();
+            if (File.Exists(listingPath))
+            {
+                Console.WriteLine("Accessing " + listingPath);
+                XmlTextReader reader = new XmlTextReader(listingPath);
+                int jump, move, collect, pay, id;
+                string payTo, collectFrom, text, type;
+
+                while (reader.Read())
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        if (reader.Name.Equals(ELEM_CARD))
+                        {
+                            id = Int32.Parse(reader.GetAttribute(ATTR_ID));
+                            jump = Int32.Parse(reader.GetAttribute(ATTR_JUMP));
+                            move = Int32.Parse(reader.GetAttribute(ATTR_MOVE));
+                            collect = Int32.Parse(reader.GetAttribute(ATTR_COLLECT));
+                            pay = Int32.Parse(reader.GetAttribute(ATTR_PAY));
+                            payTo = reader.GetAttribute(ATTR_PAYTO);
+                            collectFrom = reader.GetAttribute(ATTR_COLLECTFROM);
+                            text = reader.GetAttribute(ATTR_TEXT);
+                            type = reader.GetAttribute(ATTR_TYPE);
+
+                            gdictionary.Add(id, new GameCard(id, jump, move, collect, pay, payTo, collectFrom, text, type));
+
+                            Console.WriteLine(id + ": " + gdictionary[id].Text);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine(listingPath + " does not exist.");
+            }
+            return gdictionary;
+        }
+        #endregion
+    }
 }
