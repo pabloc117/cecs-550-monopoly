@@ -223,7 +223,7 @@ namespace Monopoly
             Console.Write("Connected = " + e.Connected);
             if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
             {
-                Players.Add(e.RemoteGUID.ToString(), new Player(Players.Count, e.RemoteGUID.ToString()));
+                Players.Add(e.RemoteGUID.ToString(), new Player(Players.Count, e.RemoteGUID.ToString("N")));
                 myChat.NewMessage("System", "Player " + Players[e.RemoteGUID.ToString()].PlayerId + (e.Connected ? " has connected." : " has disconnected"));
             }
             else
@@ -429,7 +429,7 @@ namespace Monopoly
             StringBuilder packet = new StringBuilder();
             foreach (Player p in Players.Values)
             {
-                packet.Append(p.PlayerId + "=" + p.PlayerGUID.ToString() + ";");
+                packet.Append(p.PlayerId + "=" + p.PlayerGUID + ";");
             }
             byte[] msg = Encoding.UTF8.GetBytes(packet.ToString());
             comm.Send((new Message(Message.Type.IdInit, msg)).ToBytes());
