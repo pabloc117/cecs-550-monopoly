@@ -11,11 +11,16 @@
             <ColumnDefinition Width="30*" />
             <ColumnDefinition Width="30*" />
         </Grid.ColumnDefinitions>
-        <Button Grid.Column="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3" 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="35*" />
+            <RowDefinition Height="65*" />
+        </Grid.RowDefinitions>
+        <Button Grid.Row="0" Content="End Turn" Grid.Column="2" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="3" Click="Button_Click_1"/>
+        <Button Grid.Column="2" Grid.Row="1" Width="{Binding ElementName=roll_button, Path=Height}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="3" 
                 Name="roll_button" Click="Button_Click">
             <Image Source="Resources/dice_icon.png" />
         </Button>
-        <mp:Dice x:Name="d1" Grid.Column="0" Margin="3" Tag="1"/>
-        <mp:Dice x:Name="d2" Grid.Column="1" Margin="3" Tag="2"/>
+        <mp:Dice x:Name="d1" Width="{Binding ElementName=d1, Path=Height}" Grid.Column="0" Grid.Row="1" Margin="3" Tag="1"/>
+        <mp:Dice x:Name="d2" Width="{Binding ElementName=d2, Path=height}" Grid.Column="1" Grid.Row="1" Margin="3" Tag="2"/>
     </Grid>
 </UserControl>
