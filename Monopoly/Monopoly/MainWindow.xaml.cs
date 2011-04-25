@@ -35,6 +35,7 @@ namespace Monopoly
         private Player localPlayer;
         private Engine engine;
         private int currentTurnPlayerID = 0;
+        private int tempTurnPlayerID = 0;
 
         public MainWindow()
         {
@@ -95,7 +96,7 @@ namespace Monopoly
 
         private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
-            currentTurnPlayerID = e.StartTurnId;
+            tempTurnPlayerID = e.StartTurnId;
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
             if (localPlayer.PlayerId == e.EndTurnId)
@@ -252,6 +253,7 @@ namespace Monopoly
 
         public void Move(UserPiece up, int value)
         {
+            currentTurnPlayerID = tempTurnPlayerID;
             ParameterizedThreadStart start = new ParameterizedThreadStart(MoveWork);
             Thread moveThread = new Thread(start);
             moveThread.IsBackground = true;
@@ -432,6 +434,7 @@ namespace Monopoly
         private void ToggleTurnItems(bool isEnabled)
         {
             myBoard.Dice.ToggleRollsEnabled(isEnabled);
+            myBoard.Dice.ToggleEndTurnEnabled(isEnabled);
         }
 
         private void Maximize()
