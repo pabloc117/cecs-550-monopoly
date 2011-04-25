@@ -18,34 +18,16 @@ namespace Monopoly
 
         public void StartGame(int numPlayers)
         {
-            ThreadStart workStart = new ThreadStart(Work);
-            Thread workThread = new Thread(workStart);
-            workThread.Name = "EngineWorkThread";
-            workThread.IsBackground = true;
-            this.maxPlayerIndex = numPlayers - 1;
-
-            workThread.Start();
-        }
-
-        private void Work()
-        {
             OnPlayerTurn(new PlayerTurnEventArgs(-1, currentPlayerIndex));
-            while (true)
-            {
-                waiting = true;
-                while (waiting)
-                { }
-                int previousPlayerIndex = currentPlayerIndex;
-                if (currentPlayerIndex == maxPlayerIndex)
-                    currentPlayerIndex = 0;
-                else currentPlayerIndex++;
-                OnPlayerTurn(new PlayerTurnEventArgs(previousPlayerIndex, currentPlayerIndex));
-            }
         }
 
         public void TurnEnded()
         {
-            waiting = false;
+            int previousPlayerIndex = currentPlayerIndex;
+            if (currentPlayerIndex == maxPlayerIndex)
+                currentPlayerIndex = 0;
+            else currentPlayerIndex++;
+            OnPlayerTurn(new PlayerTurnEventArgs(previousPlayerIndex, currentPlayerIndex));
         }
 
         public event EventHandler<PlayerTurnEventArgs> PlayerTurn;

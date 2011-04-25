@@ -49,7 +49,6 @@ namespace Monopoly
             mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
             mHandler.RollMessage += new EventHandler<RollMessageEventArgs>(mHandler_RollMessage);
             mHandler.EndTurnMessage += new EventHandler<EndTurnMessageEventArgs>(mHandler_EndTurnMessage);
-            mHandler.Start();
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
@@ -68,7 +67,7 @@ namespace Monopoly
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            mHandler.Stop();
+            //TODO Cleanup here
         }
 
         private void MainWindow_KeyUp(object sender, KeyEventArgs e)
@@ -195,6 +194,7 @@ namespace Monopoly
                 engine.TurnEnded();
             else
                 comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
+
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
