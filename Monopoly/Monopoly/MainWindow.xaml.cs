@@ -183,17 +183,17 @@ namespace Monopoly
             //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "You rolled " + (d1 + d2) + ".");
             if (comm.UserRole == Communicator.ROLE.SERVER)
-            {
                 Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
-                if (engine.CurrentPlayerIndex == 0)
-                    engine.TurnEnded();
-            }
             else
-            {
                 Move(pieces[currentTurnPlayerID], (d1 + d2));
-                if(currentTurnPlayerID == localPlayer.PlayerId)
-                    comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
-            }
+        }
+
+        void Dice_EndTurn(object sender, EndTurnEventArgs e)
+        {
+            if(comm.UserRole == Communicator.ROLE.SERVER)
+                engine.TurnEnded();
+            else
+                comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
@@ -331,6 +331,7 @@ namespace Monopoly
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
                 myBoard.Dice.RollStarted += new EventHandler<RollStartedEventArgs>(Dice_RollStarted);
+                myBoard.Dice.EndTurn += new EventHandler<EndTurnEventArgs>(Dice_EndTurn);
                 engine = new Engine();
                 engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
                 ToggleTurnItems(false);

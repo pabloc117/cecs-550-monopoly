@@ -89,7 +89,24 @@ namespace Monopoly
             OnRollStarted(new RollStartedEventArgs(seed));
             RollDice(seed);
         }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            OnEndTurn(new EndTurnEventArgs());
+        }
+        
+        public event EventHandler<EndTurnEventArgs> EndTurn;
+        public void OnEndTurn(EndTurnEventArgs e)
+        {
+            EndTurn(this, e);
+        }
     }
+    public class EndTurnEventArgs : EventArgs 
+    {
+        public EndTurnEventArgs()
+        { }
+    }
+
     public class RollStartedEventArgs : EventArgs
     {
         public int Seed = 0;
