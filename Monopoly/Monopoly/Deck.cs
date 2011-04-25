@@ -11,8 +11,8 @@ namespace Monopoly
     {
         ImplementCards imp_Cards = new ImplementCards();
 
-        List<int> chance = new List<int>(new int[16]);
-        List<int> communityChest = new List<int>(new int[16]);
+        List<int> chance = new List<int>();
+        List<int> communityChest = new List<int>();
 
         public void InitChance()
         {
@@ -20,28 +20,40 @@ namespace Monopoly
             {
                 chance.Add(i + 1);
             }
-            Shuffle(chance);
+            Shuffle(chance, 1);
         }
         public void InitCommunityChest()
         {
             for (int i = 0; i < communityChest.Count; i++)
             {
-                communityChest.Add(i + 1);
+                communityChest.Add(i + 21);
             }
-            Shuffle(communityChest);
+            Shuffle(communityChest, 2);
         }
-        private void Shuffle(List<int> cards)
+        private void Shuffle(List<int> cards, int type)
         {
             int temp = 0;
             int count = 0;
+            int min, max;
             Random r = new Random();
             List<int> tempCards = new List<int>();
+
+            if (type == 1)
+            {
+                min = 1;
+                max = 17;
+            }
+            else
+            {
+                min = 21;
+                max = 37;
+            }
 
             //loop while the deck of card is still less than 16
             for (int i = 0; i < cards.Count; i++)
             {
-                //generate a random number of 1 <= n < 17
-                temp = r.Next(1, 17);
+                //generate a random number of min <= n < max
+                temp = r.Next(min, max);
                 //if there is something in the deck, we need to check to make sure
                 //the random generated number isn't the same as the one in the deck
                 if (tempCards.Count > 0)
@@ -77,7 +89,6 @@ namespace Monopoly
         public void drawCard(int type)
         {
             int card = 0; //card 0 = Community Chest, 1 = Chance
-            string stype = "";
 
             //Gets a copy of the card
             //then add that to the bottom, and then remove it from top
@@ -86,16 +97,14 @@ namespace Monopoly
                 card = chance[0];
                 chance.Add(chance[0]);
                 chance.RemoveAt(0);
-                stype = "Chance";
             }
             else
             {
                 card = communityChest[0];
                 communityChest.Add(communityChest[0]);
                 communityChest.RemoveAt(0);
-                stype = "Community";
             }
-            imp_Cards.getCardInfo(stype, card);
+            imp_Cards.getCardInfo(card);
         }
     }
 }
