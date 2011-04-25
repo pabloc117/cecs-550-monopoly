@@ -35,7 +35,6 @@ namespace Monopoly
         private Player localPlayer;
         private Engine engine;
         private int currentTurnPlayerID = 0;
-        private int tempTurnPlayerID = 0;
 
         public MainWindow()
         {
@@ -84,6 +83,7 @@ namespace Monopoly
         private void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
             string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
+            currentTurnPlayerID = e.StartTurnId;
             comm.Send(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
@@ -95,7 +95,7 @@ namespace Monopoly
 
         private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
-            tempTurnPlayerID = e.StartTurnId;
+            currentTurnPlayerID = e.StartTurnId;
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
             if (localPlayer.PlayerId == e.EndTurnId)
@@ -186,15 +186,15 @@ namespace Monopoly
                 Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
             else
                 Move(pieces[currentTurnPlayerID], (d1 + d2));
+            if(currentTurnPlayerID == localPlayer.PlayerId)
+                if (comm.UserRole == Communicator.ROLE.SERVER)
+                    engine.TurnEnded();
+                else
+                    comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
         }
 
         void Dice_EndTurn(object sender, EndTurnEventArgs e)
         {
-            if(comm.UserRole == Communicator.ROLE.SERVER)
-                engine.TurnEnded();
-            else
-                comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
-
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
@@ -253,7 +253,6 @@ namespace Monopoly
 
         public void Move(UserPiece up, int value)
         {
-            currentTurnPlayerID = tempTurnPlayerID;
             ParameterizedThreadStart start = new ParameterizedThreadStart(MoveWork);
             Thread moveThread = new Thread(start);
             moveThread.IsBackground = true;
