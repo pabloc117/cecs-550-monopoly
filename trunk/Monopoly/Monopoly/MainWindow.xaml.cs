@@ -95,6 +95,7 @@ namespace Monopoly
 
         private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
         {
+            currentTurnPlayerID = e.StartTurnId;
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
             if (localPlayer.PlayerId == e.EndTurnId)
@@ -127,7 +128,6 @@ namespace Monopoly
 
         private void mHandler_RollMessage(object sender, RollMessageEventArgs e)
         {
-            currentTurnPlayerID = e.PlayerID;
             myBoard.Dice.RollDice(e.Seed);
         }
 
@@ -185,12 +185,14 @@ namespace Monopoly
             if (comm.UserRole == Communicator.ROLE.SERVER)
             {
                 Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
-                engine.TurnEnded();
+                if (engine.CurrentPlayerIndex == 0)
+                    engine.TurnEnded();
             }
             else
             {
                 Move(pieces[currentTurnPlayerID], (d1 + d2));
-                comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
+                if(currentTurnPlayerID == localPlayer.PlayerId)
+                    comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
             }
         }
 
@@ -274,7 +276,11 @@ namespace Monopoly
                     return;
                 up.CurrentLocation = destination;
                 cur.Spots.Children.Remove(up);
-                des.Spots.Children.Add(up);
+                try
+                {
+                    des.Spots.Children.Add(up);
+                }
+                catch (Exception) { }
             }
             else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
         }
