@@ -177,9 +177,10 @@ namespace Monopoly
 
         private void NewBuyMessage(int PropertyIndex, string UserGUID)
         {
-            myBoard.Listings[PropertyIndex].Owner = Players[UserGUID].PlayerGUID;
+            myBoard.Listings[PropertyIndex].Owner = UserGUID;
             Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
             myBoard.SetOwnerText(PropertyIndex, "Player " + Players[UserGUID].PlayerId);
+            Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
         }
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
@@ -296,6 +297,8 @@ namespace Monopoly
 
                 Players[localPlayer.PlayerGUID].Money -= myBoard.Listings[e.PropertyIndex].Cost;
                 myBoard.SetOwnerText(e.PropertyIndex, "Player " + Players[localPlayer.PlayerGUID].PlayerId);
+
+                Players[localPlayer.PlayerGUID].AddProperty(e.PropertyIndex, myBoard.Listings[e.PropertyIndex]);
             }
             myBoard.Dice.ToggleEndTurnEnabled(true);
         }

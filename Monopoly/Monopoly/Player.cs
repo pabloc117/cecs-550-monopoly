@@ -7,7 +7,7 @@ namespace Monopoly
     {
         public int PlayerId;
         public int _Money = 0;
-        private Dictionary<int, PropertyListing> _Properties;
+        private Dictionary<int, PropertyListing> _Properties = new Dictionary<int,PropertyListing>();
         public String PlayerGUID;
 
         public static string ConvertPlayerID(Dictionary<string,Player> p, int id)
