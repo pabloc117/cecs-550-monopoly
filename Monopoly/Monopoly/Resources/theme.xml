@@ -31,7 +31,7 @@
     <Property Name="Connecticut Avenue" Cost="120" GroupColor="3" Location="9" BoardSide="0" IsSpecial="0" IsCorner="0" Rent="8" House1="40" House2="100" House3="300" House4="450" HouseCost="50" Hotel="600" Mortgage="60"/>
     <!--RIGHT SIDE-->
     <Property Name="St. Charles Place" Cost="140" GroupColor="4" Location="11" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="10" House1="50" House2="150" House3="450" House4="625" HouseCost="100" Hotel="750" Mortgage="70"/>
-    <Property Name="Electric Company" Cost="150" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
+    <Property Name="Electric Company" Cost="150" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="40" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
     <Property Name="States Avenue" Cost="140" GroupColor="4" Location="13" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="10" House1="50" House2="150" House3="450" House4="625" HouseCost="100" Hotel="750" Mortgage="70"/>
     <Property Name="Virginia Avenue" Cost="160" GroupColor="4" Location="14" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="12" House1="60" House2="180" House3="500" House4="700" HouseCost="100" Hotel="900" Mortgage="80"/>
     <Property Name="Pennsylvania Railroad" Cost="200" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
@@ -47,7 +47,7 @@
     <Property Name="B and O Railroad" Cost="200" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
     <Property Name="Atlantic Avenue" Cost="260" GroupColor="7" Location="26" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="22" House1="110" House2="330" House3="800" House4="975" HouseCost="150" Hotel="1150" Mortgage="130"/>
     <Property Name="Ventnor Avenue" Cost="260" GroupColor="7" Location="27" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="22" House1="110" House2="330" House3="800" House4="975" HouseCost="150" Hotel="1150" Mortgage="130"/>
-    <Property Name="Water Works" Cost="150" GroupColor="0" Location="28" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
+    <Property Name="Water Works" Cost="150" GroupColor="0" Location="28" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="40" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
     <Property Name="Marvin Gardens" Cost="280" GroupColor="7" Location="29" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="24" House1="120" House2="360" House3="850" House4="1025" HouseCost="150" Hotel="1200" Mortgage="140"/>
     <!--LEFT SIDE-->
     <Property Name="Pacific Avenue" Cost="300" GroupColor="8" Location="31" BoardSide="3" IsSpecial="0" IsCorner="0" Rent="26" House1="130" House2="390" House3="900" House4="1100" HouseCost="200" Hotel="1275" Mortgage="150"/>
