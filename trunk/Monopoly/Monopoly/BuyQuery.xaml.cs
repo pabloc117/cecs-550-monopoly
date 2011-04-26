@@ -39,11 +39,13 @@ namespace Monopoly
 
         private void Buy_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
             OnResult(new BuyPropertyEventArgs(index, true));
         }
 
         private void Pass_Click(object sender, RoutedEventArgs e)
         {
+            this.Close();
             OnResult(new BuyPropertyEventArgs(index, false));
         }
 
