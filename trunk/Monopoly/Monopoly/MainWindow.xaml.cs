@@ -80,14 +80,8 @@ namespace Monopoly
         private void engine_PlayerTurn(object sender, PlayerTurnEventArgs e)
         {
             string msg = e.EndTurnId + Message.DELIMETER + e.StartTurnId;
-            currentTurnPlayerID = e.StartTurnId;
             comm.Send(new Message(Message.Type.Turn, Encoding.UTF8.GetBytes(msg)).ToBytes());
-            if (localPlayer == null)
-                throw new NullReferenceException("Player was null.");
-            if (localPlayer.PlayerId == e.EndTurnId)
-                ToggleTurnItems(false);
-            else if (localPlayer.PlayerId == e.StartTurnId)
-                ToggleTurnItems(true);
+            NewPlayerTurnMessage(e.EndTurnId, e.StartTurnId);
         }
 
         private void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
@@ -182,6 +176,7 @@ namespace Monopoly
 
         private void Dice_EndTurn(object sender, EndTurnEventArgs e)
         {
+            ToggleTurnItems(false);
             if (currentTurnPlayerID == localPlayer.PlayerId)
                 if (comm.UserRole == Communicator.ROLE.SERVER)
                     engine.TurnEnded();
