@@ -9,7 +9,17 @@ namespace Monopoly
         public int _Money = 0;
         public Dictionary<int, PropertyListing> Properties;
         public String PlayerGUID;
-        List<int> money = new List<int>();
+
+        public static string ConvertPlayerID(Dictionary<string,Player> p, int id)
+        {
+            string ret = "";
+            foreach (Player t in p.Values)
+            {
+                if(id == t.PlayerId)
+                    ret = t.PlayerGUID;
+            }
+            return ret;
+        }
 
         public int Money
         {
@@ -29,21 +39,6 @@ namespace Monopoly
             this.PlayerId = PlayerId;
             this.PlayerGUID = PlayerGUID;
             this.Money = 1500;
-        }
-        public Player()
-        {
-            for (int i = 0; i < 4; i++)
-            {
-                money.Add(2000);
-            }
-        }
-        public void Collect(int player, int amount)
-        {
-            money[player] = money[player] + amount;
-        }
-        public void pay(int player, int amount)
-        {
-            money[player] = money[player] - amount;
         }
 
         public event EventHandler<PlayerUpdateEventArgs> PlayerUpdate;

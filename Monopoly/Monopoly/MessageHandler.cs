@@ -25,11 +25,11 @@ namespace Monopoly
             switch (msg.MessageType)
             {
                 case Message.Type.Chat:
-                    attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                    attr = SplitString(data);
                     OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
                     break;
                 case Message.Type.Roll:
-                    attr = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
+                    attr = SplitString(data);
                     OnRollMessage(new RollMessageEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
                     break;
                 case Message.Type.Trade:
@@ -40,15 +40,24 @@ namespace Monopoly
                     OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
                     break;
                 case Message.Type.Turn:
-                    string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
-                    OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
+                    attr = SplitString(data);
+                    OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
                     break;
                 case Message.Type.EndTurn:
                     OnEndTurnMessage(new EndTurnMessageEventArgs());
                     break;
+                case Message.Type.Buy:
+                    attr = SplitString(data);
+                    OnBuyMessage(new BuyMessageEventArgs(Int32.Parse(attr[0]), attr[1]));
+                    return;
                 default:
                     break;
             }
+        }
+
+        private string[] SplitString(string data)
+        {
+            return data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
         }
 
         public void QueueMessage(byte[] msg)
@@ -97,6 +106,22 @@ namespace Monopoly
         private void OnEndTurnMessage(EndTurnMessageEventArgs e)
         {
             EndTurnMessage(this, e);
+        }
+
+        public event EventHandler<BuyMessageEventArgs> BuyMessage;
+        private void OnBuyMessage(BuyMessageEventArgs e)
+        {
+            BuyMessage(this, e);
+        }
+    }
+    public class BuyMessageEventArgs : EventArgs
+    {
+        public readonly int PropertyIndex;
+        public readonly string PlayerID;
+        public BuyMessageEventArgs(int propertyIndex, string playerID)
+        {
+            this.PlayerID = playerID;
+            this.PropertyIndex = propertyIndex;
         }
     }
     public class PlayerTurnEventArgs : EventArgs
@@ -156,7 +181,8 @@ namespace Monopoly
             Roll = 2,
             IdInit = 3,
             Turn = 4,
-            EndTurn = 5
+            EndTurn = 5,
+            Buy = 6
         }
 
         public static string DELIMETER = "<@>";
@@ -177,6 +203,8 @@ namespace Monopoly
                     return Type.Turn;
                 case (int)Type.EndTurn:
                     return Type.EndTurn;
+                case (int)Type.Buy:
+                    return Type.Buy;
                 default:
                     return Type.Unknown;
             }
