@@ -149,7 +149,7 @@ namespace Monopoly
                     break;
                 case Message.Type.Buy:
                     attr = MessageHandler.SplitString(data);
-                    NewBuyMessage(Int32.Parse(attr[0]), attr[1]);
+                    PropertyBought(Int32.Parse(attr[0]), attr[1]);
                     return;
                 default:
                     break;
@@ -174,7 +174,7 @@ namespace Monopoly
             engine.TurnEnded();
         }
 
-        private void NewBuyMessage(int PropertyIndex, string UserGUID)
+        private void PropertyBought(int PropertyIndex, string UserGUID)
         {
             myBoard.Listings[PropertyIndex].Owner = UserGUID;
             Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
@@ -203,10 +203,11 @@ namespace Monopoly
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
         {
+            comm.EndWaitConnect();
             CompilePlayersPacket();
             InitializePieces(Players.Count);
             engine.StartGame(Players.Count);
-            comm.EndWaitConnect();
+            InitPlayerViews();
         }
 
         private void myMenu_HostGameClicked(object sender, HostGameClickEventArgs e)
@@ -216,7 +217,6 @@ namespace Monopoly
             IPAddress ip = comm.GetMyIpAddr();
             Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
             localPlayer = Players[comm._ComputerID.ToString("N")];
-            InitPlayerViews();
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
@@ -309,12 +309,7 @@ namespace Monopoly
             {
                 string msg = e.PropertyIndex + Message.DELIMETER + localPlayer.PlayerGUID;
                 comm.Send(new Message(Message.Type.Buy, Encoding.UTF8.GetBytes(msg)).ToBytes());
-                myBoard.Listings[e.PropertyIndex].Owner = Player.ConvertPlayerID(Players, localPlayer.PlayerId);
-
-                Players[localPlayer.PlayerGUID].Money -= myBoard.Listings[e.PropertyIndex].Cost;
-                myBoard.SetOwnerText(e.PropertyIndex, "Player " + Players[localPlayer.PlayerGUID].PlayerId);
-
-                Players[localPlayer.PlayerGUID].AddProperty(e.PropertyIndex, myBoard.Listings[e.PropertyIndex]);
+                PropertyBought(e.PropertyIndex, localPlayer.PlayerGUID);
             }
             myBoard.Dice.ToggleEndTurnEnabled(true);
         }
