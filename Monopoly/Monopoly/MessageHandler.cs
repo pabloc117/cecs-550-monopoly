@@ -40,7 +40,6 @@ namespace Monopoly
                     OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
                     break;
                 case Message.Type.Turn:
-                    //TODO Add this
                     string[] pTurn = data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
                     OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(pTurn[0]), Int32.Parse(pTurn[1])));
                     break;

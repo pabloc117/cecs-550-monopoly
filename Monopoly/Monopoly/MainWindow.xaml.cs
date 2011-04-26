@@ -184,7 +184,6 @@ namespace Monopoly
         {
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
-            //TODO This is where you handle the dice values.
             myChat.NewMessage("System", "Player " + (currentTurnPlayerID + 1) + " Rolled a " + (d1 + d2) + ".");
             Move(pieces[currentTurnPlayerID], (d1 + d2));
         }
@@ -247,7 +246,11 @@ namespace Monopoly
 
         private void bq_Result(object sender, BuyPropertyEventArgs e)
         {
-            //TODO implement bought property action
+            if (e.Bought)
+            {
+                //TODO Pass message.
+                myBoard.Listings[e.PropertyIndex].Owner = currentTurnPlayerID;
+            }
             myBoard.Dice.ToggleEndTurnEnabled(true);
         }
 
