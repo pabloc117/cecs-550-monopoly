@@ -6,12 +6,10 @@
              mc:Ignorable="d" >
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="15*" />
-            <RowDefinition Height="15*" />
-            <RowDefinition Height="70*" />
+            <RowDefinition Height="20*" />
+            <RowDefinition Height="90*" />
         </Grid.RowDefinitions>
-        <TextBlock Name="PlayerID" Grid.Row="0" />
-        <TextBlock Name="MoneyDisplay" Grid.Row="1" />
-        <TextBlock Name="PropertyDisplay" Grid.Row="2" />
+        <TextBlock Name="MoneyDisplay" Grid.Row="0" />
+        <TextBlock Name="PropertyDisplay" Grid.Row="1" />
     </Grid>
 </UserControl>

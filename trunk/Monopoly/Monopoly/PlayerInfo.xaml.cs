@@ -31,7 +31,6 @@ namespace Monopoly
             if (this.Dispatcher.CheckAccess())
             {
                 LocalPlayer = player;
-                PlayerID.Text = "Player " + (player.PlayerId + 1);
                 MoneyDisplay.Text = "Cash: $" + player.Money;
                 player.PlayerUpdate += new EventHandler<PlayerUpdateEventArgs>(player_PlayerUpdate);
             }

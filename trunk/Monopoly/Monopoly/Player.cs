@@ -9,7 +9,16 @@ namespace Monopoly
         public int _Money = 0;
         private Dictionary<int, PropertyListing> _Properties = new Dictionary<int,PropertyListing>();
         public String PlayerGUID;
-        
+        private string _PlayerName;  //For if/when we add in player name just substitute this in for PlayerName
+
+        public string PlayerName
+        {
+            get
+            {
+                return "Player " + (PlayerId + 1);
+            }
+        }
+
         public int Money
         {
             get 
