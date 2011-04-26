@@ -26,6 +26,7 @@ namespace Monopoly
             this.Owner = owner;
             PropertyName.Text = property.Name;
             TitleBorder.Background = property.ColorGroup;
+            Rent.Text = "$" + property.CalculateRent();
             Rent1.Text = property.House1 == 0 ? "N/A" : "$" + property.House1;
             Rent2.Text = property.House2 == 0 ? "N/A" : "$" + property.House2;
             Rent3.Text = property.House3 == 0 ? "N/A" : "$" + property.House3;
