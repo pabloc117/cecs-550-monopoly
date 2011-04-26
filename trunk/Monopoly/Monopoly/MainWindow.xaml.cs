@@ -29,6 +29,7 @@ namespace Monopoly
         private MessageHandler mHandler = new MessageHandler();
         private GameBoard myBoard;
         private ChatComponent myChat;
+        private PlayerInfo myPlayer;
         private MenuFader myMenu;
         private UserPiece[] pieces;
         private Dictionary<string, Player> Players = new Dictionary<string,Player>();
@@ -180,21 +181,17 @@ namespace Monopoly
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
             //TODO This is where you handle the dice values.
-            myChat.NewMessage("System", "Player " + (comm.UserRole == Communicator.ROLE.SERVER ? (engine.CurrentPlayerIndex + 1) : (currentTurnPlayerID + 1)) 
-                + " Rolled a " + (d1 + d2) + ".");
-            if (comm.UserRole == Communicator.ROLE.SERVER)
-                Move(pieces[engine.CurrentPlayerIndex], (d1 + d2));
-            else
-                Move(pieces[currentTurnPlayerID], (d1 + d2));
-            if(currentTurnPlayerID == localPlayer.PlayerId)
-                if (comm.UserRole == Communicator.ROLE.SERVER)
-                    engine.TurnEnded();
-                else
-                    comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
+            myChat.NewMessage("System", "Player " + (currentTurnPlayerID + 1) + " Rolled a " + (d1 + d2) + ".");
+            Move(pieces[currentTurnPlayerID], (d1 + d2));
         }
 
         void Dice_EndTurn(object sender, EndTurnEventArgs e)
         {
+            if (currentTurnPlayerID == localPlayer.PlayerId)
+                if (comm.UserRole == Communicator.ROLE.SERVER)
+                    engine.TurnEnded();
+                else
+                    comm.Send(new Message(Message.Type.EndTurn, new byte[0]).ToBytes());
         }
 
         private void ip_IPAccept(object sender, ConnectClickedEventArgs e)
@@ -325,6 +322,10 @@ namespace Monopoly
                 Grid.SetColumn(myChat, 1);
                 Grid.SetRow(myChat, 2);
                 myChat.Margin = new Thickness(5, 0, 0, 0);
+                myPlayer = new PlayerInfo();
+                Grid.SetColumn(myPlayer, 1);
+                Grid.SetRow(myPlayer, 0);
+                myPlayer.Margin = new Thickness(5, 0, 0, 0);
                 myMenu = new MenuFader(myCanvas);
                 myMenu.Margin = new Thickness(25,0,25,0);
                 myMenu.HostGameClicked += new EventHandler<HostGameClickEventArgs>(myMenu_HostGameClicked);
@@ -333,6 +334,7 @@ namespace Monopoly
                 myMenu.StartGameClicked += new EventHandler<StartGameClickEventArgs>(myMenu_StartGameClicked);
                 myGrid.Children.Add(myBoard);
                 myGrid.Children.Add(myChat);
+                myGrid.Children.Add(myPlayer);
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
