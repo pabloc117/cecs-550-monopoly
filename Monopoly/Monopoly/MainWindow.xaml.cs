@@ -399,7 +399,8 @@ namespace Monopoly
                 Jump(up, up.CurrentLocation, up.CurrentLocation + 1);
                 Thread.Sleep(250);
             }
-            ShowBuyQuery(myBoard.Listings[up.CurrentLocation]);
+            if (localPlayer.PlayerId == currentTurnPlayerID)
+                ShowBuyQuery(myBoard.Listings[up.CurrentLocation]);
         }
 
         private void InitializePieces(int num)
@@ -459,9 +460,13 @@ namespace Monopoly
 
         private void ShowBuyQuery(PropertyListing property)
         {
-            BuyQuery bq = new BuyQuery(this, property);
-            bq.Result += new EventHandler<BuyPropertyEventArgs>(bq_Result);
-            bq.ShowDialog();
+            if (this.Dispatcher.CheckAccess())
+            {
+                BuyQuery bq = new BuyQuery(this, property);
+                bq.Result += new EventHandler<BuyPropertyEventArgs>(bq_Result);
+                bq.ShowDialog();
+            }
+            else this.Dispatcher.BeginInvoke(new Action<PropertyListing>(ShowBuyQuery), new object[] { property });
         }
 
         private void Maximize()
