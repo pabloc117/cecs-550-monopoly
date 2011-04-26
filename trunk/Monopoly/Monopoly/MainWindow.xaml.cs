@@ -232,6 +232,8 @@ namespace Monopoly
         private void Chat_NewOutgoingMessage(object sender, NewOutgoingMessageEventArgs e)
         {
             string localName = "RemoteUser";
+            if (localPlayer != null)
+                localName = "Player " + (localPlayer.PlayerId + 1);
             string str = String.Concat(localName, Message.DELIMETER, e.Message);
             byte[] msg = Encoding.UTF8.GetBytes(str);
             comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
