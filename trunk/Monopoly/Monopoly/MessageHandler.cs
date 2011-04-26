@@ -72,7 +72,8 @@ namespace Monopoly
             IdInit = 3,
             Turn = 4,
             EndTurn = 5,
-            Buy = 6
+            Buy = 6,
+            Rent = 7
         }
 
         public static string DELIMETER = "<@>";
@@ -95,6 +96,8 @@ namespace Monopoly
                     return Type.EndTurn;
                 case (int)Type.Buy:
                     return Type.Buy;
+                case (int)Type.Rent:
+                    return Type.Rent;
                 default:
                     return Type.Unknown;
             }

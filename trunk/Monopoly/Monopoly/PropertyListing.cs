@@ -10,7 +10,7 @@ namespace Monopoly
     public class PropertyListing
     {
         string _name;
-        int _cost, _loc, _house1, _house2, _house3, _house4, _hotel, _housecost, _mortgage;
+        int _cost, _loc, _rent, _house1, _house2, _house3, _house4, _hotel, _housecost, _mortgage;
         Brush _color;
         Property.Side _side;
         string _imgLoc = null;
@@ -38,6 +38,7 @@ namespace Monopoly
             _cost = cost;
             _loc = loc;
             _color = color;
+            _rent = rent;
             _house1 = house1;
             _house2 = house2;
             _house3 = house3;
@@ -56,6 +57,7 @@ namespace Monopoly
             _loc = loc;
             _imgLoc = imgLoc;
             _isCorner = isCorner;
+            _rent = rent;
             _house1 = house1;
             _house2 = house2;
             _house3 = house3;
@@ -66,6 +68,11 @@ namespace Monopoly
 
             _side = ParseSide(side);
             _isSpecial = true;
+        }
+
+        public int CalculateRent()
+        {
+            return _rent;
         }
 
         public int House1

@@ -24,7 +24,7 @@
     <Property Name="Community Chest" Cost="0" GroupColor="0" Location="2" BoardSide="0" IsSpecial="1" IsCorner="0" />
     <Property Name="Baltic Avenue" Cost="60" GroupColor="2" Location="3" BoardSide="0" IsSpecial="0" IsCorner="0" Rent="4" House1="20" House2="60" House3="180" House4="320" HouseCost="50" Hotel="450" Mortgage="30"/>
     <Property Name="Income Tax" Cost="0" GroupColor="0" Location="4" BoardSide="0" IsSpecial="1" IsCorner="0"/>
-    <Property Name="Reading Railroad" Cost="200" GroupColor="0" Location="5" BoardSide="0" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
+    <Property Name="Reading Railroad" Cost="200" GroupColor="0" Location="5" BoardSide="0" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
     <Property Name="Oriental Avenue" Cost="100" GroupColor="3" Location="6" BoardSide="0" IsSpecial="0" IsCorner="0" Rent="6" House1="30" House2="90" House3="270" House4="400" HouseCost="50" Hotel="550" Mortgage="50"/>
     <Property Name="Chance" Cost="0" GroupColor="0" Location="7" BoardSide="0" IsSpecial="1" IsCorner="0"/>
     <Property Name="Vermont Avenue" Cost="100" GroupColor="3" Location="8" BoardSide="0" IsSpecial="0" IsCorner="0" Rent="6" House1="30" House2="90" House3="270" House4="400" HouseCost="50" Hotel="550" Mortgage="50"/>
@@ -34,7 +34,7 @@
     <Property Name="Electric Company" Cost="150" GroupColor="0" Location="12" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
     <Property Name="States Avenue" Cost="140" GroupColor="4" Location="13" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="10" House1="50" House2="150" House3="450" House4="625" HouseCost="100" Hotel="750" Mortgage="70"/>
     <Property Name="Virginia Avenue" Cost="160" GroupColor="4" Location="14" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="12" House1="60" House2="180" House3="500" House4="700" HouseCost="100" Hotel="900" Mortgage="80"/>
-    <Property Name="Pennsylvania Railroad" Cost="200" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
+    <Property Name="Pennsylvania Railroad" Cost="200" GroupColor="0" Location="15" BoardSide="1" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
     <Property Name="St. James" Cost="180" GroupColor="5" Location="16" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="14" House1="70" House2="200" House3="550" House4="750" HouseCost="100" Hotel="950" Mortgage="90"/>
     <Property Name="Community Chest" Cost="0" GroupColor="0" Location="17" BoardSide="1" IsSpecial="1" IsCorner="0"/>
     <Property Name="Tennessee Avenue" Cost="180" GroupColor="5" Location="18" BoardSide="1" IsSpecial="0" IsCorner="0" Rent="14" House1="70" House2="200" House3="550" House4="750" HouseCost="100" Hotel="950" Mortgage="90"/>
@@ -44,7 +44,7 @@
     <Property Name="Chance" Cost="0" GroupColor="0" Location="22" BoardSide="2" IsSpecial="1" IsCorner="0"/>
     <Property Name="Indiana Avenue" Cost="220" GroupColor="6" Location="23" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="18" House1="90" House2="250" House3="700" House4="875" HouseCost="150" Hotel="1050" Mortgage="110"/>
     <Property Name="Illinois Avenue" Cost="240" GroupColor="6" Location="24" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="20" House1="100" House2="300" House3="750" House4="925" HouseCost="150" Hotel="1100" Mortgage="120"/>
-    <Property Name="B and O Railroad" Cost="200" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
+    <Property Name="B and O Railroad" Cost="200" GroupColor="0" Location="25" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
     <Property Name="Atlantic Avenue" Cost="260" GroupColor="7" Location="26" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="22" House1="110" House2="330" House3="800" House4="975" HouseCost="150" Hotel="1150" Mortgage="130"/>
     <Property Name="Ventnor Avenue" Cost="260" GroupColor="7" Location="27" BoardSide="2" IsSpecial="0" IsCorner="0" Rent="22" House1="110" House2="330" House3="800" House4="975" HouseCost="150" Hotel="1150" Mortgage="130"/>
     <Property Name="Water Works" Cost="150" GroupColor="0" Location="28" BoardSide="2" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="75"/>
@@ -54,7 +54,7 @@
     <Property Name="North Carolina" Cost="300" GroupColor="8" Location="32" BoardSide="3" IsSpecial="0" IsCorner="0" Rent="26" House1="130" House2="390" House3="900" House4="1100" HouseCost="200" Hotel="1275" Mortgage="150"/>
     <Property Name="Community Chest" Cost="0" GroupColor="0" Location="33" BoardSide="3" IsSpecial="1" IsCorner="0"/>
     <Property Name="Pennsylvania Avenue" Cost="320" GroupColor="8" Location="34" BoardSide="3" IsSpecial="0" IsCorner="0" Rent="28" House1="150" House2="450" House3="1000" House4="1200" HouseCost="200" Hotel="1400" Mortgage="160"/>
-    <Property Name="Short Line Railroad" Cost="200" GroupColor="0" Location="35" BoardSide="3" IsSpecial="1" IsCorner="0" Rent="0" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
+    <Property Name="Short Line Railroad" Cost="200" GroupColor="0" Location="35" BoardSide="3" IsSpecial="1" IsCorner="0" Rent="50" House1="0" House2="0" House3="0" House4="0" Hotel="0" Mortgage="100"/>
     <Property Name="Chance" Cost="0" GroupColor="0" Location="36" BoardSide="3" IsSpecial="1" IsCorner="0"/>
     <Property Name="Park Place" Cost="350" GroupColor="9" Location="37" BoardSide="3" IsSpecial="0" IsCorner="0" Rent="35" House1="175" House2="500" House3="1100" House4="1300" Hotel="1500" HouseCost="200" Mortgage="175"/>
     <Property Name="Luxury Tax" Cost="0" GroupColor="0" Location="38" BoardSide="3" IsSpecial="1" IsCorner="0"/>

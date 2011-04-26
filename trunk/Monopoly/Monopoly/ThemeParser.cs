@@ -161,18 +161,18 @@ namespace Monopoly
 							cost = Int32.Parse(reader.GetAttribute(ATTR_COST));
 							gc = colorPalette[Int32.Parse(reader.GetAttribute(ATTR_GROUP_COLOR))];
 							loc = Int32.Parse(reader.GetAttribute(ATTR_LOCATION));
-							name = reader.GetAttribute(ATTR_NAME);
+                            name = reader.GetAttribute(ATTR_NAME);
+                            r = Int32.Parse(0 + reader.GetAttribute(ATTR_RENT));
+                            h1 = Int32.Parse(0 + reader.GetAttribute(ATTR_HOUSE1));
+                            h2 = Int32.Parse(0 + reader.GetAttribute(ATTR_HOUSE2));
+                            h3 = Int32.Parse(0 + reader.GetAttribute(ATTR_HOUSE3));
+                            h4 = Int32.Parse(0 + reader.GetAttribute(ATTR_HOUSE4));
+                            ho = Int32.Parse(0 + reader.GetAttribute(ATTR_HOTEL));
+                            hc = Int32.Parse(0 + reader.GetAttribute(ATTR_HOUSECOST));
+                            mort = Int32.Parse(0 + reader.GetAttribute(ATTR_HOTEL));
 
                             if (Int32.Parse(reader.GetAttribute(ATTR_IS_SPECIAL)) == 0)
                             {
-                                ho = Int32.Parse(reader.GetAttribute(ATTR_RENT));
-                                h1 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE1));
-                                h2 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE2));
-                                h3 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE3));
-                                h4 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE4));
-                                ho = Int32.Parse(reader.GetAttribute(ATTR_HOTEL));
-                                hc = Int32.Parse(reader.GetAttribute(ATTR_HOUSECOST));
-                                mort = Int32.Parse(reader.GetAttribute(ATTR_HOTEL));
                                 dict.Add(loc, new PropertyListing(name, cost, r, h1, h2, h3, h4, ho, hc, mort, loc, bs, gc));
                             }
                             else
