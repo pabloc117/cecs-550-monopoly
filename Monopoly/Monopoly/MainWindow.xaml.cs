@@ -15,6 +15,7 @@ using System.Collections;
 using Networking;
 using System.Threading;
 using System.Net;
+using System.Windows.Threading;
 
 namespace Monopoly
 {
@@ -89,34 +90,6 @@ namespace Monopoly
                 ToggleTurnItems(true);
         }
 
-        private void NewPlayerTurnMessage(int EndTurnId, int StartTurnId)
-        {
-            currentTurnPlayerID = StartTurnId;
-            if (localPlayer == null)
-                throw new NullReferenceException("Player was null.");
-            if (localPlayer.PlayerId == EndTurnId)
-                ToggleTurnItems(false);
-            else if (localPlayer.PlayerId == StartTurnId)
-                ToggleTurnItems(true);
-        }
-
-        private void NewPlayerInitMessage(String MessageData)
-        {
-            string[] players = MessageData.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
-            foreach (string s in players)
-            {
-                string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
-                string endpointID = playerString[1];
-                Players.Add(playerString[1], new Player(Int32.Parse(playerString[0]), playerString[1]));
-                if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
-                {
-                    localPlayer = Players[endpointID];
-                }
-            }
-            InitPlayerViews();
-            InitializePieces(Players.Count);
-        }
-
         private void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
         {
             if (e.Message == null)
@@ -151,55 +124,13 @@ namespace Monopoly
                     attr = MessageHandler.SplitString(data);
                     PropertyBought(Int32.Parse(attr[0]), attr[1]);
                     return;
+                case Message.Type.Rent:
+                    attr = MessageHandler.SplitString(data);
+                    PayRent(attr[0], attr[1], Int32.Parse(attr[2]));
+                    return;
                 default:
                     break;
             }
-        }
-
-        private void NewChatMessage(string Sender, string Message)
-        {
-            if (myChat != null)
-            {
-                myChat.NewMessage(Sender, Message);
-            }
-        }
-
-        private void NewRollMessage(int Seed)
-        {
-            myBoard.Dice.RollDice(Seed);
-        }
-
-        private void NewEndTurnMessage()
-        {
-            engine.TurnEnded();
-        }
-
-        private void PropertyBought(int PropertyIndex, string UserGUID)
-        {
-            myBoard.Listings[PropertyIndex].Owner = UserGUID;
-            Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
-            myBoard.SetOwnerText(PropertyIndex, Players[UserGUID].PlayerName);
-            Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
-        }
-
-        private void InitPlayerViews()
-        {
-            if (this.Dispatcher.CheckAccess())
-            {
-                myTabControl = new TabControl();
-                foreach (Player p in Players.Values)
-                {
-                    TabItem ti = new TabItem();
-                    ti.Content = new PlayerInfo(p);
-                    ti.Header = p.PlayerName;
-                    myTabControl.Items.Add(ti);
-                }
-                Grid.SetColumn(myTabControl, 1);
-                Grid.SetRow(myTabControl, 0);
-                myTabControl.Margin = new Thickness(5, 0, 0, 0);
-                myGrid.Children.Add(myTabControl);
-            }
-            else this.Dispatcher.BeginInvoke(new Action(InitPlayerViews));
         }
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
@@ -246,15 +177,10 @@ namespace Monopoly
         {
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
-            foreach (Player p in Players.Values)
-            {
-                if (p.PlayerId == currentTurnPlayerID)
-                    myChat.NewMessage("System", p.PlayerName + " Rolled a " + (d1 + d2) + ".");
-            }
             Move(pieces[currentTurnPlayerID], (d1 + d2));
         }
 
-        void Dice_EndTurn(object sender, EndTurnEventArgs e)
+        private void Dice_EndTurn(object sender, EndTurnEventArgs e)
         {
             if (currentTurnPlayerID == localPlayer.PlayerId)
                 if (comm.UserRole == Communicator.ROLE.SERVER)
@@ -527,14 +453,16 @@ namespace Monopoly
             if (this.Dispatcher.CheckAccess())
             {
                 myBoard.Dice.ToggleEndTurnEnabled(true);
+                if (property.IsOwned)
+                {
+                    string msg = localPlayer.PlayerGUID + Message.DELIMETER + property.Owner + Message.DELIMETER + property.CalculateRent();
+                    comm.Send(new Message(Message.Type.Rent, Encoding.UTF8.GetBytes(msg)).ToBytes());
+                    PayRent(localPlayer.PlayerGUID, property.Owner, property.CalculateRent());
+                    return;
+                }
                 if (property.Cost > localPlayer.Money)
                 {
                     MessageBox.Show("You cannot afford this property");
-                    return;
-                }
-                if (property.IsOwned)
-                {
-                    //TODO Charge Rent.
                     return;
                 }
                 if(property.Cost == 0)
@@ -546,6 +474,90 @@ namespace Monopoly
                 bq.ShowDialog();
             }
             else this.Dispatcher.BeginInvoke(new Action<PropertyListing>(ShowBuyQuery), new object[] { property });
+        }
+
+        public void PayRent(string payerGUID, string payeeGUID, int rent)
+        {
+            Players[payerGUID].Money -= rent;
+            Players[payeeGUID].Money += rent;
+            myChat.NewMessage("System", Players[payerGUID].PlayerName + " paid " + Players[payeeGUID].PlayerName + " $" + rent + " rent.");
+        }
+
+        private void NewChatMessage(string Sender, string Message)
+        {
+            if (myChat != null)
+            {
+                myChat.NewMessage(Sender, Message);
+            }
+        }
+
+        private void NewRollMessage(int Seed)
+        {
+            myBoard.Dice.RollDice(Seed);
+        }
+
+        private void NewEndTurnMessage()
+        {
+            engine.TurnEnded();
+        }
+
+        private void NewPlayerTurnMessage(int EndTurnId, int StartTurnId)
+        {
+            currentTurnPlayerID = StartTurnId;
+            if (localPlayer == null)
+                throw new NullReferenceException("Player was null.");
+            if (localPlayer.PlayerId == EndTurnId)
+                ToggleTurnItems(false);
+            else if (localPlayer.PlayerId == StartTurnId)
+                ToggleTurnItems(true);
+        }
+
+        private void NewPlayerInitMessage(String MessageData)
+        {
+            string[] players = MessageData.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (string s in players)
+            {
+                string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
+                string endpointID = playerString[1];
+                Players.Add(playerString[1], new Player(Int32.Parse(playerString[0]), playerString[1]));
+                if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
+                {
+                    localPlayer = Players[endpointID];
+                }
+            }
+            InitPlayerViews();
+            InitializePieces(Players.Count);
+        }
+
+        private void PropertyBought(int PropertyIndex, string UserGUID)
+        {
+            myBoard.Listings[PropertyIndex].Owner = UserGUID;
+            Players[UserGUID].Money -= myBoard.Listings[PropertyIndex].Cost;
+            myBoard.SetOwnerText(PropertyIndex, Players[UserGUID].PlayerName);
+            Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
+            myChat.NewMessage("System", Players[UserGUID].PlayerName + " bought " + myBoard.Listings[PropertyIndex].Name + ".");
+        }
+
+        private void InitPlayerViews()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                myTabControl = new TabControl();
+                foreach (Player p in Players.Values)
+                {
+                    TabItem ti = new TabItem();
+                    ti.Content = new PlayerInfo(p);
+                    ti.Header = p.PlayerName;
+                    myTabControl.Items.Add(ti);
+                }
+                Grid.SetColumn(myTabControl, 1);
+                Grid.SetRow(myTabControl, 0);
+                myTabControl.Margin = new Thickness(5, 0, 0, 0);
+                Dispatcher.BeginInvoke(new Action(() => Keyboard.Focus((TabItem)(myTabControl.Items.GetItemAt(localPlayer.PlayerId)))), DispatcherPriority.ContextIdle);
+                Dispatcher.BeginInvoke(new Action(() => Keyboard.ClearFocus()), DispatcherPriority.ContextIdle);  
+                myGrid.Children.Add(myTabControl);
+            }
+            else this.Dispatcher.BeginInvoke(new Action(InitPlayerViews));
         }
 
         private void Maximize()
