@@ -116,7 +116,6 @@ namespace Monopoly
                 if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
                 {
                     localPlayer = Players[endpointID];
-                    myPlayer.SetLocalPlayer(ref localPlayer);
                 }
             }
             InitializePieces(Players.Count);
@@ -155,7 +154,6 @@ namespace Monopoly
             IPAddress ip = comm.GetMyIpAddr();
             Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
             localPlayer = Players[comm._ComputerID.ToString("N")];
-            myPlayer.SetLocalPlayer(ref localPlayer);
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
