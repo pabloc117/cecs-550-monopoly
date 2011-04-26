@@ -145,6 +145,8 @@ namespace Monopoly
             localPlayer = Players[comm._ComputerID.ToString("N")];
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
+            engine = new Engine();
+            engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
         }
 
         private void myMenu_CloseGameClicked(object sender, CloseGameClickEventArgs e)
@@ -342,8 +344,6 @@ namespace Monopoly
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
                 myBoard.Dice.RollStarted += new EventHandler<RollStartedEventArgs>(Dice_RollStarted);
                 myBoard.Dice.EndTurn += new EventHandler<EndTurnEventArgs>(Dice_EndTurn);
-                engine = new Engine();
-                engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
                 ToggleTurnItems(false);
 
                 
@@ -503,7 +503,8 @@ namespace Monopoly
 
         private void NewEndTurnMessage()
         {
-            engine.TurnEnded();
+            if (comm.UserRole == Communicator.ROLE.SERVER)
+                engine.TurnEnded();
         }
 
         private void NewPlayerTurnMessage(int EndTurnId, int StartTurnId)
