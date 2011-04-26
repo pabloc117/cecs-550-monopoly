@@ -9,18 +9,7 @@ namespace Monopoly
         public int _Money = 0;
         private Dictionary<int, PropertyListing> _Properties = new Dictionary<int,PropertyListing>();
         public String PlayerGUID;
-
-        public static string ConvertPlayerID(Dictionary<string,Player> p, int id)
-        {
-            string ret = "";
-            foreach (Player t in p.Values)
-            {
-                if(id == t.PlayerId)
-                    ret = t.PlayerGUID;
-            }
-            return ret;
-        }
-
+        
         public int Money
         {
             get 
