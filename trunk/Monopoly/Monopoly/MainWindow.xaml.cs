@@ -464,6 +464,16 @@ namespace Monopoly
         {
             if (this.Dispatcher.CheckAccess())
             {
+                if (property.IsOwned)
+                {
+                    //TODO Charge Rent.
+                    return;
+                }
+                if(property.Cost == 0)
+                {
+                    myBoard.Dice.ToggleEndTurnEnabled(true);
+                    return;
+                }
                 BuyQuery bq = new BuyQuery(this, property);
                 bq.Result += new EventHandler<BuyPropertyEventArgs>(bq_Result);
                 bq.ShowDialog();
