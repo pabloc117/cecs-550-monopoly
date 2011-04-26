@@ -76,7 +76,8 @@ namespace Monopoly
         }
         public void collectMoney(int amount)
         {
-            Player.Collect(0, amount);
+            //TODO WTF?
+            //Player.Collect(0, amount);
         }
         public void collectplayer(int amount)
         {
@@ -86,14 +87,17 @@ namespace Monopoly
             {
                 if (i != tempPlayer)
                 {
-                    Player.pay(i, amount);
+                    //TODO WTF?
+                    //Player.pay(i, amount);
                 }
             }
-            Player.Collect(tempPlayer, amount);
+            //TODO WTF?
+            //Player.Collect(tempPlayer, amount);
         }
         public void payBank(int amount)
         {
-            Player.pay(0, amount);
+            //TODO WTF?
+            //Player.pay(0, amount);
         }
         public void payPlayer(int amount)
         {
@@ -102,10 +106,12 @@ namespace Monopoly
             {
                 if (i != tempPlayer)
                 {
-                    Player.Collect(i, amount);
+                    //TODO WTF?
+                    //Player.Collect(i, amount);
                 }
             }
-            Player.pay(tempPlayer, amount);
+            //TODO WTF?
+            //Player.pay(tempPlayer, amount);
         }
         public void printText(string text)
         {

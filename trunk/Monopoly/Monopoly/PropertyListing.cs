@@ -20,14 +20,15 @@ namespace Monopoly
         {
             get
             {
-                if (_owner == -1)
+                if (_owner.CompareTo("") == 0)
                     return false;
                 else return true;
             }
         }
-        private int _owner = -1;
-        public int Owner
+        private string _owner = "";
+        public string Owner
         {
+            get { return _owner; }
             set { _owner = value; }
         }
 

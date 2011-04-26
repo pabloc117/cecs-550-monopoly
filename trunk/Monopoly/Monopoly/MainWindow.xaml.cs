@@ -49,6 +49,7 @@ namespace Monopoly
             mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
             mHandler.RollMessage += new EventHandler<RollMessageEventArgs>(mHandler_RollMessage);
             mHandler.EndTurnMessage += new EventHandler<EndTurnMessageEventArgs>(mHandler_EndTurnMessage);
+            mHandler.BuyMessage += new EventHandler<BuyMessageEventArgs>(mHandler_BuyMessage);
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
@@ -138,6 +139,13 @@ namespace Monopoly
         void mHandler_EndTurnMessage(object sender, EndTurnMessageEventArgs e)
         {
             engine.TurnEnded();
+        }
+
+        private void mHandler_BuyMessage(object sender, BuyMessageEventArgs e)
+        {
+            myBoard.Listings[e.PropertyIndex].Owner = Players[e.PlayerID].PlayerGUID;
+            Players[e.PlayerID].Money -=  myBoard.Listings[e.PropertyIndex].Cost;
+            myBoard.SetOwnerText(e.PropertyIndex, "Player " + Players[e.PlayerID].PlayerId);
         }
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
@@ -248,8 +256,12 @@ namespace Monopoly
         {
             if (e.Bought)
             {
-                //TODO Pass message.
-                myBoard.Listings[e.PropertyIndex].Owner = currentTurnPlayerID;
+                string msg = e.PropertyIndex + Message.DELIMETER + localPlayer.PlayerGUID;
+                comm.Send(new Message(Message.Type.Buy, Encoding.UTF8.GetBytes(msg)).ToBytes());
+                myBoard.Listings[e.PropertyIndex].Owner = Player.ConvertPlayerID(Players, localPlayer.PlayerId);
+
+                Players[localPlayer.PlayerGUID].Money -= myBoard.Listings[e.PropertyIndex].Cost;
+                myBoard.SetOwnerText(e.PropertyIndex, "Player " + Players[localPlayer.PlayerGUID].PlayerId);
             }
             myBoard.Dice.ToggleEndTurnEnabled(true);
         }

@@ -46,6 +46,7 @@ namespace Monopoly
         public static string SPOTS_NAME = "Spots";
 
         public Grid Spots;
+        public TextBlock OwnedBy;
 
         public enum Side
         {
@@ -164,8 +165,14 @@ namespace Monopoly
 
                 tb = new TextBlock();
                 tb.FontSize = 11;
-                tb.Text = property.Cost + "";
+                tb.Text = property.Cost + " ";
                 sp.Children.Add(tb);
+                content.Children.Add(sp); 
+                
+                OwnedBy = new TextBlock();
+                tb.FontSize = 11;
+                tb.Text = "(Not Owned)";
+                sp.Children.Add(OwnedBy);
                 content.Children.Add(sp);
             }
             else if(!property.IsCorner)

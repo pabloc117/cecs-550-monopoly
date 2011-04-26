@@ -96,6 +96,20 @@ namespace Monopoly
             else Dispatcher.BeginInvoke(new Action<PropertyListing>(MakeProperty), new object[] { p });
         }
 
+        public void SetOwnerText(int loc, string name)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                foreach (var v in myBoard.Children)
+                {
+                    Property vp = v as Property;
+                    if (vp != null && vp.prop.PropertyListing.Location == loc)
+                        vp.OwnedBy.Text = "(" + name + ")";
+                }
+            }
+            else this.Dispatcher.BeginInvoke(new Action<int, string>(SetOwnerText), new object[] { loc, name });
+        }
+
         public event EventHandler<GameBoardBuiltEventArgs> GameBuilt;
         private void OnGameBuilt(GameBoardBuiltEventArgs e)
         {
