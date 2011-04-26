@@ -513,6 +513,12 @@ namespace Monopoly
         {
             if (this.Dispatcher.CheckAccess())
             {
+                myBoard.Dice.ToggleEndTurnEnabled(true);
+                if (property.Cost > localPlayer.Money)
+                {
+                    MessageBox.Show("You cannot afford this property");
+                    return;
+                }
                 if (property.IsOwned)
                 {
                     //TODO Charge Rent.
@@ -520,7 +526,6 @@ namespace Monopoly
                 }
                 if(property.Cost == 0)
                 {
-                    myBoard.Dice.ToggleEndTurnEnabled(true);
                     return;
                 }
                 BuyQuery bq = new BuyQuery(this, property);
