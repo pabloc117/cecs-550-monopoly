@@ -29,7 +29,7 @@ namespace Monopoly
         private MessageHandler mHandler = new MessageHandler();
         private GameBoard myBoard;
         private ChatComponent myChat;
-        private PlayerInfo myPlayer;
+        private TabControl myTabControl;
         private MenuFader myMenu;
         private UserPiece[] pieces;
         private Dictionary<string, Player> Players = new Dictionary<string,Player>();
@@ -48,7 +48,6 @@ namespace Monopoly
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
-
 
         ///////////////
         //Event Hooks//
@@ -112,9 +111,9 @@ namespace Monopoly
                 if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
                 {
                     localPlayer = Players[endpointID];
-                    myPlayer.InitPlayer(localPlayer);
                 }
             }
+            InitPlayerViews();
             InitializePieces(Players.Count);
         }
 
@@ -183,6 +182,25 @@ namespace Monopoly
             Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
         }
 
+        private void InitPlayerViews()
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                List<PlayerInfo> playerInfo = new List<PlayerInfo>();
+                foreach (Player p in Players.Values)
+                {
+                    playerInfo.Add(new PlayerInfo(p));
+                }
+                myTabControl = new TabControl();
+                myTabControl.ItemsSource = playerInfo;
+                Grid.SetColumn(myTabControl, 1);
+                Grid.SetRow(myTabControl, 0);
+                myTabControl.Margin = new Thickness(5, 0, 0, 0);
+                myGrid.Children.Add(myTabControl);
+            }
+            else this.Dispatcher.BeginInvoke(new Action(InitPlayerViews));
+        }
+
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
         {
             CompilePlayersPacket();
@@ -198,7 +216,7 @@ namespace Monopoly
             IPAddress ip = comm.GetMyIpAddr();
             Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
             localPlayer = Players[comm._ComputerID.ToString("N")];
-            myPlayer.InitPlayer(localPlayer);
+            InitPlayerViews();
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
@@ -256,8 +274,6 @@ namespace Monopoly
             else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
         }
 
-
-
         private void comm_DataRecieved(object sender, DataReceivedEventArgs e)
         {
             mHandler.QueueMessage(e.DataReceived);
@@ -302,7 +318,6 @@ namespace Monopoly
             }
             myBoard.Dice.ToggleEndTurnEnabled(true);
         }
-
 
         ///////////
         //Methods//
@@ -388,10 +403,6 @@ namespace Monopoly
                 Grid.SetColumn(myChat, 1);
                 Grid.SetRow(myChat, 2);
                 myChat.Margin = new Thickness(5, 0, 0, 0);
-                myPlayer = new PlayerInfo();
-                Grid.SetColumn(myPlayer, 1);
-                Grid.SetRow(myPlayer, 0);
-                myPlayer.Margin = new Thickness(5, 0, 0, 0);
                 myMenu = new MenuFader(myCanvas);
                 myMenu.Margin = new Thickness(25,0,25,0);
                 myMenu.HostGameClicked += new EventHandler<HostGameClickEventArgs>(myMenu_HostGameClicked);
@@ -400,7 +411,6 @@ namespace Monopoly
                 myMenu.StartGameClicked += new EventHandler<StartGameClickEventArgs>(myMenu_StartGameClicked);
                 myGrid.Children.Add(myBoard);
                 myGrid.Children.Add(myChat);
-                myGrid.Children.Add(myPlayer);
                 myCanvas.Children.Add(myMenu);
                 myBoard.GameBuilt += new EventHandler<GameBoardBuiltEventArgs>(myBoard_GameBuilt);
                 myBoard.Dice.RollEnded += new EventHandler<RollEndedEventArgs>(Dice_RollEnded);
