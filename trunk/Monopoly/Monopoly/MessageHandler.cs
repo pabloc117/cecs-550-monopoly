@@ -17,45 +17,10 @@ namespace Monopoly
 
         private void HandleMessage(object omsg)
         {
-            Message msg = omsg as Message;
-            if (msg == null)
-                return;
-            string[] attr;
-            string data = msg.Data == null ? "" : Encoding.UTF8.GetString(msg.Data);
-            switch (msg.MessageType)
-            {
-                case Message.Type.Chat:
-                    attr = SplitString(data);
-                    OnNewIncomingMessage(new NewIncomingMessageEventArgs(attr[0], attr[1]));
-                    break;
-                case Message.Type.Roll:
-                    attr = SplitString(data);
-                    OnRollMessage(new RollMessageEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
-                    break;
-                case Message.Type.Trade:
-                    break;
-                case Message.Type.Unknown:
-                    break;
-                case Message.Type.IdInit:
-                    OnPlayerInitMessage(new PlayerInitPacketEventArgs(data));
-                    break;
-                case Message.Type.Turn:
-                    attr = SplitString(data);
-                    OnPlayerTurnMessage(new PlayerTurnEventArgs(Int32.Parse(attr[0]), Int32.Parse(attr[1])));
-                    break;
-                case Message.Type.EndTurn:
-                    OnEndTurnMessage(new EndTurnMessageEventArgs());
-                    break;
-                case Message.Type.Buy:
-                    attr = SplitString(data);
-                    OnBuyMessage(new BuyMessageEventArgs(Int32.Parse(attr[0]), attr[1]));
-                    return;
-                default:
-                    break;
-            }
+            OnNewIncomingMessage(new NewIncomingMessageEventArgs(omsg as Message));
         }
 
-        private string[] SplitString(string data)
+        public static string[] SplitString(string data)
         {
             return data.Split(new String[] { Message.DELIMETER }, StringSplitOptions.None);
         }
@@ -84,89 +49,14 @@ namespace Monopoly
         {
             NewIncomingMessage(this, e);
         }
-
-        public event EventHandler<PlayerInitPacketEventArgs> PlayerInitMessage;
-        private void OnPlayerInitMessage(PlayerInitPacketEventArgs e)
-        {
-            PlayerInitMessage(this, e);
-        }
-        public event EventHandler<RollMessageEventArgs> RollMessage;
-        private void OnRollMessage(RollMessageEventArgs e)
-        {
-            RollMessage(this, e);
-        }
-        
-        public event EventHandler<PlayerTurnEventArgs> PlayerTurnMessage;
-        private void OnPlayerTurnMessage(PlayerTurnEventArgs e)
-        {
-            PlayerTurnMessage(this, e);
-        }
-
-        public event EventHandler<EndTurnMessageEventArgs> EndTurnMessage;
-        private void OnEndTurnMessage(EndTurnMessageEventArgs e)
-        {
-            EndTurnMessage(this, e);
-        }
-
-        public event EventHandler<BuyMessageEventArgs> BuyMessage;
-        private void OnBuyMessage(BuyMessageEventArgs e)
-        {
-            BuyMessage(this, e);
-        }
-    }
-    public class BuyMessageEventArgs : EventArgs
-    {
-        public readonly int PropertyIndex;
-        public readonly string PlayerID;
-        public BuyMessageEventArgs(int propertyIndex, string playerID)
-        {
-            this.PlayerID = playerID;
-            this.PropertyIndex = propertyIndex;
-        }
-    }
-    public class PlayerTurnEventArgs : EventArgs
-    {
-        public readonly int EndTurnId;
-        public readonly int StartTurnId;
-        public PlayerTurnEventArgs(int EndTurnId, int StartTurnId)
-        {
-            this.EndTurnId = EndTurnId;
-            this.StartTurnId = StartTurnId;
-        }
-    }
-    public class PlayerInitPacketEventArgs : EventArgs
-    {
-        public readonly string PlayerPacket;
-        public PlayerInitPacketEventArgs(string PlayerPacket)
-        {
-            this.PlayerPacket = PlayerPacket;
-        }
     }
     public class NewIncomingMessageEventArgs : EventArgs
     {
-        public readonly string Sender;
-        public readonly string Message;
-        public NewIncomingMessageEventArgs(string sender, string message)
+        public readonly Message Message;
+        public NewIncomingMessageEventArgs(Message message)
         {
-            this.Sender = sender;
             this.Message = message;
         }
-    }
-    public class RollMessageEventArgs : EventArgs
-    {
-        public int Seed = 0;
-        public int PlayerID = 0;
-        public RollMessageEventArgs(int playerID, int seed)
-        {
-            this.PlayerID = playerID;
-            this.Seed = seed;
-        }
-    }
-
-    public class EndTurnMessageEventArgs : EventArgs
-    {
-        public EndTurnMessageEventArgs()
-        { }
     }
 
     public class Message

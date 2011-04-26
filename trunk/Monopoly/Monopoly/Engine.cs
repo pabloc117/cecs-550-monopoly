@@ -37,4 +37,14 @@ namespace Monopoly
             PlayerTurn(this, e);
         }
     }
+    public class PlayerTurnEventArgs : EventArgs
+    {
+        public readonly int EndTurnId;
+        public readonly int StartTurnId;
+        public PlayerTurnEventArgs(int EndTurnId, int StartTurnId)
+        {
+            this.EndTurnId = EndTurnId;
+            this.StartTurnId = StartTurnId;
+        }
+    }
 }

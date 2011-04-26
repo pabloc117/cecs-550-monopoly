@@ -42,6 +42,18 @@ namespace Monopoly
             if (this.Dispatcher.CheckAccess())
             {
                 MoneyDisplay.Text = "Cash: $" + LocalPlayer.Money;
+                PropertyDisplay.Text = String.Empty;
+                Dictionary<int, PropertyListing>.ValueCollection Dict = LocalPlayer.GetProperties();
+                foreach(PropertyListing pl in Dict)
+                {
+                    PropertyDisplay.Inlines.Add(new Run(pl.Name));
+                    PropertyDisplay.Inlines.Add(new LineBreak());
+                }
+                if (Dict == null || Dict.Count == 0)
+                {
+                    PropertyDisplay.Inlines.Add(new Run("No Properties Owned"));
+                    PropertyDisplay.Inlines.Add(new LineBreak());
+                }
             }
             else this.Dispatcher.BeginInvoke(new Action<object, PlayerUpdateEventArgs>(player_PlayerUpdate), new object[] { sender, e });
         }

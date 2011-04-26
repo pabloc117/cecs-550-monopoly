@@ -7,7 +7,7 @@ namespace Monopoly
     {
         public int PlayerId;
         public int _Money = 0;
-        public Dictionary<int, PropertyListing> Properties;
+        private Dictionary<int, PropertyListing> _Properties;
         public String PlayerGUID;
 
         public static string ConvertPlayerID(Dictionary<string,Player> p, int id)
@@ -32,6 +32,23 @@ namespace Monopoly
                 _Money = value;
                 OnPlayerUpdate(new PlayerUpdateEventArgs());
             }
+        }
+
+        public void AddProperty(int key, PropertyListing value)
+        {
+            _Properties.Add(key, value);
+            OnPlayerUpdate(new PlayerUpdateEventArgs());
+        }
+
+        public void RemoveProperty(int key)
+        {
+            _Properties.Remove(key);
+            OnPlayerUpdate(new PlayerUpdateEventArgs());
+        }
+
+        public Dictionary<int, PropertyListing>.ValueCollection GetProperties()
+        {
+            return _Properties.Values;
         }
 
         public Player(int PlayerId, string PlayerGUID)

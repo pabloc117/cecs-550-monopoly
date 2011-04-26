@@ -12,6 +12,6 @@
         </Grid.RowDefinitions>
         <TextBlock Name="PlayerID" Grid.Row="0" />
         <TextBlock Name="MoneyDisplay" Grid.Row="1" />
-        <TextBlock Text="Property Display" Grid.Row="2"/>
+        <TextBlock Name="PropertyDisplay" Grid.Row="2" />
     </Grid>
 </UserControl>
