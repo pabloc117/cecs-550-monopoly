@@ -246,6 +246,7 @@ namespace Monopoly
         private void bq_Result(object sender, BuyPropertyEventArgs e)
         {
             //TODO implement bought property action
+            myBoard.Dice.ToggleEndTurnEnabled(true);
         }
 
 
@@ -398,6 +399,7 @@ namespace Monopoly
                 Jump(up, up.CurrentLocation, up.CurrentLocation + 1);
                 Thread.Sleep(250);
             }
+            ShowBuyQuery(myBoard.Listings[up.CurrentLocation]);
         }
 
         private void InitializePieces(int num)
@@ -452,7 +454,7 @@ namespace Monopoly
         private void ToggleTurnItems(bool isEnabled)
         {
             myBoard.Dice.ToggleRollsEnabled(isEnabled);
-            myBoard.Dice.ToggleEndTurnEnabled(isEnabled);
+            myBoard.Dice.ToggleEndTurnEnabled(false);
         }
 
         private void ShowBuyQuery(PropertyListing property)
