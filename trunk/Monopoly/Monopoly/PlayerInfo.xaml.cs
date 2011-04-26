@@ -20,12 +20,13 @@ namespace Monopoly
     public partial class PlayerInfo : UserControl
     {
         Player LocalPlayer;
-        public PlayerInfo()
+        public PlayerInfo(Player player)
         {
             InitializeComponent();
+            InitPlayer(player);
         }
 
-        public void InitPlayer(Player player)
+        private void InitPlayer(Player player)
         {
             if (this.Dispatcher.CheckAccess())
             {
@@ -34,7 +35,7 @@ namespace Monopoly
                 MoneyDisplay.Text = "Cash: $" + player.Money;
                 player.PlayerUpdate += new EventHandler<PlayerUpdateEventArgs>(player_PlayerUpdate);
             }
-            else this.Dispatcher.BeginInvoke(new Action<Player>(InitPlayer), new object[] {player });
+            else this.Dispatcher.BeginInvoke(new Action<Player>(InitPlayer), new object[] { player });
         }
 
         void player_PlayerUpdate(object sender, PlayerUpdateEventArgs e)
