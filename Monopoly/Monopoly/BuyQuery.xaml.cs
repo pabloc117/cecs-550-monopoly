@@ -26,14 +26,14 @@ namespace Monopoly
             this.Owner = owner;
             PropertyName.Text = property.Name;
             TitleBorder.Background = property.ColorGroup;
-            Rent1.Text = "$" + property.House1;
-            Rent2.Text = "$" + property.House2;
-            Rent3.Text = "$" + property.House3;
-            Rent4.Text = "$" + property.House4;
-            RentH.Text = "$" + property.Hotel;
-            CostH.Text = "$" + property.HouseCost;
-            CostHo.Text = "$" + property.HouseCost;
-            Mortgage.Text = "$" + property.Mortgage;
+            Rent1.Text = property.House1 == 0 ? "N/A" : "$" + property.House1;
+            Rent2.Text = property.House2 == 0 ? "N/A" : "$" + property.House2;
+            Rent3.Text = property.House3 == 0 ? "N/A" : "$" + property.House3;
+            Rent4.Text = property.House4 == 0 ? "N/A" : "$" + property.House4;
+            RentH.Text = property.Hotel == 0 ? "N/A" : "$" + property.Hotel;
+            CostH.Text = property.HouseCost == 0 ? "N/A" : "$" + property.HouseCost;
+            CostHo.Text = property.HouseCost == 0 ? "N/A" : "$" + property.HouseCost;
+            Mortgage.Text = property.Mortgage == 0 ? "N/A" : "$" + property.Mortgage;
             PurchaseText.Text = "Would you like to purchase " + property.Name + " for $" + property.Cost + "?";
         }
 
