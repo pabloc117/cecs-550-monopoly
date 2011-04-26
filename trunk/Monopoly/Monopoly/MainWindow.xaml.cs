@@ -284,13 +284,18 @@ namespace Monopoly
                 }
                 if (cur == null || des == null)
                     return;
-                up.CurrentLocation = destination;
                 cur.Spots.Children.Remove(up);
                 try
                 {
                     des.Spots.Children.Add(up);
                 }
                 catch (Exception) { }
+                up.CurrentLocation = destination;
+                if (up.CurrentLocation == 0)
+                {
+                    Players[up.PlayerGUID].Money += 200;
+                    myChat.NewMessage("System", Players[up.PlayerGUID].PlayerName + " receives $200 for passing on GO.");
+                }
             }
             else this.Dispatcher.BeginInvoke(new Action<UserPiece, int, int>(Jump), new object[] { up, current, destination });
         }
@@ -401,6 +406,11 @@ namespace Monopoly
                 for (int i = 0; i < pieces.Count<UserPiece>(); i++)
                 {
                     InitialPlacement(ref pieces[i]);
+                    foreach (Player p in Players.Values)
+                    {
+                        if (p.PlayerId == i)
+                            pieces[i].PlayerGUID = p.PlayerGUID;
+                    }
                     switch (i)
                     {
                         case 0:
