@@ -148,32 +148,46 @@ namespace Monopoly
             tb.FontSize = 9;
             tb.TextAlignment = TextAlignment.Center;
             tb.Text = property.Name;
+            tb.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+            tb.LineHeight = 10;
             content.Children.Add(tb);
 
             if (property.Cost != 0)
             {
 
+                StackPanel sp1 = new StackPanel();
+                sp1.Orientation = Orientation.Vertical;
+                sp1.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+                sp1.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
                 StackPanel sp = new StackPanel();
                 sp.Orientation = Orientation.Horizontal;
-                sp.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                 sp.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-
-                tb = new TextBlock();
-                tb.FontSize = 11;
-                tb.Text = "$";
-                sp.Children.Add(tb);
-
-                tb = new TextBlock();
-                tb.FontSize = 11;
-                tb.Text = property.Cost + " ";
-                sp.Children.Add(tb);
-                content.Children.Add(sp); 
                 
+                tb = new TextBlock();
+                tb.FontSize = 9;
+                tb.Text = "$";
+                tb.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+                tb.LineHeight = 10;
+                sp.Children.Add(tb);
+
+                tb = new TextBlock();
+                tb.FontSize = 9;
+                tb.Text = property.Cost + " ";
+                tb.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+                tb.LineHeight = 10;
+                sp.Children.Add(tb);
+
+                sp1.Children.Add(sp);
+
                 OwnedBy = new TextBlock();
-                tb.FontSize = 11;
-                tb.Text = "(Not Owned)";
-                sp.Children.Add(OwnedBy);
-                content.Children.Add(sp);
+                OwnedBy.FontSize = 9;
+                OwnedBy.Text = "(Not Owned)";
+                tb.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+                tb.LineHeight = 10;
+                sp1.Children.Add(OwnedBy);
+
+                content.Children.Add(sp1);
             }
             else if(!property.IsCorner)
                 tb.VerticalAlignment = System.Windows.VerticalAlignment.Center;
