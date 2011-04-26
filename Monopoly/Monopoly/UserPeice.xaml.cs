@@ -20,6 +20,9 @@ namespace Monopoly
     public partial class UserPiece : UserControl
     {
         public int CurrentLocation = 0;
+
+        public string PlayerGUID = "";
+
         public UserPiece()
         {
             InitializeComponent();
