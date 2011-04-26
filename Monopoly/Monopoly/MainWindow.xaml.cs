@@ -178,7 +178,7 @@ namespace Monopoly
         {
             myBoard.Listings[PropertyIndex].Owner = UserGUID;
             Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
-            myBoard.SetOwnerText(PropertyIndex, "Player " + (Players[UserGUID].PlayerId + 1));
+            myBoard.SetOwnerText(PropertyIndex, Players[UserGUID].PlayerName);
             Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
         }
 
@@ -186,13 +186,14 @@ namespace Monopoly
         {
             if (this.Dispatcher.CheckAccess())
             {
-                List<PlayerInfo> playerInfo = new List<PlayerInfo>();
+                myTabControl = new TabControl();
                 foreach (Player p in Players.Values)
                 {
-                    playerInfo.Add(new PlayerInfo(p));
+                    TabItem ti = new TabItem();
+                    ti.Content = new PlayerInfo(p);
+                    ti.Header = p.PlayerName;
+                    myTabControl.Items.Add(ti);
                 }
-                myTabControl = new TabControl();
-                myTabControl.ItemsSource = playerInfo;
                 Grid.SetColumn(myTabControl, 1);
                 Grid.SetRow(myTabControl, 0);
                 myTabControl.Margin = new Thickness(5, 0, 0, 0);
@@ -245,7 +246,11 @@ namespace Monopoly
         {
             int d1 = e.DiceOneValue;
             int d2 = e.DiceTwoValue;
-            myChat.NewMessage("System", "Player " + (currentTurnPlayerID + 1) + " Rolled a " + (d1 + d2) + ".");
+            foreach (Player p in Players.Values)
+            {
+                if (p.PlayerId == currentTurnPlayerID)
+                    myChat.NewMessage("System", p.PlayerName + " Rolled a " + (d1 + d2) + ".");
+            }
             Move(pieces[currentTurnPlayerID], (d1 + d2));
         }
 
@@ -285,7 +290,7 @@ namespace Monopoly
             if (e.Connected && comm.UserRole == Communicator.ROLE.SERVER)
             {
                 Players.Add(e.RemoteGUID.ToString("N"), new Player(Players.Count, e.RemoteGUID.ToString("N")));
-                myChat.NewMessage("System", "Player " + Players[e.RemoteGUID.ToString("N")].PlayerId + (e.Connected ? " has connected." : " has disconnected"));
+                myChat.NewMessage("System", Players[e.RemoteGUID.ToString("N")].PlayerName + (e.Connected ? " has connected." : " has disconnected"));
             }
             else
             {
@@ -297,7 +302,7 @@ namespace Monopoly
         {
             string localName = "RemoteUser";
             if (localPlayer != null)
-                localName = "Player " + (localPlayer.PlayerId + 1);
+                localName = localPlayer.PlayerName;
             string str = String.Concat(localName, Message.DELIMETER, e.Message);
             byte[] msg = Encoding.UTF8.GetBytes(str);
             comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
