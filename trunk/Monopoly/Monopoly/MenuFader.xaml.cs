@@ -13,6 +13,7 @@ namespace Monopoly
     {
         private bool expanded = false;
         Canvas parent;
+        private int OFFSET = 10;
 
         public MenuFader(Canvas parent)
         {
@@ -20,7 +21,7 @@ namespace Monopoly
             this.parent = parent;
             this.SetBinding(HeightProperty, "parent.Height");
             this.SetBinding(WidthProperty, "parent.Width");
-            Canvas.SetBottom(this, parent.Height - 5);
+            Canvas.SetBottom(this, parent.Height - OFFSET);
         }
 
         private void UserControl_MouseEnter(object sender, MouseEventArgs e)
@@ -51,7 +52,7 @@ namespace Monopoly
         public void Close()
         {
             Storyboard sb = new Storyboard();
-            DoubleAnimation da = new DoubleAnimation(Canvas.GetBottom(this), parent.Height - 5, new System.Windows.Duration(new System.TimeSpan(0, 0, 0, 0, 250)));
+            DoubleAnimation da = new DoubleAnimation(Canvas.GetBottom(this), parent.Height - OFFSET, new System.Windows.Duration(new System.TimeSpan(0, 0, 0, 0, 250)));
             Storyboard.SetTarget(da, this);
             Storyboard.SetTargetName(da, this.Name);
             Storyboard.SetTargetProperty(da, new PropertyPath(Canvas.BottomProperty));

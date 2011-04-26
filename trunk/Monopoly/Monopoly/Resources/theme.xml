@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Theme>
   <ColorScheme>
-    <Background Color="255;100;100" />
+    <Background Color="25;90;255" />
     <Board Color="110;215;150" />
     <Group1 Color="66;0;99" />      <!--purple-->
     <Group2 Color="100;170;255" />  <!--light blue-->
