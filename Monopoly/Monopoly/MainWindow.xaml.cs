@@ -45,11 +45,6 @@ namespace Monopoly
             comm.ConnectionStatusChanged += new EventHandler<ConnectionStatusChangedEventArgs>(comm_ConnectionStatusChanged);
             comm.DataRecieved += new EventHandler<DataReceivedEventArgs>(comm_DataRecieved);
             mHandler.NewIncomingMessage += new EventHandler<NewIncomingMessageEventArgs>(mHandler_NewIncomingMessage);
-            mHandler.PlayerInitMessage += new EventHandler<PlayerInitPacketEventArgs>(mHandler_PlayerInitMessage);
-            mHandler.PlayerTurnMessage += new EventHandler<PlayerTurnEventArgs>(mHandler_PlayerTurnMessage);
-            mHandler.RollMessage += new EventHandler<RollMessageEventArgs>(mHandler_RollMessage);
-            mHandler.EndTurnMessage += new EventHandler<EndTurnMessageEventArgs>(mHandler_EndTurnMessage);
-            mHandler.BuyMessage += new EventHandler<BuyMessageEventArgs>(mHandler_BuyMessage);
             this.Closing += new System.ComponentModel.CancelEventHandler(MainWindow_Closing);
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
         }
@@ -95,20 +90,20 @@ namespace Monopoly
                 ToggleTurnItems(true);
         }
 
-        private void mHandler_PlayerTurnMessage(object sender, PlayerTurnEventArgs e)
+        private void NewPlayerTurnMessage(int EndTurnId, int StartTurnId)
         {
-            currentTurnPlayerID = e.StartTurnId;
+            currentTurnPlayerID = StartTurnId;
             if (localPlayer == null)
                 throw new NullReferenceException("Player was null.");
-            if (localPlayer.PlayerId == e.EndTurnId)
+            if (localPlayer.PlayerId == EndTurnId)
                 ToggleTurnItems(false);
-            else if (localPlayer.PlayerId == e.StartTurnId)
+            else if (localPlayer.PlayerId == StartTurnId)
                 ToggleTurnItems(true);
         }
 
-        private void mHandler_PlayerInitMessage(object sender, PlayerInitPacketEventArgs e)
+        private void NewPlayerInitMessage(String MessageData)
         {
-            string[] players = e.PlayerPacket.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
+            string[] players = MessageData.Split(new string[] { ";" }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string s in players)
             {
                 string[] playerString = s.Split(new string[] { "=" }, StringSplitOptions.None);
@@ -125,27 +120,66 @@ namespace Monopoly
 
         private void mHandler_NewIncomingMessage(object sender, NewIncomingMessageEventArgs e)
         {
-            if (myChat != null)
+            if (e.Message == null)
+                return;
+            string[] attr;
+            string data = e.Message.Data == null ? "" : Encoding.UTF8.GetString(e.Message.Data);
+            switch (e.Message.MessageType)
             {
-                myChat.NewMessage(e.Sender, e.Message);
+                case Message.Type.Chat:
+                    attr = MessageHandler.SplitString(data);
+                    NewChatMessage(attr[0], attr[1]);
+                    break;
+                case Message.Type.Roll:
+                    attr = MessageHandler.SplitString(data);
+                    NewRollMessage(Int32.Parse(attr[1]));
+                    break;
+                case Message.Type.Trade:
+                    break;
+                case Message.Type.Unknown:
+                    break;
+                case Message.Type.IdInit:
+                    NewPlayerInitMessage(data);
+                    break;
+                case Message.Type.Turn:
+                    attr = MessageHandler.SplitString(data);
+                    NewPlayerTurnMessage(Int32.Parse(attr[0]), Int32.Parse(attr[1]));
+                    break;
+                case Message.Type.EndTurn:
+                    NewEndTurnMessage();
+                    break;
+                case Message.Type.Buy:
+                    attr = MessageHandler.SplitString(data);
+                    NewBuyMessage(Int32.Parse(attr[0]), attr[1]);
+                    return;
+                default:
+                    break;
             }
         }
 
-        private void mHandler_RollMessage(object sender, RollMessageEventArgs e)
+        private void NewChatMessage(string Sender, string Message)
         {
-            myBoard.Dice.RollDice(e.Seed);
+            if (myChat != null)
+            {
+                myChat.NewMessage(Sender, Message);
+            }
         }
 
-        void mHandler_EndTurnMessage(object sender, EndTurnMessageEventArgs e)
+        private void NewRollMessage(int Seed)
+        {
+            myBoard.Dice.RollDice(Seed);
+        }
+
+        private void NewEndTurnMessage()
         {
             engine.TurnEnded();
         }
 
-        private void mHandler_BuyMessage(object sender, BuyMessageEventArgs e)
+        private void NewBuyMessage(int PropertyIndex, string UserGUID)
         {
-            myBoard.Listings[e.PropertyIndex].Owner = Players[e.PlayerID].PlayerGUID;
-            Players[e.PlayerID].Money -=  myBoard.Listings[e.PropertyIndex].Cost;
-            myBoard.SetOwnerText(e.PropertyIndex, "Player " + Players[e.PlayerID].PlayerId);
+            myBoard.Listings[PropertyIndex].Owner = Players[UserGUID].PlayerGUID;
+            Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
+            myBoard.SetOwnerText(PropertyIndex, "Player " + Players[UserGUID].PlayerId);
         }
 
         private void myMenu_StartGameClicked(object sender, StartGameClickEventArgs e)
