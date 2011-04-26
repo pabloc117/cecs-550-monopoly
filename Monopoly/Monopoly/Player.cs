@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Monopoly
 {
-    class Player
+    public class Player
     {
         public int PlayerId;
         public int Money;

@@ -114,7 +114,10 @@ namespace Monopoly
                 string endpointID = playerString[1];
                 Players.Add(playerString[1], new Player(Int32.Parse(playerString[0]), playerString[1]));
                 if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
+                {
                     localPlayer = Players[endpointID];
+                    myPlayer.SetLocalPlayer(ref localPlayer);
+                }
             }
             InitializePieces(Players.Count);
         }
@@ -152,6 +155,7 @@ namespace Monopoly
             IPAddress ip = comm.GetMyIpAddr();
             Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
             localPlayer = Players[comm._ComputerID.ToString("N")];
+            myPlayer.SetLocalPlayer(ref localPlayer);
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
@@ -210,6 +214,8 @@ namespace Monopoly
             else Dispatcher.BeginInvoke(new Action<object, GameBoardBuiltEventArgs>(myBoard_GameBuilt), new object[] { null, null });
         }
 
+
+
         private void comm_DataRecieved(object sender, DataReceivedEventArgs e)
         {
             mHandler.QueueMessage(e.DataReceived);
@@ -237,6 +243,11 @@ namespace Monopoly
             string str = String.Concat(localName, Message.DELIMETER, e.Message);
             byte[] msg = Encoding.UTF8.GetBytes(str);
             comm.Send((new Message(Message.Type.Chat, msg)).ToBytes());
+        }
+
+        private void bq_Result(object sender, BuyPropertyEventArgs e)
+        {
+            //TODO implement bought property action
         }
 
 
@@ -345,6 +356,7 @@ namespace Monopoly
                 engine = new Engine();
                 engine.PlayerTurn += new EventHandler<PlayerTurnEventArgs>(engine_PlayerTurn);
                 ToggleTurnItems(false);
+
                 
             }
             else this.Dispatcher.BeginInvoke(new Action(Setup), null);
@@ -443,6 +455,13 @@ namespace Monopoly
         {
             myBoard.Dice.ToggleRollsEnabled(isEnabled);
             myBoard.Dice.ToggleEndTurnEnabled(isEnabled);
+        }
+
+        private void ShowBuyQuery(PropertyListing property)
+        {
+            BuyQuery bq = new BuyQuery(this, property);
+            bq.Result += new EventHandler<BuyPropertyEventArgs>(bq_Result);
+            bq.ShowDialog();
         }
 
         private void Maximize()

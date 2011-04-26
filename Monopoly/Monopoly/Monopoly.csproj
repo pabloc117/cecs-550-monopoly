@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -55,6 +58,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuyQuery.xaml.cs">
+      <DependentUpon>BuyQuery.xaml</DependentUpon>
+    </Compile>
     <Compile Include="GameCard.cs" />
     <Compile Include="ChatComponent.xaml.cs">
       <DependentUpon>ChatComponent.xaml</DependentUpon>
@@ -86,6 +92,10 @@
     <Compile Include="UserPeice.xaml.cs">
       <DependentUpon>UserPeice.xaml</DependentUpon>
     </Compile>
+    <Page Include="BuyQuery.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="ChatComponent.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -189,12 +199,14 @@
     <Resource Include="Resources\dice5.png" />
     <Resource Include="Resources\dice6.png" />
     <Resource Include="Resources\dice_icon.png" />
+    <Resource Include="icon.ico" />
     <Content Include="Resources\go.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Resources\go_jail.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\icon.png" />
     <Content Include="Resources\jail.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

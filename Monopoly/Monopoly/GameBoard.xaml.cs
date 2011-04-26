@@ -21,6 +21,11 @@ namespace Monopoly
     public partial class GameBoard : UserControl
     {
         private Dictionary<int, PropertyListing> _listings;
+        public Dictionary<int, PropertyListing> Listings
+        {
+            get { return _listings; }
+        }
+
         public enum Side
         {
             LEFT = 0,
