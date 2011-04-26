@@ -28,7 +28,7 @@ namespace Monopoly
         {
             if (Dispatcher.CheckAccess())
             {
-                Chat.Text += "\n<" + sender + ">:\t" + message;
+                Chat.Text += "\n<" + sender + ">:  " + message;
             }
             else Dispatcher.BeginInvoke(new Action<string, string>(NewMessage), new object[]{sender, message});
         }

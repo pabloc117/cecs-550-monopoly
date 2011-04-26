@@ -21,7 +21,11 @@
                 </StackPanel>
             </Border>
             <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <DockPanel HorizontalAlignment="Center" Width="200" >
+            <DockPanel HorizontalAlignment="Center" Width="75" Margin="0,0,0,10" >
+                <TextBlock Text="Rent" HorizontalAlignment="Left" />
+                <TextBlock Name="Rent" Text="$" HorizontalAlignment="Right" />
+            </DockPanel>
+            <DockPanel HorizontalAlignment="Center" Width="200" >
                     <TextBlock Text="With 1 House" HorizontalAlignment="Left" />
                     <TextBlock Name="Rent1" Text="$" HorizontalAlignment="Right" />
                 </DockPanel>

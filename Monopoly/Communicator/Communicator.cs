@@ -20,7 +20,7 @@ namespace Networking
         private TcpListener myList;                         //used for server communication
         private TcpClient tcpclnt;                          //used for client communication
         private bool _IsConnected = false;
-        private int _NumberClients = 2;
+        private int _NumberClients = 3;
         private Dictionary<Guid, Socket> _ConnectionDict = new Dictionary<Guid, Socket>(); //Use this to store all of the connections we have.
 
         public enum ROLE
