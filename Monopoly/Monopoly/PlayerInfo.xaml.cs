@@ -43,7 +43,7 @@ namespace Monopoly
             {
                 MoneyDisplay.Text = "Cash: $" + LocalPlayer.Money;
                 PropertyDisplay.Text = String.Empty;
-                Dictionary<int, PropertyListing>.ValueCollection Dict = LocalPlayer.GetProperties();
+                SortedDictionary<int, PropertyListing>.ValueCollection Dict = LocalPlayer.GetProperties();
                 foreach(PropertyListing pl in Dict)
                 {
                     PropertyDisplay.Inlines.Add(new Run(pl.Name));

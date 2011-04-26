@@ -7,7 +7,7 @@ namespace Monopoly
     {
         public int PlayerId;
         public int _Money = 0;
-        private Dictionary<int, PropertyListing> _Properties = new Dictionary<int,PropertyListing>();
+        private SortedDictionary<int, PropertyListing> _Properties = new SortedDictionary<int,PropertyListing>();
         public String PlayerGUID;
         private string _PlayerName;  //For if/when we add in player name just substitute this in for PlayerName
 
@@ -44,7 +44,7 @@ namespace Monopoly
             OnPlayerUpdate(new PlayerUpdateEventArgs());
         }
 
-        public Dictionary<int, PropertyListing>.ValueCollection GetProperties()
+        public SortedDictionary<int, PropertyListing>.ValueCollection GetProperties()
         {
             return _Properties.Values;
         }
