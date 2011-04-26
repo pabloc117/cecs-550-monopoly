@@ -178,7 +178,7 @@ namespace Monopoly
         {
             myBoard.Listings[PropertyIndex].Owner = UserGUID;
             Players[UserGUID].Money -=  myBoard.Listings[PropertyIndex].Cost;
-            myBoard.SetOwnerText(PropertyIndex, "Player " + Players[UserGUID].PlayerId);
+            myBoard.SetOwnerText(PropertyIndex, "Player " + (Players[UserGUID].PlayerId + 1));
             Players[UserGUID].AddProperty(PropertyIndex, myBoard.Listings[PropertyIndex]);
         }
 
