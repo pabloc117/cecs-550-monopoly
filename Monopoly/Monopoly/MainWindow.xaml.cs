@@ -155,6 +155,7 @@ namespace Monopoly
             IPAddress ip = comm.GetMyIpAddr();
             Players.Add(comm._ComputerID.ToString("N"), new Player(0, comm._ComputerID.ToString("N")));
             localPlayer = Players[comm._ComputerID.ToString("N")];
+            myPlayer.InitPlayer(localPlayer);
             myMenu.DisableConnectionButtons();
             MessageBox.Show(ip.ToString());
         }
