@@ -10,7 +10,7 @@
             <RowDefinition Height="15*" />
             <RowDefinition Height="70*" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Player ID" Grid.Row="0" />
+        <TextBlock Name="PlayerID" Grid.Row="0" />
         <TextBlock Name="MoneyDisplay" Grid.Row="1" />
         <TextBlock Text="Property Display" Grid.Row="2"/>
     </Grid>

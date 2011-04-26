@@ -116,6 +116,7 @@ namespace Monopoly
                 if (Players[endpointID].PlayerGUID.CompareTo(comm._ComputerID.ToString("N")) == 0)
                 {
                     localPlayer = Players[endpointID];
+                    myPlayer.InitPlayer(localPlayer);
                 }
             }
             InitializePieces(Players.Count);

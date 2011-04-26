@@ -19,9 +19,31 @@ namespace Monopoly
     /// </summary>
     public partial class PlayerInfo : UserControl
     {
+        Player LocalPlayer;
         public PlayerInfo()
         {
             InitializeComponent();
+        }
+
+        public void InitPlayer(Player player)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                LocalPlayer = player;
+                PlayerID.Text = "Player " + (player.PlayerId + 1);
+                MoneyDisplay.Text = "Cash: $" + player.Money;
+                player.PlayerUpdate += new EventHandler<PlayerUpdateEventArgs>(player_PlayerUpdate);
+            }
+            else this.Dispatcher.BeginInvoke(new Action<Player>(InitPlayer), new object[] {player });
+        }
+
+        void player_PlayerUpdate(object sender, PlayerUpdateEventArgs e)
+        {
+            if (this.Dispatcher.CheckAccess())
+            {
+                MoneyDisplay.Text = "Cash: $" + LocalPlayer.Money;
+            }
+            else this.Dispatcher.BeginInvoke(new Action<object, PlayerUpdateEventArgs>(player_PlayerUpdate), new object[] { sender, e });
         }
     }
 }
