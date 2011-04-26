@@ -32,6 +32,17 @@ namespace Monopoly
         public static string ATTR_IS_SPECIAL = "IsSpecial";
         public static string ATTR_IS_CORNER = "IsCorner";
         public static string ATTR_IMAGE_LOCATION = "ImageLocation";
+        public static string ATTR_RENT = "Rent";
+        public static string ATTR_HOUSE1 = "House1";
+        public static string ATTR_HOUSE2 = "House2";
+        public static string ATTR_HOUSE3 = "House3";
+        public static string ATTR_HOUSE4 = "House4";
+        public static string ATTR_HOUSECOST = "HouseCost";
+        public static string ATTR_HOTEL = "Hotel";
+        public static string ATTR_MORTGAGE = "Mortgate";
+        public static string ATTR_GROUPCOLOR = "GroupColor";
+        public static string ATTR_ID = "ID";
+        public static string ATTR_TITLE = "Title";
 		private static string listingPath = Directory.GetCurrentDirectory() + "\\Resources\\theme.xml";
         #endregion
 
@@ -46,19 +57,6 @@ namespace Monopoly
         public static string ATTR_NUM = "num";
         public static string ATTR_COLLECTFROM = "CollectFrom";
         public static string ATTR_TEXT = "Text";
-        #endregion
-
-        #region PropertyCards variables
-        public static string ATTR_RENT = "Rent";
-        public static string ATTR_HOUSE1 = "House1";
-        public static string ATTR_HOUSE2 = "House2";
-        public static string ATTR_HOUSE3 = "House3";
-        public static string ATTR_HOUSE4 = "House4";
-        public static string ATTR_HOTEL = "Hotel";
-        public static string ATTR_MORTGAGE = "Mortgate";
-        public static string ATTR_GROUPCOLOR = "GroupColor";
-        public static string ATTR_ID = "ID";
-        public static string ATTR_TITLE = "Title";
         #endregion
 
         #region Board settings
@@ -150,10 +148,8 @@ namespace Monopoly
 			{
 				Console.WriteLine("Accessing " + listingPath);
 				XmlTextReader reader = new XmlTextReader(listingPath);
-				int bs;
-				int cost;
+				int bs = 0, cost = 0, loc = 0, r = 0, h1 = 0, h2 = 0, h3 = 0, h4 = 0, ho = 0, hc = 0, mort = 0;
 				SolidColorBrush gc;
-				int loc;
 				string name;
 				while(reader.Read())
 				{
@@ -166,13 +162,24 @@ namespace Monopoly
 							gc = colorPalette[Int32.Parse(reader.GetAttribute(ATTR_GROUP_COLOR))];
 							loc = Int32.Parse(reader.GetAttribute(ATTR_LOCATION));
 							name = reader.GetAttribute(ATTR_NAME);
+
                             if (Int32.Parse(reader.GetAttribute(ATTR_IS_SPECIAL)) == 0)
-                                dict.Add(loc, new PropertyListing(name, cost, loc, bs, gc));
+                            {
+                                ho = Int32.Parse(reader.GetAttribute(ATTR_RENT));
+                                h1 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE1));
+                                h2 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE2));
+                                h3 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE3));
+                                h4 = Int32.Parse(reader.GetAttribute(ATTR_HOUSE4));
+                                ho = Int32.Parse(reader.GetAttribute(ATTR_HOTEL));
+                                hc = Int32.Parse(reader.GetAttribute(ATTR_HOUSECOST));
+                                mort = Int32.Parse(reader.GetAttribute(ATTR_HOTEL));
+                                dict.Add(loc, new PropertyListing(name, cost, r, h1, h2, h3, h4, ho, hc, mort, loc, bs, gc));
+                            }
                             else
                             {
                                 bool isCorner = Int32.Parse(reader.GetAttribute(ATTR_IS_CORNER)) == 1;
                                 string imgLoc = reader.GetAttribute(ATTR_IMAGE_LOCATION);
-                                dict.Add(loc, new PropertyListing(name, cost, loc, bs, imgLoc, isCorner));
+                                dict.Add(loc, new PropertyListing(name, cost, r, h1, h2, h3, h4, ho, hc, mort, loc, bs, imgLoc, isCorner));
                             }
 							Console.WriteLine(loc + ": " + dict[loc].Name);
 						}

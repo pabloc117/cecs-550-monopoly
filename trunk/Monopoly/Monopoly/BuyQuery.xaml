@@ -1,0 +1,70 @@
+﻿<Window x:Class="Monopoly.BuyQuery"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" ResizeMode="NoResize" Background="Transparent" AllowsTransparency="True"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" WindowStyle="None" WindowStartupLocation="CenterOwner"
+        Title="BuyQuery">
+        <Grid Height="400" Width="250" Background="White" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*" />
+                <RowDefinition Height="22.5*" />
+                <RowDefinition Height="22.5*" />
+                <RowDefinition Height="15*" />
+                <RowDefinition Height="20*" />
+            </Grid.RowDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2" Grid.RowSpan="5">
+            </Border>
+            <Border Name="TitleBorder" BorderBrush="Black" BorderThickness="2" Margin="5">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                    <TextBlock Text="TITLE DEED" HorizontalAlignment="Center" Foreground="Gray" >
+                    </TextBlock>
+                    <TextBlock Name="PropertyName" Text="[PROPERTY TITLE]" Foreground="Gray" FontWeight="Bold" FontSize="16" >
+                    </TextBlock>
+                </StackPanel>
+            </Border>
+            <StackPanel Orientation="Vertical" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="With 1 House" HorizontalAlignment="Left" />
+                    <TextBlock Name="Rent1" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="With 2 Houses" HorizontalAlignment="Left" />
+                    <TextBlock Name="Rent2" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="With 3 Houses" HorizontalAlignment="Left" />
+                    <TextBlock Name="Rent3" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="With 4 Houses" HorizontalAlignment="Left" />
+                    <TextBlock Name="Rent4" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="With Hotel" HorizontalAlignment="Left" />
+                    <TextBlock Name="RentH" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="Mortgage Value" HorizontalAlignment="Left" />
+                    <TextBlock Name="Mortgage" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="Cost of Single House" HorizontalAlignment="Left" />
+                    <TextBlock Name="CostH" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+                <DockPanel HorizontalAlignment="Center" Width="200" >
+                    <TextBlock Text="Cost of Hotel" HorizontalAlignment="Left" />
+                    <TextBlock Name="CostHo" Text="$" HorizontalAlignment="Right" />
+                </DockPanel>
+            </StackPanel>
+            <TextBlock Text="If a player owns ALL the Lots of any color-Group, the rent is Doubled on Unimproved Lots in that group." 
+                   TextWrapping="Wrap" HorizontalAlignment="Center" Grid.Row="3" Margin="10" FontSize="9" 
+                   TextAlignment="Center" VerticalAlignment="Center"/>
+            <StackPanel Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Name="PurchaseText" Text="[PURCHASE?????]" Margin="25,5,25,5" TextAlignment="Center" TextWrapping="Wrap" />
+                <DockPanel Width="105">
+                    <Button Content="Buy" HorizontalAlignment="Left" Click="Buy_Click" />
+                    <Button Content="Not Now" HorizontalAlignment="Right" Click="Pass_Click" />
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+</Window>
