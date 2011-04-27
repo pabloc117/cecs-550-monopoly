@@ -5,7 +5,7 @@
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <Properties>
-	<Property Name="" Cost="" GroupColor="" Location="" BoardSide="" />
+	<Property Name="" Cost="" GroupColor="" Location="" BoardSide="" Rent="" House1="" House2="" House3="" House4="" Hotel="" HouseCost="" Mortgage="" IsSpecial="" IsCorner="" ImageLocation="" />
 </Properties>
 }}}
 
@@ -22,3 +22,10 @@
 2: Bottom
 3: Left
 }}}
+ * House#: Cost of rent with # of houses
+ * Hotel: Rent with hotel
+ * HouseCost: Cost of developing houses/hotel
+ * Mortgage: Mortgage price
+ * IsSpecial: Determines whether or not it is a special property (not part of a color group)
+ * IsCorner: determines whether or not it is a corner property
+ * ImageLocation: Location on disk relative to the install path of property image.
